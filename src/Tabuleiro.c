@@ -37,10 +37,26 @@ void liberarMatriz(Tabuleiro tabuleiro){
 }
 
 void imprimirTabuleiro(Tabuleiro tabuleiro){
-	for(int i=0; i<(tabuleiro.dimensao); i++){
-		for(int j=0; j<(tabuleiro.dimensao); j++){
+	for(int i=0; i<tabuleiro.dimensao; i++){
+		printf("%-2d  ",i);
+	}
+	printf("\n");
 
+	for(int i=0; i<tabuleiro.dimensao-1; i++){
+		printf("%c---", '-');
+	}
+	printf("%c 0\n", '-');
+
+	for (int i=1; i<tabuleiro.dimensao; i++){
+		for (int j=0; j<tabuleiro.dimensao; j++){
+			printf("%c   ",'|');
 		}
+		printf("\n");
+
+		for (int j=0; j<tabuleiro.dimensao-1; j++){
+			printf("%c---", '-');
+		}
+		printf("%c %d\n", '-', i);
 	}
 }
 
