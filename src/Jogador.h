@@ -1,12 +1,12 @@
 #ifndef JOGADOR_H
 #define JOGADOR_H
 
-typedef struct enum{
+typedef enum{
 	P,B
 }Peca;
 
 typedef struct{
-	char username[16];
+	char nome[16];
 	int vitorias;
 	int pontos;
 	Peca peca;

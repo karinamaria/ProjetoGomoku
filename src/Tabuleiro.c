@@ -8,7 +8,7 @@ Tabuleiro inicializarTabuleiro(){
 	printf("Tamanho do goban (4<n<20): ");
 	scanf("%d",&goban.dimensao);
 
-	goban.matriz = inicializarMatriz(int goban.dimensao);
+	goban.matriz = inicializarMatriz(goban.dimensao);
 
 
 	return goban;
@@ -17,7 +17,7 @@ Tabuleiro inicializarTabuleiro(){
 int** inicializarMatriz(int dimensao){
 	int **matriz = (int **) malloc(dimensao * sizeof(int *));
 
-	for (int i = 0; i < n; i++) {
+	for (int i = 0; i < dimensao; i++) {
 		matriz[i] = (int *) malloc(dimensao * sizeof(int));
 	}
 
@@ -26,13 +26,13 @@ int** inicializarMatriz(int dimensao){
 	return matriz;
 }
 
-void liberarMatriz(int **matriz){
+void liberarMatriz(Tabuleiro tabuleiro){
 
-	for (int i = 0; i < n; i++) {
-		free(matriz[i]);
+	for (int i = 0; i < (tabuleiro.dimensao); i++) {
+		free(tabuleiro.matriz[i]);
 	}
 
-	free(matriz);
+	free(tabuleiro.matriz);
 
 }
 
