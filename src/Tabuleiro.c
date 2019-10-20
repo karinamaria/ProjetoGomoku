@@ -5,8 +5,10 @@
 Tabuleiro inicializarTabuleiro(){
 	Tabuleiro goban;
 
-	printf("Tamanho do goban (4<n<20): ");
-	scanf("%d",&goban.dimensao);
+	do{
+		printf("Tamanho do goban (4<n<20): ");
+		scanf("%d",&goban.dimensao);
+	}while(goban.dimensao < 5 || goban.dimensao > 19);
 
 	goban.matriz = inicializarMatriz(goban.dimensao);
 
