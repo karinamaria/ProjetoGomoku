@@ -70,6 +70,9 @@ void imprimirTabuleiro(Tabuleiro tabuleiro){
 }
 
 /**
+	A função preencherMatriz será útil para preencher a matriz com 
+	algum valor qualquer para que saiba se o espaço da matriz está
+	ocupado por uma peça ou não.
 **/
 void preencherMatriz(int **matriz, int dimensao){
 	for(int i=0; i < dimensao; i++){
