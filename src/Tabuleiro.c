@@ -46,15 +46,15 @@ void liberarMatriz(int **matriz, int dimensao){
 }
 
 void imprimirTabuleiro(Tabuleiro tabuleiro){
-	for(int i=0; i<tabuleiro.dimensao; i++){
-		printf("%-2d  ",i);
+	for(int j=0; j<tabuleiro.dimensao; j++){
+		printf("%-2d  ",j);
 	}
 	printf("\n");
 
-	for(int i=0; i<tabuleiro.dimensao-1; i++){
-		printf("%c---", '-');
+	for(int j=0; j<tabuleiro.dimensao-1; j++){
+		printf("%c---", caracterPeca(tabuleiro.matriz[0][j]));
 	}
-	printf("%c 0\n", '-');
+	printf("%c 0\n", caracterPeca(tabuleiro.matriz[0][tabuleiro.dimensao-1]));
 
 	for (int i=1; i<tabuleiro.dimensao; i++){
 		for (int j=0; j<tabuleiro.dimensao; j++){
@@ -63,9 +63,9 @@ void imprimirTabuleiro(Tabuleiro tabuleiro){
 		printf("\n");
 
 		for (int j=0; j<tabuleiro.dimensao-1; j++){
-			printf("%c---", '-');
+			printf("%c---", caracterPeca(tabuleiro.matriz[i][j]));
 		}
-		printf("%c %d\n", '-', i);
+		printf("%c %d\n", caracterPeca(tabuleiro.matriz[i][tabuleiro.dimensao-1]), i);
 	}
 }
 

@@ -1,6 +1,8 @@
 #ifndef TABULEIRO_H
 #define TABULEIRO_H
 
+#include "Jogador.h"
+
 typedef struct{
 	int **matriz;
 	int dimensao;

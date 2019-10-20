@@ -34,3 +34,14 @@ void sortearPecas(Jogador *jogador1, Jogador *jogador2){
 
 }
 
+char caracterPeca(Peca peca) {
+	switch (peca) {
+		case P:
+			return 'P';
+		case B:
+			return 'B';
+		default:
+			return '-';
+	}
+}
+

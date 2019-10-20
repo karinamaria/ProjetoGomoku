@@ -23,6 +23,7 @@ void inserirPecas(Jogo *jogo){
 			scanf("%d",&lin);
 			scanf("%d",&col);
 		}while(validarInsercao(jogo->goban, lin, col));
+		jogo->goban.matriz[lin][col] = 1-jogo->proximoJogador;
 		imprimirTabuleiro(jogo->goban);
 		
 	}

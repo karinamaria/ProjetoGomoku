@@ -14,6 +14,7 @@ typedef struct{
 
 void inicializarJogador(Jogador *jogador1, Jogador *jogador2);
 void sortearPecas(Jogador *jogador1, Jogador *jogador2);
+char caracterPeca(Peca peca);
 
 
 #endif
