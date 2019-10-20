@@ -14,6 +14,10 @@ Tabuleiro inicializarTabuleiro(){
 	return goban;
 }
 
+/**
+	A função inicializarMatriz aloca dinamicamente o espaço da matriz
+	Parâmetro: A dimensão digitada pelo usuário
+**/
 int** inicializarMatriz(int dimensao){
 	int **matriz = (int **) malloc(dimensao * sizeof(int *));
 
@@ -26,13 +30,18 @@ int** inicializarMatriz(int dimensao){
 	return matriz;
 }
 
-void liberarMatriz(Tabuleiro tabuleiro){
+/**
+	A função liberarMatriz libera a memória que foi alocada
+	Será útil quando o jogo for finalizado
+	Parâmetros: A matriz e a dimensão
+**/
+void liberarMatriz(int **matriz, int dimensao){
 
-	for (int i = 0; i < (tabuleiro.dimensao); i++) {
-		free(tabuleiro.matriz[i]);
+	for (int i = 0; i < dimensao; i++) {
+		free(matriz[i]);
 	}
 
-	free(tabuleiro.matriz);
+	free(matriz);
 
 }
 
@@ -60,6 +69,8 @@ void imprimirTabuleiro(Tabuleiro tabuleiro){
 	}
 }
 
+/**
+**/
 void preencherMatriz(int **matriz, int dimensao){
 	for(int i=0; i < dimensao; i++){
 		for(int j=0; j < dimensao; j++){
