@@ -50,5 +50,11 @@ void analisarProximoJogador(Jogo *jogo){
 	Parâmetros: tabuleiro, linha e coluna(escolhidos pelo usuário)
 **/
 int validarInsercao(Tabuleiro tabuleiro, int lin, int col){
+	if (lin < 0 || lin > tabuleiro.dimensao || col < 0 || col > tabuleiro.dimensao)
+		return 1;
+
+	if (tabuleiro.matriz[lin][col] != -1)
+		return 1;
+
 	return 0;
 }
