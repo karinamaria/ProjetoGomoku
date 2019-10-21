@@ -7,12 +7,14 @@
 
 void inicializarJogador(Jogador *jogador1, Jogador *jogador2){
 	printf("Nome do jogador 1: ");
-	scanf("%s",jogador1->nome);
+	fgets(jogador1->nome, 16, stdin);
+	jogador1->nome[strlen((jogador1->nome)-1)]='\0';
 	jogador1->vitorias=0;
 	jogador1->pontos=0;
 
 	printf("Nome do jogador 2: ");
-	scanf("%s",jogador2->nome);
+	fgets(jogador2->nome, 16, stdin);
+	jogador2->nome[strlen((jogador2->nome)-1)]='\0';
 	jogador2->vitorias=0;
 	jogador2->pontos=0;
 	
@@ -33,7 +35,11 @@ void sortearPecas(Jogador *jogador1, Jogador *jogador2){
 	jogador2->peca=1-jogador1->peca;
 
 }
-
+/**
+	A função caracterPeca recebe uma peça e retorna um caracter
+	que corresponde a essa peça.
+	Parâmetro: A peça
+**/
 char caracterPeca(Peca peca) {
 	switch (peca) {
 		case P:

@@ -2,14 +2,14 @@ CC = gcc
 CFLAGS = -Wall
 
 prog: clean main.o jogador.o tabuleiro.o jogo.o
-	$(CC) -o prog main.o Jogador.o Tabuleiro.o Jogo.o
+	$(CC) -o prog src/main.o src/Jogador.o src/Tabuleiro.o src/Jogo.o
 clean:
-	rm -f *.o
-main.o: main.c 
-	$(CC) -o main.o -c main.c $(CFLAGS)
-jogador.o: Jogador.c 
-	$(CC) -o Jogador.o -c Jogador.c $(CFLAGS)
-tabuleiro.o: Tabuleiro.c
-	$(CC) -o Tabuleiro.o -c Tabuleiro.c $(CFLAGS)
-jogo.o: Jogo.c
-	$(CC) -o Jogo.o -c Jogo.c $(CFLAGS)
+	rm -f src/*.o
+main.o: 
+	$(CC) -o src/main.o -c src/main.c $(CFLAGS)
+jogador.o: 
+	$(CC) -o src/Jogador.o -c src/Jogador.c $(CFLAGS)
+tabuleiro.o: 
+	$(CC) -o src/Tabuleiro.o -c src/Tabuleiro.c $(CFLAGS)
+jogo.o: 
+	$(CC) -o src/Jogo.o -c src/Jogo.c $(CFLAGS)

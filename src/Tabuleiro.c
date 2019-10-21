@@ -47,6 +47,11 @@ void liberarMatriz(int **matriz, int dimensao){
 
 }
 
+/**
+	A função caracterPeca recebe uma peça e retorna um caracter
+	que corresponde a essa peça.
+	Parâmetro: a peca
+**/
 void imprimirTabuleiro(Tabuleiro tabuleiro){
 	for(int j=0; j<tabuleiro.dimensao; j++){
 		printf("%-2d  ",j);
