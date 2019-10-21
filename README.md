@@ -4,7 +4,7 @@ Projeto final da disciplina de Introdução às Técnicas de Programação (2019
 
 ## Descrição do projeto
 
-O objetivo deste projeto é aplicar todos os conhecimentos adquiridos ao decorrer das aulas da disciplina Introdução às Técnicas de Programação. Para isso, foi proposto a turma o desenvolvimento de um jogo eletrônico chamado Gomoku e também da sua versão mais elaborada, o Ninuki. 
+O objetivo deste projeto é aplicar todo o conhecimento adquirido ao decorrer das aulas da disciplina Introdução às Técnicas de Programação. Para isso, desenvolveremos um jogo eletrônico chamado Gomoku e também da sua versão mais elaborada, o Ninuki. 
 
 ## Funcionalidades implementadas
 
