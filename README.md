@@ -1,4 +1,4 @@
-## Projeto Gomuku
+## Projeto Gomoku
 
 Projeto final da disciplina de Introdução às Técnicas de Programação (2019.2), ministrada pelo Professor Italo Augusto Souza de Assis
 
