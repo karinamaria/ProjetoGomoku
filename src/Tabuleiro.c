@@ -48,9 +48,9 @@ void liberarMatriz(int **matriz, int dimensao){
 }
 
 /**
-	A função caracterPeca recebe uma peça e retorna um caracter
-	que corresponde a essa peça.
-	Parâmetro: a peca
+	A função imprimirTabuleiro imprime o tabuleiro com as peças escolhidas
+	pelos jogadores
+	Parâmetro: O tabuleiro
 **/
 void imprimirTabuleiro(Tabuleiro tabuleiro){
 	for(int j=0; j<tabuleiro.dimensao; j++){
