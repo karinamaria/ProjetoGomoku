@@ -8,7 +8,7 @@ typedef enum{
 typedef struct{
 	char nome[16];
 	int vitorias;
-	int pontos;
+	int capturas;
 	Peca peca;
 }Jogador;
 
