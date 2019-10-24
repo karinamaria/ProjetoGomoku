@@ -2,18 +2,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-Tabuleiro inicializarTabuleiro(){
-	Tabuleiro goban;
-
+void inicializarTabuleiro(Tabuleiro *tabuleiro){
 	do{
 		printf("Tamanho do goban (4<n<20): ");
-		scanf("%d",&goban.dimensao);
-	}while(goban.dimensao < 5 || goban.dimensao > 19);
+		scanf("%d",&tabuleiro->dimensao);
+	}while(tabuleiro->dimensao < 5 || tabuleiro->dimensao > 19);
 
-	goban.matriz = inicializarMatriz(goban.dimensao);
-
-
-	return goban;
+	tabuleiro->matriz = inicializarMatriz(tabuleiro->dimensao);
 }
 
 /**
@@ -26,8 +21,6 @@ int** inicializarMatriz(int dimensao){
 	for (int i = 0; i < dimensao; i++) {
 		matriz[i] = (int *) malloc(dimensao * sizeof(int));
 	}
-
-	preencherMatriz(matriz, dimensao);
 
 	return matriz;
 }
@@ -77,11 +70,11 @@ void imprimirTabuleiro(Tabuleiro tabuleiro){
 }
 
 /**
-	A função preencherMatriz será útil para preencher a matriz com 
+	A função limparMatriz será útil para preencher a matriz com 
 	algum valor qualquer para que saiba se o espaço da matriz está
 	ocupado por uma peça ou não.
 **/
-void preencherMatriz(int **matriz, int dimensao){
+void limparMatriz(int **matriz, int dimensao){
 	for(int i=0; i < dimensao; i++){
 		for(int j=0; j < dimensao; j++){
 			matriz[i][j] = -1; 

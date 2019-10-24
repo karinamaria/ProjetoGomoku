@@ -1,22 +1,29 @@
 #include "Jogo.h"
 #include <stdio.h>
+#include <string.h>
+#include <ctype.h>
 
 void iniciarJogo(Jogo jogo){
-	jogo.proximoJogador=P;
 	inicializarJogador(&jogo.jogador1, &jogo.jogador2);
-	jogo.goban = inicializarTabuleiro();
-	imprimirTabuleiro(jogo.goban);
-	inserirPecas(&jogo);
+	inicializarTabuleiro(&jogo.goban);
+	do{
+		sortearPecas(&jogo.jogador1, &jogo.jogador2);
+		jogo.proximoJogador=P;
+		limparMatriz(jogo.goban.matriz, jogo.goban.dimensao);
+		imprimirTabuleiro(jogo.goban);
+		loopJogo(&jogo);
+	}while(continuarJogo());
+	liberarMatriz(jogo.goban.matriz, jogo.goban.dimensao);
 }
 
 /**
-	A função inserirPecas é responsável por receber informações para
+	A função loopJogo é responsável por receber informações para
 	atualizar o tabuleiro
 	Parâmetro: O jogo
 **/
-void inserirPecas(Jogo *jogo){
+void loopJogo(Jogo *jogo){
 	int lin,col;
-	for(int i=0; i<5; i++){
+	for(int i=0; i<2; i++){
 		analisarProximoJogador(jogo);
 		do{
 			printf("Onde deseja inserir a peca (lin col)? ");
@@ -57,4 +64,33 @@ int validarInsercao(Tabuleiro tabuleiro, int lin, int col){
 		return 1;
 
 	return 0;
+}
+/**
+	A função continuarJogo é responsável por perguntar ao jogadores se eles desejam
+	continuar o jogo.
+**/
+int continuarJogo(){
+	char resposta[3];
+
+	do{
+		printf("Deseja continuar (sim | nao)? ");
+		scanf("%s",resposta);
+		strcpy(resposta,converterParaMinusculo(resposta));
+	}while(strcmp("sim", resposta) != 0 && strcmp("nao", resposta) != 0);
+	if(strcmp("sim", resposta) == 0){
+		return 1;
+	}
+	return 0;
+}
+
+/**
+	A função converterParaMinusculo será útil caso os jogadores digitem 
+	'SIM' ou 'NAO' em letras maíusculas
+	Parâmetro: A resposta digitada pelos jogadores
+**/
+char* converterParaMinusculo (char *resposta){
+	for(int i=0; i<strlen(resposta); i++){
+		resposta[i]=tolower(resposta[i]);
+	}
+	return resposta;
 }

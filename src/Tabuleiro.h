@@ -8,11 +8,11 @@ typedef struct{
 	int dimensao;
 }Tabuleiro;
 
-Tabuleiro inicializarTabuleiro();
+void inicializarTabuleiro(Tabuleiro *tabuleiro);
 int** inicializarMatriz(int dimensao);
 void liberarMatriz(int **matriz, int dimensao);
 void imprimirTabuleiro(Tabuleiro tabuleiro);
-void preencherMatriz(int **matriz, int dimensao);
+void limparMatriz(int **matriz, int dimensao);
 
 
 #endif

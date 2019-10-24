@@ -13,8 +13,10 @@ typedef struct{
 }Jogo;
 
 void iniciarJogo(Jogo jogo);
-void inserirPecas(Jogo *jogo);
+void loopJogo(Jogo *jogo);
 void analisarProximoJogador(Jogo *jogo);
 int validarInsercao(Tabuleiro tabuleiro, int lin, int col);
+int continuarJogo();
+char* converterParaMinusculo(char *resposta);
 
 #endif
