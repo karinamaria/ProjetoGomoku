@@ -18,5 +18,9 @@ void analisarProximoJogador(Jogo *jogo);
 int validarInsercao(Tabuleiro tabuleiro, int lin, int col);
 int continuarJogo();
 char* converterParaMinusculo(char *resposta);
+int verificarFimDeJogo(Jogo *jogo, Peca *peca);
+int verificarLinhas(Jogo *jogo, Peca *peca);
+int verificarColunas(Jogo *jogo, Peca *peca);
+void imprimirGanhador(Jogador jogador1, Jogador jogador2, Peca peca);
 
 #endif

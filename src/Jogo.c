@@ -22,8 +22,9 @@ void iniciarJogo(Jogo jogo){
 	Parâmetro: O jogo
 **/
 void loopJogo(Jogo *jogo){
+	Peca peca = P;
 	int lin,col;
-	for(int i=0; i<2; i++){
+	do{
 		analisarProximoJogador(jogo);
 		do{
 			printf("Onde deseja inserir a peca (lin col)? ");
@@ -33,7 +34,8 @@ void loopJogo(Jogo *jogo){
 		jogo->goban.matriz[lin][col] = 1-jogo->proximoJogador;
 		imprimirTabuleiro(jogo->goban);
 		
-	}
+	}while(!verificarFimDeJogo(jogo, &peca));
+	imprimirGanhador(jogo->jogador1, jogo->jogador2, peca);
 }
 
 /**
@@ -93,4 +95,63 @@ char* converterParaMinusculo (char *resposta){
 		resposta[i]=tolower(resposta[i]);
 	}
 	return resposta;
+}
+
+int verificarFimDeJogo(Jogo *jogo, Peca *peca) {
+	return verificarLinhas(jogo, peca) || verificarColunas(jogo, peca);
+}
+
+int verificarLinhas(Jogo *jogo, Peca *peca) {
+	int fim = 0;
+	int cont = 1;
+
+	for (int i = 0; i < jogo->goban.dimensao && !fim; i++) {
+		for (int j = 1; j < jogo->goban.dimensao && !fim; j++) {
+			if (jogo->goban.matriz[i][j] != -1 && jogo->goban.matriz[i][j] == jogo->goban.matriz[i][j-1]) {
+				cont++;
+			}else {
+				cont = 1;
+			}
+
+			if (cont == 2) { // Troca de volta pra 5
+				fim = 1;
+				*peca = jogo->goban.matriz[i][j];
+				printf("'%d'\n", *peca);
+			}
+		}
+	}
+
+	return fim;
+}
+
+int verificarColunas(Jogo *jogo, Peca *peca) {
+	int fim = 0;
+	int cont = 1;
+
+	for (int j = 0; j < jogo->goban.dimensao && !fim; j++) {
+		for (int i = 1; i < jogo->goban.dimensao && !fim; i++) {
+			if (jogo->goban.matriz[i][j] != -1 && jogo->goban.matriz[i][j] == jogo->goban.matriz[i-1][j]) {
+				cont++;
+			}else {
+				cont = 1;
+			}
+
+			if (cont == 2) { // Troca de volta pra 5
+				fim = 1;
+				*peca = jogo->goban.matriz[i][j];
+				printf("'%d'\n", *peca);
+			}
+		}
+	}
+
+	return fim;
+}
+
+void imprimirGanhador(Jogador jogador1, Jogador jogador2, Peca peca) {
+	if (peca == jogador1.peca) {
+		printf("%s ganhou!\n", jogador1.nome);
+	}
+	else {
+		printf("%s ganhou!\n", jogador2.nome);
+	}
 }
