@@ -5,7 +5,7 @@
 #include <time.h>
 
 
-void inicializarJogador(Jogador *jogador1, Jogador *jogador2){
+void inicializarJogadores(Jogador *jogador1, Jogador *jogador2){
 	printf("Nome do jogador 1: ");
 	fgets(jogador1->nome, 16, stdin);
 	jogador1->nome[strlen(jogador1->nome)-1]='\0';

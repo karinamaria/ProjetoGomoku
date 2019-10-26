@@ -4,7 +4,7 @@
 #include <ctype.h>
 
 void iniciarJogo(Jogo jogo){
-	inicializarJogador(&jogo.jogador1, &jogo.jogador2);
+	inicializarJogadores(&jogo.jogador1, &jogo.jogador2);
 	inicializarTabuleiro(&jogo.goban);
 	do{
 		sortearPecas(&jogo.jogador1, &jogo.jogador2);
@@ -116,7 +116,6 @@ int verificarLinhas(Jogo *jogo, Peca *peca) {
 			if (cont == 2) { // Troca de volta pra 5
 				fim = 1;
 				*peca = jogo->goban.matriz[i][j];
-				printf("'%d'\n", *peca);
 			}
 		}
 	}
@@ -139,7 +138,6 @@ int verificarColunas(Jogo *jogo, Peca *peca) {
 			if (cont == 2) { // Troca de volta pra 5
 				fim = 1;
 				*peca = jogo->goban.matriz[i][j];
-				printf("'%d'\n", *peca);
 			}
 		}
 	}
