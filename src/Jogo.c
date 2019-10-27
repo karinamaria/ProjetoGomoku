@@ -30,7 +30,7 @@ void loopJogo(Jogo *jogo){
 			printf("Onde deseja inserir a peca (lin col)? ");
 			scanf("%d",&lin);
 			scanf("%d",&col);
-		}while(validarInsercao(jogo->goban, lin, col));
+		}while(!validarInsercao(jogo->goban, lin, col));
 		jogo->goban.matriz[lin][col] = 1-jogo->proximoJogador;
 		imprimirTabuleiro(jogo->goban);
 		
@@ -54,18 +54,17 @@ void analisarProximoJogador(Jogo *jogo){
 }
 
 /**
-	A função validarInsercao verifica se a posição que o jogador escolheu no tabuleiro já 
-	está ocupada.
+	A função validarInsercao verifica se a posição que o jogador escolheu no tabuleiro exite e não está ocupada.
 	Parâmetros: tabuleiro, linha e coluna(escolhidos pelo usuário)
 **/
 int validarInsercao(Tabuleiro tabuleiro, int lin, int col){
 	if (lin < 0 || lin >= tabuleiro.dimensao || col < 0 || col >= tabuleiro.dimensao)
-		return 1;
+		return 0;
 
 	if (tabuleiro.matriz[lin][col] != -1)
-		return 1;
+		return 0;
 
-	return 0;
+	return 1;
 }
 /**
 	A função continuarJogo é responsável por perguntar ao jogadores se eles desejam
@@ -98,58 +97,172 @@ char* converterParaMinusculo (char *resposta){
 }
 
 int verificarFimDeJogo(Jogo *jogo, Peca *peca) {
-	return verificarLinhas(jogo, peca) || verificarColunas(jogo, peca);
+	return    verificarLinhas(jogo, peca)
+		   || verificarColunas(jogo, peca)
+		   || verificarDiagPrincipalBaixo(jogo, peca)
+		   || verificarDiagPrincipalCima(jogo, peca)
+		   || verificarDiagSecundariaCima(jogo, peca)
+		   || verificarDiagSecundariaBaixo(jogo, peca)
+		   || verificarEmpate(jogo, peca);
 }
 
 int verificarLinhas(Jogo *jogo, Peca *peca) {
-	int fim = 0;
 	int cont = 1;
 
-	for (int i = 0; i < jogo->goban.dimensao && !fim; i++) {
-		for (int j = 1; j < jogo->goban.dimensao && !fim; j++) {
+	for (int i = 0; i < jogo->goban.dimensao; i++) {
+		for (int j = 1; j < jogo->goban.dimensao; j++) {
 			if (jogo->goban.matriz[i][j] != -1 && jogo->goban.matriz[i][j] == jogo->goban.matriz[i][j-1]) {
 				cont++;
 			}else {
 				cont = 1;
 			}
 
-			if (cont == 2) { // Troca de volta pra 5
-				fim = 1;
+			if (cont == 5) {
 				*peca = jogo->goban.matriz[i][j];
+				return 1;
 			}
 		}
+		cont = 1;
 	}
 
-	return fim;
+	return 0;
 }
 
 int verificarColunas(Jogo *jogo, Peca *peca) {
-	int fim = 0;
 	int cont = 1;
 
-	for (int j = 0; j < jogo->goban.dimensao && !fim; j++) {
-		for (int i = 1; i < jogo->goban.dimensao && !fim; i++) {
+	for (int j = 0; j < jogo->goban.dimensao; j++) {
+		for (int i = 1; i < jogo->goban.dimensao; i++) {
 			if (jogo->goban.matriz[i][j] != -1 && jogo->goban.matriz[i][j] == jogo->goban.matriz[i-1][j]) {
 				cont++;
 			}else {
 				cont = 1;
 			}
 
-			if (cont == 2) { // Troca de volta pra 5
-				fim = 1;
+			if (cont == 5) {
 				*peca = jogo->goban.matriz[i][j];
+				return 1;
+			}
+		}
+		cont = 1;
+	}
+
+	return 0;
+}
+
+// Verificar diagonal principal para baixo
+int verificarDiagPrincipalBaixo(Jogo *jogo, Peca *peca) {
+	int cont = 1;
+
+	for(int lin=0; lin < jogo->goban.dimensao; lin++){
+		for(int i=lin+1, j=1; i < jogo->goban.dimensao; i++, j++){
+			if (jogo->goban.matriz[i][j] != -1 && jogo->goban.matriz[i][j] == jogo->goban.matriz[i-1][j-1]) {
+				cont++;
+			}else{
+				cont = 1;
+			}
+
+			if (cont == 5) {
+				*peca = jogo->goban.matriz[i][j];
+				return 1;
+			}
+		}
+		cont = 1;
+	}
+
+	return 0;
+}
+
+// Verificar diagonal principal para cima
+int verificarDiagPrincipalCima(Jogo *jogo, Peca *peca) {
+	int cont = 1;
+
+	for(int col=1; col < jogo->goban.dimensao; col++){
+		for(int j=col+1, i=1; j < jogo->goban.dimensao; j++, i++){
+			if (jogo->goban.matriz[i][j] != -1 && jogo->goban.matriz[i][j] == jogo->goban.matriz[i-1][j-1]) {
+				cont++;
+			}else{
+				cont = 1;
+			}
+
+			if (cont == 5) {
+				*peca = jogo->goban.matriz[i][j];
+				return 1;
+			}
+		}
+		cont = 1;
+	}
+
+	return 0;
+}
+
+// Verificar diagonal secundária para cima
+int verificarDiagSecundariaCima(Jogo *jogo, Peca *peca) {
+	int cont = 1;
+
+	for(int lin=jogo->goban.dimensao-1; lin>=0; lin--){
+		for(int i=lin-1, j=1; i>=0; i--, j++){
+			if (jogo->goban.matriz[i][j] != -1 && jogo->goban.matriz[i][j] == jogo->goban.matriz[i+1][j-1]) {
+				cont++;
+			}else{
+				cont = 1;
+			}
+
+			if (cont == 5) {
+				*peca = jogo->goban.matriz[i][j];
+				return 1;
+			}
+		}
+		cont = 1;
+	}
+
+	return 0;
+}
+
+// Verificar diagonal secundária para baixo
+int verificarDiagSecundariaBaixo(Jogo *jogo, Peca *peca) {
+	int cont = 1;
+
+	for(int col=1; col < jogo->goban.dimensao; col++){
+		for(int j=col+1, i=jogo->goban.dimensao-2; j < jogo->goban.dimensao; j++, i--){
+			if (jogo->goban.matriz[i][j] != -1 && jogo->goban.matriz[i][j] == jogo->goban.matriz[i+1][j-1]) {
+				cont++;
+			}else{
+				cont = 1;
+			}
+
+			if (cont == 5) {
+				*peca = jogo->goban.matriz[i][j];
+				return 1;
+			}
+		}
+		cont = 1;
+	}
+
+	return 0;
+}
+
+int verificarEmpate(Jogo *jogo, Peca *peca) {
+	for (int i = 0; i < jogo->goban.dimensao; i++) {
+		for (int j = 0; j < jogo->goban.dimensao; j++) {
+			if (jogo->goban.matriz[i][j] == -1){
+				return 0;
 			}
 		}
 	}
 
-	return fim;
+	*peca = -1;
+	return 1;
 }
 
 void imprimirGanhador(Jogador jogador1, Jogador jogador2, Peca peca) {
 	if (peca == jogador1.peca) {
-		printf("%s ganhou!\n", jogador1.nome);
+		printf("Vitoria de %s\n", jogador1.nome);
 	}
-	else {
-		printf("%s ganhou!\n", jogador2.nome);
+	else if (peca == jogador2.peca) {
+		printf("Vitoria de %s\n", jogador2.nome);
+	}
+	else{
+		printf("Empate\n");
 	}
 }
