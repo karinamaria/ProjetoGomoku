@@ -36,9 +36,10 @@ void sortearPecas(Jogador *jogador1, Jogador *jogador2){
 
 }
 /**
-	A função caracterPeca recebe uma peça e retorna um caracter
-	que corresponde a essa peça.
+	A função caracterPeca recebe uma peça analisa a que caracter
+	corresponde essa peça.
 	Parâmetro: A peça
+	Retorno: O letra que corresponde a peça 
 **/
 char caracterPeca(Peca peca) {
 	switch (peca) {

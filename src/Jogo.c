@@ -35,7 +35,7 @@ void loopJogo(Jogo *jogo){
 		imprimirTabuleiro(jogo->goban);
 		
 	}while(!verificarFimDeJogo(jogo, &peca));
-	imprimirGanhador(jogo->jogador1, jogo->jogador2, peca);
+	imprimirGanhador(&jogo->jogador1, &jogo->jogador2, peca);
 }
 
 /**
@@ -56,6 +56,7 @@ void analisarProximoJogador(Jogo *jogo){
 /**
 	A função validarInsercao verifica se a posição que o jogador escolheu no tabuleiro exite e não está ocupada.
 	Parâmetros: tabuleiro, linha e coluna(escolhidos pelo usuário)
+	Retorno: Será 0(se a posição for inválida/ocupada) ou 1(se não tiver nenhum impedimento)
 **/
 int validarInsercao(Tabuleiro tabuleiro, int lin, int col){
 	if (lin < 0 || lin >= tabuleiro.dimensao || col < 0 || col >= tabuleiro.dimensao)
@@ -69,6 +70,7 @@ int validarInsercao(Tabuleiro tabuleiro, int lin, int col){
 /**
 	A função continuarJogo é responsável por perguntar ao jogadores se eles desejam
 	continuar o jogo.
+	Retorno: Será 0(caso não queira continuar o jogo) ou 1(se o jogo pode continuar)
 **/
 int continuarJogo(){
 	char resposta[3];
@@ -88,6 +90,7 @@ int continuarJogo(){
 	A função converterParaMinusculo será útil caso os jogadores digitem 
 	'SIM' ou 'NAO' em letras maíusculas
 	Parâmetro: A resposta digitada pelos jogadores
+	Retorno: A resposta em letras minúsculas
 **/
 char* converterParaMinusculo (char *resposta){
 	for(int i=0; i<strlen(resposta); i++){
@@ -96,6 +99,12 @@ char* converterParaMinusculo (char *resposta){
 	return resposta;
 }
 
+/**
+	A função verificarFimDeJogo analisa linhas, colunas e diagonais procurando
+	um ganhador.
+	Parâmetros: O jogo e uma peca(que armazenará a peça ganhadora).
+	Retorno: Será 0(Se o jogo não tiver finalizado) e 1(se o jogo acabou).
+**/
 int verificarFimDeJogo(Jogo *jogo, Peca *peca) {
 	return    verificarLinhas(jogo, peca)
 		   || verificarColunas(jogo, peca)
@@ -106,6 +115,11 @@ int verificarFimDeJogo(Jogo *jogo, Peca *peca) {
 		   || verificarEmpate(jogo, peca);
 }
 
+/**
+	A função verificarLinhas verifica as linhas em busca de um ganhador
+	Parâmetro: O jogo e uma peca(armazenará peça ganhadora, caso o jogo tenha um ganhador)
+	Retorno: 0(se não houver ganhador pelas linhas) ou 1(caso haja ganhador por uma linha)
+**/ 
 int verificarLinhas(Jogo *jogo, Peca *peca) {
 	int cont = 1;
 
@@ -128,6 +142,11 @@ int verificarLinhas(Jogo *jogo, Peca *peca) {
 	return 0;
 }
 
+/**
+	A função verificarColunas verifica as colunas em busca de um ganhador
+	Parâmetro: O jogo e uma peca(que armazenará peça ganhadora, caso o jogo tenha um ganhador)
+	Retorno: 0(se não houver ganhador pelas colunas) ou 1(caso haja ganhador por uma coluna)
+**/ 
 int verificarColunas(Jogo *jogo, Peca *peca) {
 	int cont = 1;
 
@@ -255,14 +274,23 @@ int verificarEmpate(Jogo *jogo, Peca *peca) {
 	return 1;
 }
 
-void imprimirGanhador(Jogador jogador1, Jogador jogador2, Peca peca) {
-	if (peca == jogador1.peca) {
-		printf("Vitoria de %s\n", jogador1.nome);
+/**
+	A função imprimirGanhador é responsável por imprimir o ganhador
+	juntamente com o placar do jogo.
+	Parâmetros: Jogador 1, Jogador 2 e a Peca(Ganhadora do jogo)
+
+**/
+void imprimirGanhador(Jogador *jogador1, Jogador *jogador2, Peca peca) {
+	if (peca == jogador1->peca) {
+		jogador1->vitorias+=1;
+		printf("Vitoria de %s\n", jogador1->nome);
 	}
-	else if (peca == jogador2.peca) {
-		printf("Vitoria de %s\n", jogador2.nome);
+	else if (peca == jogador2->peca) {
+		jogador2->vitorias+=1;
+		printf("Vitoria de %s\n", jogador2->nome);
 	}
 	else{
 		printf("Empate\n");
 	}
+	printf("Placar: %s %d x %d %s \n",jogador1->nome,jogador1->vitorias,jogador2->vitorias, jogador2->nome);
 }

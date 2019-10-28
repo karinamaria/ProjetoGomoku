@@ -14,6 +14,7 @@ void inicializarTabuleiro(Tabuleiro *tabuleiro){
 /**
 	A função inicializarMatriz aloca dinamicamente o espaço da matriz
 	Parâmetro: A dimensão digitada pelo usuário
+	Retorno: A matriz alocada dinamicamente
 **/
 int** inicializarMatriz(int dimensao){
 	int **matriz = (int **) malloc(dimensao * sizeof(int *));
