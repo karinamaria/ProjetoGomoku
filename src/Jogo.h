@@ -1,6 +1,12 @@
 #ifndef JOGO_H
 #define JOGO_H
 
+#ifdef __WIN32__
+#define LIMPAR_TELA "cls"
+#else
+#define LIMPAR_TELA "clear"
+#endif
+
 #include "Jogador.h"
 #include "Tabuleiro.h"
 
@@ -27,5 +33,6 @@ int verificarDiagSecundariaCima(Jogo *jogo, Peca *peca);
 int verificarDiagSecundariaBaixo(Jogo *jogo, Peca *peca);
 int verificarEmpate(Jogo *jogo, Peca *peca);
 void imprimirGanhador(Jogador *jogador1, Jogador *jogador2, Peca peca);
+void limparTela();
 
 #endif

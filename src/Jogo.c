@@ -2,11 +2,14 @@
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
+#include <stdlib.h>
 
 void iniciarJogo(Jogo jogo){
 	inicializarJogadores(&jogo.jogador1, &jogo.jogador2);
+	limparTela();
 	inicializarTabuleiro(&jogo.goban);
 	do{
+		limparTela();
 		sortearPecas(&jogo.jogador1, &jogo.jogador2);
 		jogo.proximoJogador=P;
 		limparMatriz(jogo.goban.matriz, jogo.goban.dimensao);
@@ -31,6 +34,7 @@ void loopJogo(Jogo *jogo){
 			scanf("%d",&lin);
 			scanf("%d",&col);
 		}while(!validarInsercao(jogo->goban, lin, col));
+		limparTela();
 		jogo->goban.matriz[lin][col] = 1-jogo->proximoJogador;
 		imprimirTabuleiro(jogo->goban);
 		
@@ -293,4 +297,8 @@ void imprimirGanhador(Jogador *jogador1, Jogador *jogador2, Peca peca) {
 		printf("Empate\n");
 	}
 	printf("Placar: %s %d x %d %s \n",jogador1->nome,jogador1->vitorias,jogador2->vitorias, jogador2->nome);
+}
+
+void limparTela() {
+	system(LIMPAR_TELA);
 }
