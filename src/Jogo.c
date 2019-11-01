@@ -13,7 +13,6 @@ void iniciarJogo(Jogo jogo){
 		sortearPecas(&jogo.jogador1, &jogo.jogador2);
 		jogo.proximoJogador=P;
 		limparMatriz(jogo.goban.matriz, jogo.goban.dimensao);
-		imprimirTabuleiro(jogo.goban);
 		loopJogo(&jogo);
 	}while(continuarJogo());
 	liberarMatriz(jogo.goban.matriz, jogo.goban.dimensao);
@@ -28,6 +27,7 @@ void loopJogo(Jogo *jogo){
 	Peca peca = P;
 	int lin,col;
 	do{
+		imprimirTabuleiro(jogo->goban);
 		analisarProximoJogador(jogo);
 		do{
 			printf("Onde deseja inserir a peca (lin col)? ");
@@ -36,7 +36,7 @@ void loopJogo(Jogo *jogo){
 		}while(!validarInsercao(jogo->goban, lin, col));
 		limparTela();
 		jogo->goban.matriz[lin][col] = 1-jogo->proximoJogador;
-		imprimirTabuleiro(jogo->goban);
+		testarCaptura(jogo, lin, col);
 		
 	}while(!verificarFimDeJogo(jogo, &peca));
 	imprimirGanhador(&jogo->jogador1, &jogo->jogador2, peca);
@@ -276,6 +276,42 @@ int verificarEmpate(Jogo *jogo, Peca *peca) {
 
 	*peca = -1;
 	return 1;
+}
+
+void testarCaptura(Jogo *jogo, int i, int j) {
+	if (
+		   capturou(jogo, i, j,  0, 1) || capturou(jogo, i, j,  0, -1)
+		|| capturou(jogo, i, j,  1, 0) || capturou(jogo, i, j, -1,  0)
+		|| capturou(jogo, i, j,  1, 1) || capturou(jogo, i, j, -1, -1)
+		|| capturou(jogo, i, j, -1, 1) || capturou(jogo, i, j,  1, -1)
+	   ) {
+		if (jogo->jogador1.peca == jogo->goban.matriz[i][j]) {
+			jogo->jogador1.capturas++;
+		}
+		else {
+			jogo->jogador2.capturas++;
+		}
+	}
+}
+
+int capturou(Jogo *jogo, int i, int j, int di, int dj) {
+	if (    
+	       i + 3*di >= 0
+        && i + 3*di < jogo->goban.dimensao
+        && j + 3*dj >= 0
+        && j + 3*dj < jogo->goban.dimensao
+        && jogo->goban.matriz[    i   ][    j   ] == 1-jogo->proximoJogador
+        && jogo->goban.matriz[i +   di][j +   dj] == jogo->proximoJogador
+        && jogo->goban.matriz[i + 2*di][j + 2*dj] == jogo->proximoJogador
+        && jogo->goban.matriz[i + 3*di][j + 3*dj] == 1-jogo->proximoJogador
+	   ) {
+		jogo->goban.matriz[i +   di][j +   dj] = -1;
+		jogo->goban.matriz[i + 2*di][j + 2*dj] = -1;
+
+		return 1;
+	}
+
+	return 0;
 }
 
 /**

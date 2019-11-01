@@ -32,6 +32,8 @@ int verificarDiagPrincipalCima(Jogo *jogo, Peca *peca);
 int verificarDiagSecundariaCima(Jogo *jogo, Peca *peca);
 int verificarDiagSecundariaBaixo(Jogo *jogo, Peca *peca);
 int verificarEmpate(Jogo *jogo, Peca *peca);
+void testarCaptura(Jogo *jogo, int i, int j);
+int capturou(Jogo *jogo, int i, int j, int di, int dj);
 void imprimirGanhador(Jogador *jogador1, Jogador *jogador2, Peca peca);
 void limparTela();
 
