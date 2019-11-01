@@ -10,7 +10,6 @@
 #include "Jogador.h"
 #include "Tabuleiro.h"
 
-
 typedef struct{
 	Jogador jogador1;
 	Jogador jogador2;
@@ -24,16 +23,10 @@ void analisarProximoJogador(Jogo *jogo);
 int validarInsercao(Tabuleiro tabuleiro, int lin, int col);
 int continuarJogo();
 char* converterParaMinusculo(char *resposta);
-int verificarFimDeJogo(Jogo *jogo, Peca *peca);
-int verificarLinhas(Jogo *jogo, Peca *peca);
-int verificarColunas(Jogo *jogo, Peca *peca);
-int verificarDiagPrincipalBaixo(Jogo *jogo, Peca *peca);
-int verificarDiagPrincipalCima(Jogo *jogo, Peca *peca);
-int verificarDiagSecundariaCima(Jogo *jogo, Peca *peca);
-int verificarDiagSecundariaBaixo(Jogo *jogo, Peca *peca);
-int verificarEmpate(Jogo *jogo, Peca *peca);
-void testarCaptura(Jogo *jogo, int i, int j);
-int capturou(Jogo *jogo, int i, int j, int di, int dj);
+int validarCaptura(Jogo *jogo, int i, int j);
+void analisarCaptura(Jogo *jogo, int i, int j);
+int verificarCaptura(Jogo *jogo, int i, int j, int di, int dj);
+int capturarPecas(Jogo *jogo, int i, int j, int di, int dj);
 void imprimirGanhador(Jogador *jogador1, Jogador *jogador2, Peca peca);
 void limparTela();
 
