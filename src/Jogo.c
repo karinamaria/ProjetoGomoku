@@ -95,8 +95,8 @@ int continuarJogo(){
 }
 
 /**
-	A função validarCaptura chama a função capturarPecas permitindo
-	percorrer todo tabuleiro a partir da linha e coluna da jogada atual
+	A função validarCaptura testa em todas as 8 direções se existe uma situação de captura
+	(XYYX)
 	Parâmetro: O jogo, a linha e coluna da jogada atual
 	Retorno: 1(Se o jogador atual realizou uma captura) ou 0(Não houve nenhuma captura)
 **/
