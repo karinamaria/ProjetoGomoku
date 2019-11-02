@@ -1,5 +1,4 @@
 #include "Validacoes.h"
-#include <stdio.h>
 
 /**
 	A função verificarFimDeJogo analisa linhas, colunas e diagonais procurando
@@ -71,7 +70,12 @@ int verificarColunas(Jogo *jogo, Peca *peca) {
 	return 0;
 }
 
-// Verificar diagonal principal para baixo
+/**
+	A função verificarDiagPrincipalBaixo verifica o tabuleiro da diagonal principal
+	para baixo em busca busca de um ganhador
+	Parâmetro: O jogo e uma peca(que armazenará peça ganhadora, caso o jogo tenha um ganhador)
+	Retorno: 0(se não houve ganhador) ou 1(ganhador encontrado)
+**/
 int verificarDiagPrincipalBaixo(Jogo *jogo, Peca *peca) {
 	int cont = 1;
 
@@ -94,7 +98,12 @@ int verificarDiagPrincipalBaixo(Jogo *jogo, Peca *peca) {
 	return 0;
 }
 
-// Verificar diagonal principal para cima
+/**
+	A função verificarDiagPrincipalCima verifica o tabuleiro da diagonal principal
+	para cima em busca busca de um ganhador
+	Parâmetro: O jogo e uma peca(que armazenará peça ganhadora, caso o jogo tenha um ganhador)
+	Retorno: 0(se não houve ganhador) ou 1(ganhador encontrado)
+**/
 int verificarDiagPrincipalCima(Jogo *jogo, Peca *peca) {
 	int cont = 1;
 
@@ -117,7 +126,12 @@ int verificarDiagPrincipalCima(Jogo *jogo, Peca *peca) {
 	return 0;
 }
 
-// Verificar diagonal secundária para cima
+/**
+	A função verificarDiagSecundariaCima verifica o tabuleiro da diagonal secundária
+	para cima em busca busca de um ganhador
+	Parâmetro: O jogo e uma peca(que armazenará peça ganhadora, caso o jogo tenha um ganhador)
+	Retorno: 0(se não houve ganhador) ou 1(ganhador encontrado)
+**/
 int verificarDiagSecundariaCima(Jogo *jogo, Peca *peca) {
 	int cont = 1;
 
@@ -140,7 +154,12 @@ int verificarDiagSecundariaCima(Jogo *jogo, Peca *peca) {
 	return 0;
 }
 
-// Verificar diagonal secundária para baixo
+/**
+	A função verificarDiagSecundariaBaixo verifica o tabuleiro da diagonal secundária
+	para baixo em busca busca de um ganhador
+	Parâmetro: O jogo e uma peca(que armazenará peça ganhadora, caso o jogo tenha um ganhador)
+	Retorno: 0(se não houve ganhador) ou 1(ganhador encontrado)
+**/
 int verificarDiagSecundariaBaixo(Jogo *jogo, Peca *peca) {
 	int cont = 1;
 
@@ -163,6 +182,12 @@ int verificarDiagSecundariaBaixo(Jogo *jogo, Peca *peca) {
 	return 0;
 }
 
+/**
+	A função verificarEmpate analisa o tabuleiro a fim de descobrir
+	se o jogo foi finalizado por empate
+	Parâmetro: O jogo e uma peca(que armazenará -1, se houver empate)
+	Retorno: 0(não há empate) ou 1(jogo finalizado por empate)
+**/
 int verificarEmpate(Jogo *jogo, Peca *peca) {
 	for (int i = 0; i < jogo->goban.dimensao; i++) {
 		for (int j = 0; j < jogo->goban.dimensao; j++) {

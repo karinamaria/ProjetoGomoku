@@ -1,9 +1,8 @@
 #include "Validacoes.h"
+#include "Util.h"
 #include "Jogo.h"
 #include <stdio.h>
 #include <string.h>
-#include <ctype.h>
-#include <stdlib.h>
 
 void iniciarJogo(Jogo jogo){
 	inicializarJogadores(&jogo.jogador1, &jogo.jogador2);
@@ -64,11 +63,15 @@ void analisarProximoJogador(Jogo *jogo){
 	Retorno: Será 0(se a posição for inválida/ocupada) ou 1(se não tiver nenhum impedimento)
 **/
 int validarInsercao(Tabuleiro tabuleiro, int lin, int col){
-	if (lin < 0 || lin >= tabuleiro.dimensao || col < 0 || col >= tabuleiro.dimensao)
+	if (lin < 0 || lin >= tabuleiro.dimensao || col < 0 || col >= tabuleiro.dimensao){
+		printf("----Jogada invalida. Por favor, tente novamente.----\n");
 		return 0;
+	}
 
-	if (tabuleiro.matriz[lin][col] != -1)
+	if (tabuleiro.matriz[lin][col] != -1){
+		printf("----Jogada invalida. Por favor, tente novamente.----\n");
 		return 0;
+	}
 
 	return 1;
 }
@@ -92,18 +95,11 @@ int continuarJogo(){
 }
 
 /**
-	A função converterParaMinusculo será útil caso os jogadores digitem 
-	'SIM' ou 'NAO' em letras maíusculas
-	Parâmetro: A resposta digitada pelos jogadores
-	Retorno: A resposta em letras minúsculas
+	A função validarCaptura chama a função capturarPecas permitindo
+	percorrer todo tabuleiro a partir da linha e coluna da jogada atual
+	Parâmetro: O jogo, a linha e coluna da jogada atual
+	Retorno: 1(Se o jogador atual realizou uma captura) ou 0(Não houve nenhuma captura)
 **/
-char* converterParaMinusculo (char *resposta){
-	for(int i=0; i<strlen(resposta); i++){
-		resposta[i]=tolower(resposta[i]);
-	}
-	return resposta;
-}
-
 int validarCaptura(Jogo *jogo, int i, int j) {
 	return    capturarPecas(jogo, i, j,  0, 1) || capturarPecas(jogo, i, j,  0, -1)
 		   || capturarPecas(jogo, i, j,  1, 0) || capturarPecas(jogo, i, j, -1,  0)
@@ -111,6 +107,11 @@ int validarCaptura(Jogo *jogo, int i, int j) {
 		   || capturarPecas(jogo, i, j, -1, 1) || capturarPecas(jogo, i, j,  1, -1);
 }
 
+/**
+	A função analisarCaptura incrementa a quantidade de capturas de um jogador,
+	se permitido pela função validarCaptura
+	Parâmetro: O jogo, a linha e coluna da jogada atual 	
+**/
 void analisarCaptura(Jogo *jogo, int i, int j) {
 	if (validarCaptura(jogo, i, j)) {
 		if (jogo->jogador1.peca == jogo->goban.matriz[i][j]) {
@@ -122,6 +123,13 @@ void analisarCaptura(Jogo *jogo, int i, int j) {
 	}
 }
 
+/**
+	A função verificarCaptura analisa o tabuleiro a fim de verificar se 
+	é possível fazer captura de peças
+	Parâmetros: O jogo, a linha, coluna, a direção da linha(1:Para baixo, -1:Para cima e 0:Sem movimentos)
+	e a direção da coluna(1:Para direita, -1:Para esquerda, 0: Sem movimento)
+	Retorno: 1(Se é possível realizar a captura) ou 0(Se não há capturas)
+**/
 int verificarCaptura(Jogo *jogo, int i, int j, int di, int dj) {
 	return    i + 3*di >= 0
            && i + 3*di < jogo->goban.dimensao
@@ -133,6 +141,12 @@ int verificarCaptura(Jogo *jogo, int i, int j, int di, int dj) {
            && jogo->goban.matriz[i + 3*di][j + 3*dj] == 1-jogo->proximoJogador;
 }
 
+/**
+	A função capturarPecas é responsável por capturar as peças, se permitido
+	pela função verificarCaptura
+	Parâmetros: O jogo, a linha, coluna, a direção da linha e a direção da coluna
+	Retorno: 1(Se é possível realizar a captura) ou 0(Se não há capturas)
+**/
 int capturarPecas(Jogo *jogo, int i, int j, int di, int dj) {
 	if (verificarCaptura(jogo, i, j, di, dj)) {
 		jogo->goban.matriz[i +   di][j +   dj] = -1;
@@ -163,8 +177,4 @@ void imprimirGanhador(Jogador *jogador1, Jogador *jogador2, Peca peca) {
 		printf("Empate\n");
 	}
 	printf("Placar: %s %d x %d %s \n",jogador1->nome,jogador1->vitorias,jogador2->vitorias, jogador2->nome);
-}
-
-void limparTela() {
-	system(LIMPAR_TELA);
 }
