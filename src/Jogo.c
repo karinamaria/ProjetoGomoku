@@ -116,10 +116,13 @@ void analisarCaptura(Jogo *jogo, int i, int j) {
 	if (validarCaptura(jogo, i, j)) {
 		if (jogo->jogador1.peca == jogo->goban.matriz[i][j]) {
 			jogo->jogador1.capturas++;
+			printf("%s fez uma captura!\n", jogo->jogador1.nome);
 		}
 		else {
 			jogo->jogador2.capturas++;
+			printf("%s fez uma captura!\n", jogo->jogador2.nome);
 		}
+		printf("Capturas: %s %d X %d %s\n", jogo->jogador1.nome, jogo->jogador1.capturas, jogo->jogador2.capturas, jogo->jogador2.nome);
 	}
 }
 
