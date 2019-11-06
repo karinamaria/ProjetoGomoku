@@ -1,8 +1,8 @@
 CC = gcc
 CFLAGS = -Wall
 
-prog: clean main.o jogador.o tabuleiro.o validacoes.o jogo.o
-	$(CC) -o prog src/main.o src/Jogador.o src/Tabuleiro.o src/Validacoes.o src/Util.o src/Jogo.o
+prog: clean main.o jogador.o tabuleiro.o validacoes.o util.o jogo.o
+	$(CC) -o Gomoku src/*.o
 clean:
 	rm -f src/*.o
 main.o: 

@@ -2,4 +2,4 @@
 
 make
 
-./prog
+./Gomoku

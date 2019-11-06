@@ -13,7 +13,8 @@ typedef struct{
 
 void iniciarJogo(Jogo jogo);
 void loopJogo(Jogo *jogo);
-void analisarProximoJogador(Jogo *jogo);
+void informarProximoJogador(Jogo *jogo);
+void alternarJogador(Peca *proximoJogador);
 int validarInsercao(Tabuleiro tabuleiro, int lin, int col);
 int continuarJogo();
 int validarCaptura(Jogo *jogo, int i, int j);

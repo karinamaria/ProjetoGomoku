@@ -28,33 +28,39 @@ void loopJogo(Jogo *jogo){
 	int lin,col;
 	do{
 		imprimirTabuleiro(jogo->goban);
-		analisarProximoJogador(jogo);
+		informarProximoJogador(jogo);
 		do{
 			printf("Onde deseja inserir a peca (lin col)? ");
 			scanf("%d",&lin);
 			scanf("%d",&col);
 		}while(!validarInsercao(jogo->goban, lin, col));
 		limparTela();
-		jogo->goban.matriz[lin][col] = 1-jogo->proximoJogador;
+		jogo->goban.matriz[lin][col] = jogo->proximoJogador;
 		analisarCaptura(jogo, lin, col);
-		
+		alternarJogador(&jogo->proximoJogador);
 	}while(!verificarFimDeJogo(jogo, &peca));
+	imprimirTabuleiro(jogo->goban);
 	imprimirGanhador(&jogo->jogador1, &jogo->jogador2, peca);
 }
 
 /**
-	A função analisarProximoJogador analisa quem deve jogar no momento e qual será
-	o próximo jogador.
+	A função informarProximoJogador informa quem deve jogar no momento
 	Parâmetro: O jogo
 **/
-void analisarProximoJogador(Jogo *jogo){
+void informarProximoJogador(Jogo *jogo){
 	if(jogo->jogador1.peca == jogo->proximoJogador){
-		printf("Vez de %s (%s)\n",jogo->jogador1.nome, (jogo->jogador1.peca == 0? "P":"B"));
-		jogo->proximoJogador=(1-jogo->jogador1.peca);
+		printf("Vez de %s (%c)\n",jogo->jogador1.nome, caracterPeca(jogo->jogador1.peca));
 	}else{
-		printf("Vez de %s (%s)\n",jogo->jogador2.nome, (jogo->jogador2.peca == 0? "P":"B"));
-		jogo->proximoJogador=(1-jogo->jogador2.peca);
+		printf("Vez de %s (%c)\n",jogo->jogador2.nome, caracterPeca(jogo->jogador2.peca));
 	}
+}
+
+/**
+	A função alternarJogador faz a alternância dos jogadores
+	Parâmetro: O proximoJogador
+**/
+void alternarJogador(Peca *proximoJogador){
+	*proximoJogador=(1-*proximoJogador);
 }
 
 /**
@@ -138,10 +144,10 @@ int verificarCaptura(Jogo *jogo, int i, int j, int di, int dj) {
            && i + 3*di < jogo->goban.dimensao
            && j + 3*dj >= 0
            && j + 3*dj < jogo->goban.dimensao
-           && jogo->goban.matriz[    i   ][    j   ] == 1-jogo->proximoJogador
-           && jogo->goban.matriz[i +   di][j +   dj] == jogo->proximoJogador
-           && jogo->goban.matriz[i + 2*di][j + 2*dj] == jogo->proximoJogador
-           && jogo->goban.matriz[i + 3*di][j + 3*dj] == 1-jogo->proximoJogador;
+           && jogo->goban.matriz[    i   ][    j   ] == jogo->proximoJogador
+           && jogo->goban.matriz[i +   di][j +   dj] == 1-jogo->proximoJogador
+           && jogo->goban.matriz[i + 2*di][j + 2*dj] == 1-jogo->proximoJogador
+           && jogo->goban.matriz[i + 3*di][j + 3*dj] == jogo->proximoJogador;
 }
 
 /**
