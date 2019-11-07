@@ -12,6 +12,7 @@ void iniciarJogo(Jogo jogo){
 		limparTela();
 		sortearPecas(&jogo.jogador1, &jogo.jogador2);
 		jogo.proximoJogador=P;
+		zerarCapturas(&jogo.jogador1, &jogo.jogador2);
 		limparMatriz(jogo.goban.matriz, jogo.goban.dimensao);
 		loopJogo(&jogo);
 	}while(continuarJogo());
@@ -24,9 +25,11 @@ void iniciarJogo(Jogo jogo){
 	Parâmetro: O jogo
 **/
 void loopJogo(Jogo *jogo){
-	Peca peca = P;
+	Peca peca;
+	int vitoriaPorCaptura;
 	int lin,col;
 	do{
+		informarQntCapturas(jogo->jogador1, jogo->jogador2);
 		imprimirTabuleiro(jogo->goban);
 		informarProximoJogador(jogo);
 		do{
@@ -38,9 +41,10 @@ void loopJogo(Jogo *jogo){
 		jogo->goban.matriz[lin][col] = jogo->proximoJogador;
 		analisarCaptura(jogo, lin, col);
 		alternarJogador(&jogo->proximoJogador);
-	}while(!verificarFimDeJogo(jogo, &peca));
+	}while(!verificarFimDeJogo(jogo, &peca, &vitoriaPorCaptura));
+	informarQntCapturas(jogo->jogador1, jogo->jogador2);
 	imprimirTabuleiro(jogo->goban);
-	imprimirGanhador(&jogo->jogador1, &jogo->jogador2, peca);
+	imprimirGanhador(&jogo->jogador1, &jogo->jogador2, peca, vitoriaPorCaptura);
 }
 
 /**
@@ -122,13 +126,10 @@ void analisarCaptura(Jogo *jogo, int i, int j) {
 	if (validarCaptura(jogo, i, j)) {
 		if (jogo->jogador1.peca == jogo->goban.matriz[i][j]) {
 			jogo->jogador1.capturas++;
-			printf("%s fez uma captura!\n", jogo->jogador1.nome);
 		}
 		else {
 			jogo->jogador2.capturas++;
-			printf("%s fez uma captura!\n", jogo->jogador2.nome);
 		}
-		printf("Capturas: %s %d X %d %s\n", jogo->jogador1.nome, jogo->jogador1.capturas, jogo->jogador2.capturas, jogo->jogador2.nome);
 	}
 }
 
@@ -173,14 +174,14 @@ int capturarPecas(Jogo *jogo, int i, int j, int di, int dj) {
 	Parâmetros: Jogador 1, Jogador 2 e a Peca(Ganhadora do jogo)
 
 **/
-void imprimirGanhador(Jogador *jogador1, Jogador *jogador2, Peca peca) {
+void imprimirGanhador(Jogador *jogador1, Jogador *jogador2, Peca peca, int vitoriaPorCaptura) {
 	if (peca == jogador1->peca) {
 		jogador1->vitorias+=1;
-		printf("Vitoria de %s\n", jogador1->nome);
+		printf("Vitoria %sde %s\n", (vitoriaPorCaptura ? "por captura " : ""), jogador1->nome);
 	}
 	else if (peca == jogador2->peca) {
 		jogador2->vitorias+=1;
-		printf("Vitoria de %s\n", jogador2->nome);
+		printf("Vitoria %sde %s\n", (vitoriaPorCaptura ? "por captura " : ""), jogador2->nome);
 	}
 	else{
 		printf("Empate\n");

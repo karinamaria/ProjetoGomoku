@@ -35,6 +35,16 @@ void sortearPecas(Jogador *jogador1, Jogador *jogador2){
 	jogador2->peca=1-jogador1->peca;
 
 }
+
+void zerarCapturas(Jogador *jogador1, Jogador *jogador2) {
+	jogador1->capturas = 0;
+	jogador2->capturas = 0;
+}
+
+void informarQntCapturas(Jogador jogador1, Jogador jogador2) {
+	printf("Capturas: %s %d X %d %s\n", jogador1.nome, jogador1.capturas, jogador2.capturas, jogador2.nome);
+}
+
 /**
 	A função caracterPeca recebe uma peça analisa a que caracter
 	corresponde essa peça.

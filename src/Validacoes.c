@@ -6,14 +6,34 @@
 	Parâmetros: O jogo e uma peca(que armazenará a peça ganhadora).
 	Retorno: Será 0(Se o jogo não tiver finalizado) e 1(se o jogo acabou).
 **/
-int verificarFimDeJogo(Jogo *jogo, Peca *peca) {
-	return    verificarLinhas(jogo, peca)
-		   || verificarColunas(jogo, peca)
-		   || verificarDiagPrincipalBaixo(jogo, peca)
-		   || verificarDiagPrincipalCima(jogo, peca)
-		   || verificarDiagSecundariaCima(jogo, peca)
-		   || verificarDiagSecundariaBaixo(jogo, peca)
+int verificarFimDeJogo(Jogo *jogo, Peca *peca, int *vitoriaPorCaptura) {
+	return    verificarQntCapturas(jogo, peca, vitoriaPorCaptura)
+	       || verificarLinhas(jogo, peca, vitoriaPorCaptura)
+		   || verificarColunas(jogo, peca, vitoriaPorCaptura)
+		   || verificarDiagPrincipalBaixo(jogo, peca, vitoriaPorCaptura)
+		   || verificarDiagPrincipalCima(jogo, peca, vitoriaPorCaptura)
+		   || verificarDiagSecundariaCima(jogo, peca, vitoriaPorCaptura)
+		   || verificarDiagSecundariaBaixo(jogo, peca, vitoriaPorCaptura)
 		   || verificarEmpate(jogo, peca);
+}
+
+/**
+
+**/
+int verificarQntCapturas(Jogo *jogo, Peca *peca, int *vitoriaPorCaptura) {
+	if (jogo->jogador1.capturas == 1) {
+		*peca = jogo->jogador1.peca;
+		*vitoriaPorCaptura = 1;
+		return 1;
+	}
+
+	else if (jogo->jogador2.capturas == 1) {
+		*peca = jogo->jogador2.peca;
+		*vitoriaPorCaptura = 1;
+		return 1;
+	}
+
+	return 0;
 }
 
 /**
@@ -21,7 +41,7 @@ int verificarFimDeJogo(Jogo *jogo, Peca *peca) {
 	Parâmetro: O jogo e uma peca(armazenará peça ganhadora, caso o jogo tenha um ganhador)
 	Retorno: 0(se não houver ganhador pelas linhas) ou 1(caso haja ganhador por uma linha)
 **/ 
-int verificarLinhas(Jogo *jogo, Peca *peca) {
+int verificarLinhas(Jogo *jogo, Peca *peca, int *vitoriaPorCaptura) {
 	int cont = 1;
 
 	for (int i = 0; i < jogo->goban.dimensao; i++) {
@@ -34,6 +54,7 @@ int verificarLinhas(Jogo *jogo, Peca *peca) {
 
 			if (cont == 5) {
 				*peca = jogo->goban.matriz[i][j];
+				*vitoriaPorCaptura = 0;
 				return 1;
 			}
 		}
@@ -48,7 +69,7 @@ int verificarLinhas(Jogo *jogo, Peca *peca) {
 	Parâmetro: O jogo e uma peca(que armazenará peça ganhadora, caso o jogo tenha um ganhador)
 	Retorno: 0(se não houver ganhador pelas colunas) ou 1(caso haja ganhador por uma coluna)
 **/ 
-int verificarColunas(Jogo *jogo, Peca *peca) {
+int verificarColunas(Jogo *jogo, Peca *peca, int *vitoriaPorCaptura) {
 	int cont = 1;
 
 	for (int j = 0; j < jogo->goban.dimensao; j++) {
@@ -61,6 +82,7 @@ int verificarColunas(Jogo *jogo, Peca *peca) {
 
 			if (cont == 5) {
 				*peca = jogo->goban.matriz[i][j];
+				*vitoriaPorCaptura = 0;
 				return 1;
 			}
 		}
@@ -76,7 +98,7 @@ int verificarColunas(Jogo *jogo, Peca *peca) {
 	Parâmetro: O jogo e uma peca(que armazenará peça ganhadora, caso o jogo tenha um ganhador)
 	Retorno: 0(se não houve ganhador) ou 1(ganhador encontrado)
 **/
-int verificarDiagPrincipalBaixo(Jogo *jogo, Peca *peca) {
+int verificarDiagPrincipalBaixo(Jogo *jogo, Peca *peca, int *vitoriaPorCaptura) {
 	int cont = 1;
 
 	for(int lin=0; lin < jogo->goban.dimensao; lin++){
@@ -89,6 +111,7 @@ int verificarDiagPrincipalBaixo(Jogo *jogo, Peca *peca) {
 
 			if (cont == 5) {
 				*peca = jogo->goban.matriz[i][j];
+				*vitoriaPorCaptura = 0;
 				return 1;
 			}
 		}
@@ -104,7 +127,7 @@ int verificarDiagPrincipalBaixo(Jogo *jogo, Peca *peca) {
 	Parâmetro: O jogo e uma peca(que armazenará peça ganhadora, caso o jogo tenha um ganhador)
 	Retorno: 0(se não houve ganhador) ou 1(ganhador encontrado)
 **/
-int verificarDiagPrincipalCima(Jogo *jogo, Peca *peca) {
+int verificarDiagPrincipalCima(Jogo *jogo, Peca *peca, int *vitoriaPorCaptura) {
 	int cont = 1;
 
 	for(int col=1; col < jogo->goban.dimensao; col++){
@@ -117,6 +140,7 @@ int verificarDiagPrincipalCima(Jogo *jogo, Peca *peca) {
 
 			if (cont == 5) {
 				*peca = jogo->goban.matriz[i][j];
+				*vitoriaPorCaptura = 0;
 				return 1;
 			}
 		}
@@ -132,7 +156,7 @@ int verificarDiagPrincipalCima(Jogo *jogo, Peca *peca) {
 	Parâmetro: O jogo e uma peca(que armazenará peça ganhadora, caso o jogo tenha um ganhador)
 	Retorno: 0(se não houve ganhador) ou 1(ganhador encontrado)
 **/
-int verificarDiagSecundariaCima(Jogo *jogo, Peca *peca) {
+int verificarDiagSecundariaCima(Jogo *jogo, Peca *peca, int *vitoriaPorCaptura) {
 	int cont = 1;
 
 	for(int lin=jogo->goban.dimensao-1; lin>=0; lin--){
@@ -145,6 +169,7 @@ int verificarDiagSecundariaCima(Jogo *jogo, Peca *peca) {
 
 			if (cont == 5) {
 				*peca = jogo->goban.matriz[i][j];
+				*vitoriaPorCaptura = 0;
 				return 1;
 			}
 		}
@@ -160,7 +185,7 @@ int verificarDiagSecundariaCima(Jogo *jogo, Peca *peca) {
 	Parâmetro: O jogo e uma peca(que armazenará peça ganhadora, caso o jogo tenha um ganhador)
 	Retorno: 0(se não houve ganhador) ou 1(ganhador encontrado)
 **/
-int verificarDiagSecundariaBaixo(Jogo *jogo, Peca *peca) {
+int verificarDiagSecundariaBaixo(Jogo *jogo, Peca *peca, int *vitoriaPorCaptura) {
 	int cont = 1;
 
 	for(int col=1; col < jogo->goban.dimensao; col++){
@@ -173,6 +198,7 @@ int verificarDiagSecundariaBaixo(Jogo *jogo, Peca *peca) {
 
 			if (cont == 5) {
 				*peca = jogo->goban.matriz[i][j];
+				*vitoriaPorCaptura = 0;
 				return 1;
 			}
 		}
