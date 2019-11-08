@@ -21,13 +21,13 @@ int verificarFimDeJogo(Jogo *jogo, Peca *peca, int *vitoriaPorCaptura) {
 
 **/
 int verificarQntCapturas(Jogo *jogo, Peca *peca, int *vitoriaPorCaptura) {
-	if (jogo->jogador1.capturas == 1) {
+	if (jogo->jogador1.capturas == 5) {
 		*peca = jogo->jogador1.peca;
 		*vitoriaPorCaptura = 1;
 		return 1;
 	}
 
-	else if (jogo->jogador2.capturas == 1) {
+	else if (jogo->jogador2.capturas == 5) {
 		*peca = jogo->jogador2.peca;
 		*vitoriaPorCaptura = 1;
 		return 1;

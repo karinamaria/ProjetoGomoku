@@ -3,6 +3,7 @@
 #include "Jogo.h"
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 
 void iniciarJogo(Jogo jogo){
 	inicializarJogadores(&jogo.jogador1, &jogo.jogador2);
@@ -36,7 +37,7 @@ void loopJogo(Jogo *jogo){
 			printf("Onde deseja inserir a peca (lin col)? ");
 			scanf("%d",&lin);
 			scanf("%d",&col);
-		}while(!validarInsercao(jogo->goban, lin, col));
+		}while(!validarInsercao(jogo->goban, lin, col, jogo->proximoJogador));
 		limparTela();
 		jogo->goban.matriz[lin][col] = jogo->proximoJogador;
 		analisarCaptura(jogo, lin, col);
@@ -72,19 +73,78 @@ void alternarJogador(Peca *proximoJogador){
 	Parâmetros: tabuleiro, linha e coluna(escolhidos pelo usuário)
 	Retorno: Será 0(se a posição for inválida/ocupada) ou 1(se não tiver nenhum impedimento)
 **/
-int validarInsercao(Tabuleiro tabuleiro, int lin, int col){
+int validarInsercao(Tabuleiro tabuleiro, int lin, int col, Peca peca){
 	if (lin < 0 || lin >= tabuleiro.dimensao || col < 0 || col >= tabuleiro.dimensao){
-		printf("----Jogada invalida. Por favor, tente novamente.----\n");
+		printf("----Jogada invalida. Esta posicao esta fora do goban.----\n");
 		return 0;
 	}
 
 	if (tabuleiro.matriz[lin][col] != -1){
-		printf("----Jogada invalida. Por favor, tente novamente.----\n");
+		printf("----Jogada invalida. Ja existe uma peca nesta posicao.----\n");
+		return 0;
+	}
+
+	if (!verificarFormacao3x3(tabuleiro, lin, col, peca)){
+		printf("----Jogada invalida. Nao eh permitido fazer a formacao 3x3.----\n");
 		return 0;
 	}
 
 	return 1;
 }
+
+int verificarFormacao3x3(Tabuleiro goban, int i, int j, Peca peca) {
+	int di1, dj1, di2, dj2, di3, dj3, ip1, jp1, ip2, jp2, ip3, jp3;
+
+	if (
+		(  contarSequencia(goban, i, j,  0, 1, &di1, &dj1, &ip1, &jp1, peca) + contarSequencia(goban, i, j,  0, -1, &di2, &dj2, &ip2, &jp2, peca) == 4
+        || contarSequencia(goban, i, j,  1, 0, &di1, &dj1, &ip1, &jp1, peca) + contarSequencia(goban, i, j, -1,  0, &di2, &dj2, &ip2, &jp2, peca) == 4
+		|| contarSequencia(goban, i, j,  1, 1, &di1, &dj1, &ip1, &jp1, peca) + contarSequencia(goban, i, j, -1, -1, &di2, &dj2, &ip2, &jp2, peca) == 4
+		|| contarSequencia(goban, i, j, -1, 1, &di1, &dj1, &ip1, &jp1, peca) + contarSequencia(goban, i, j,  1, -1, &di2, &dj2, &ip2, &jp2, peca) == 4)
+		&&
+		(  (contarSequencia(goban, ip1, jp1,  0, 1, &di3, &dj3, &ip3, &jp3, peca) == 3 && !(di3 == di1 && dj3 == dj1) && !(di3 == di2 && dj3 == dj2))
+		|| (contarSequencia(goban, ip1, jp1,  0, -1, &di3, &dj3, &ip3, &jp3, peca) == 3 && !(di3 == di1 && dj3 == dj1) && !(di3 == di2 && dj3 == dj2))
+        || (contarSequencia(goban, ip1, jp1,  1, 0, &di3, &dj3, &ip3, &jp3, peca) == 3 && !(di3 == di1 && dj3 == dj1) && !(di3 == di2 && dj3 == dj2))
+        || (contarSequencia(goban, ip1, jp1, -1,  0, &di3, &dj3, &ip3, &jp3, peca) == 3 && !(di3 == di1 && dj3 == dj1) && !(di3 == di2 && dj3 == dj2))
+		|| (contarSequencia(goban, ip1, jp1,  1, 1, &di3, &dj3, &ip3, &jp3, peca) == 3 && !(di3 == di1 && dj3 == dj1) && !(di3 == di2 && dj3 == dj2))
+		|| (contarSequencia(goban, ip1, jp1, -1, -1, &di3, &dj3, &ip3, &jp3, peca) == 3 && !(di3 == di1 && dj3 == dj1) && !(di3 == di2 && dj3 == dj2))
+		|| (contarSequencia(goban, ip1, jp1, -1, 1, &di3, &dj3, &ip3, &jp3, peca) == 3 && !(di3 == di1 && dj3 == dj1) && !(di3 == di2 && dj3 == dj2))
+		|| (contarSequencia(goban, ip1, jp1,  1, -1, &di3, &dj3, &ip3, &jp3, peca) == 3 && !(di3 == di1 && dj3 == dj1) && !(di3 == di2 && dj3 == dj2))
+		|| (contarSequencia(goban, ip2, jp2,  0, 1, &di3, &dj3, &ip3, &jp3, peca) == 3 && !(di3 == di1 && dj3 == dj1) && !(di3 == di2 && dj3 == dj2))
+		|| (contarSequencia(goban, ip2, jp2,  0, -1, &di3, &dj3, &ip3, &jp3, peca) == 3 && !(di3 == di1 && dj3 == dj1) && !(di3 == di2 && dj3 == dj2))
+        || (contarSequencia(goban, ip2, jp2,  1, 0, &di3, &dj3, &ip3, &jp3, peca) == 3 && !(di3 == di1 && dj3 == dj1) && !(di3 == di2 && dj3 == dj2))
+        || (contarSequencia(goban, ip2, jp2, -1,  0, &di3, &dj3, &ip3, &jp3, peca) == 3 && !(di3 == di1 && dj3 == dj1) && !(di3 == di2 && dj3 == dj2))
+		|| (contarSequencia(goban, ip2, jp2,  1, 1, &di3, &dj3, &ip3, &jp3, peca) == 3 && !(di3 == di1 && dj3 == dj1) && !(di3 == di2 && dj3 == dj2))
+		|| (contarSequencia(goban, ip2, jp2, -1, -1, &di3, &dj3, &ip3, &jp3, peca) == 3 && !(di3 == di1 && dj3 == dj1) && !(di3 == di2 && dj3 == dj2))
+		|| (contarSequencia(goban, ip2, jp2, -1, 1, &di3, &dj3, &ip3, &jp3, peca) == 3 && !(di3 == di1 && dj3 == dj1) && !(di3 == di2 && dj3 == dj2))
+		|| (contarSequencia(goban, ip2, jp2,  1, -1, &di3, &dj3, &ip3, &jp3, peca) == 3 && !(di3 == di1 && dj3 == dj1) && !(di3 == di2 && dj3 == dj2)))
+	) {
+		return 0;
+		}
+	return 1;
+}
+
+int contarSequencia(Tabuleiro goban, int i, int j, int di, int dj, int *pdi, int *pdj, int *fi, int *fj, Peca peca) {
+	int cont = 1;
+
+	*fi = i;
+	*fj = j;
+
+	while (
+		      i+di*cont >= 0
+		   && i+di*cont < goban.dimensao
+		   && j+dj*cont >= 0
+		   && j+dj*cont < goban.dimensao
+		   && goban.matriz[i+di*cont][j+dj*cont] == peca
+    ) {
+    	*pdi = di;
+    	*pdj = dj;
+		*fi = i+di*cont;
+		*fj = j+dj*cont;
+		cont++;
+	}
+	return cont;
+}
+
 /**
 	A função continuarJogo é responsável por perguntar ao jogadores se eles desejam
 	continuar o jogo.
