@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <glob.h>
 
 void iniciarJogo(Jogo jogo){
 	inicializarJogadores(&jogo.jogador1, &jogo.jogador2);
@@ -17,6 +18,7 @@ void iniciarJogo(Jogo jogo){
 		limparMatriz(jogo.goban.matriz, jogo.goban.dimensao);
 		loopJogo(&jogo);
 	}while(continuarJogo());
+	salvarJogo(jogo);
 	liberarMatriz(jogo.goban.matriz, jogo.goban.dimensao);
 }
 
@@ -164,6 +166,75 @@ int continuarJogo(){
 	return 0;
 }
 
+/**
+	A função salvarJogo pergunta se os usuário desejam salvar o jogo 
+	Parâmetro: O jogo
+**/
+void salvarJogo(Jogo jogo){
+	char resposta[3];
+	do{
+		printf("Deseja salvar esse jogo (sim | nao)? ");
+		scanf("%s",resposta);
+		strcpy(resposta,converterParaMinusculo(resposta));
+	}while(strcmp("sim", resposta) != 0 && strcmp("nao", resposta) != 0);
+	if(strcmp("sim", resposta) == 0){
+		salvarInformacoesJogo(jogo);
+	}
+	
+}
+
+/**
+	A função salvarInformacoesJogo grava os detalhes do jogo em um arquivo 'jogo_x.txt'
+	Parâmetro: O jogo
+**/
+void salvarInformacoesJogo(Jogo jogo){
+	char nomeArquivo[50];
+	
+	nomeArquivoJogo(nomeArquivo);
+
+	FILE *arquivo;
+	
+	arquivo = fopen(nomeArquivo, "w");
+
+	fprintf(arquivo, "%s; %d; %d; %d \n", jogo.jogador1.nome, jogo.jogador1.vitorias, 
+		jogo.jogador1.capturas, jogo.jogador1.peca);
+	fprintf(arquivo, "%s; %d; %d; %d \n", jogo.jogador2.nome, jogo.jogador2.vitorias, 
+		jogo.jogador2.capturas, jogo.jogador2.peca);
+
+	fprintf(arquivo, "%d \n", jogo.goban.dimensao);
+	for(int i=0; i<jogo.goban.dimensao; i++){
+		for(int j=0; j<jogo.goban.dimensao; j++){
+			fprintf(arquivo, "%d ", jogo.goban.matriz[i][j]);
+			
+		}
+		fprintf(arquivo, "\n");
+	}
+	fprintf(arquivo, "%d ", jogo.proximoJogador);
+	fclose(arquivo);
+}
+
+/**
+	A função nomeArquivoJogo nomeia um arquivo que contém informações do jogo
+	Parâmetro: O nome do arquivo;
+**/
+void nomeArquivoJogo(char *nomeArquivo){
+	const char *pattern = "./jogo_*.txt";
+  	glob_t pglob; 
+
+  	glob(pattern, GLOB_ERR, NULL, &pglob);      
+
+  	int qntJogosSalvos=(int)pglob.gl_pathc+1;
+
+  	globfree(&pglob);
+
+  	char caracter[3];
+  	sprintf(caracter, "%i", qntJogosSalvos);
+
+  	strcpy(nomeArquivo, "jogo_");
+  	strcat(nomeArquivo, strcat(caracter, ".txt"));
+  	
+
+}
 /**
 	A função validarCaptura testa em todas as 8 direções se existe uma situação de captura
 	(XYYX)

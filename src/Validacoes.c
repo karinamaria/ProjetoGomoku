@@ -3,7 +3,7 @@
 /**
 	A função verificarFimDeJogo analisa linhas, colunas e diagonais procurando
 	um ganhador.
-	Parâmetros: O jogo e uma peca(que armazenará a peça ganhadora).
+	Parâmetro: O jogo, peca(peça ganhadora), vitoriaPorCaptura(informa se o jogo foi vencido dessa forma)
 	Retorno: Será 0(Se o jogo não tiver finalizado) e 1(se o jogo acabou).
 **/
 int verificarFimDeJogo(Jogo *jogo, Peca *peca, int *vitoriaPorCaptura) {
@@ -18,7 +18,9 @@ int verificarFimDeJogo(Jogo *jogo, Peca *peca, int *vitoriaPorCaptura) {
 }
 
 /**
-
+	A função verificarQntCapturas verifica se houve vitória por qnt de capturas
+	Parâmetro: O jogo, peca(peça ganhadora), vitoriaPorCaptura(informa se o jogo foi vencido dessa forma)
+	Retorno: 0(se não houver ganhador por capturas) ou 1(caso haja ganhador por capturas)
 **/
 int verificarQntCapturas(Jogo *jogo, Peca *peca, int *vitoriaPorCaptura) {
 	if (jogo->jogador1.capturas == 5) {
@@ -38,7 +40,7 @@ int verificarQntCapturas(Jogo *jogo, Peca *peca, int *vitoriaPorCaptura) {
 
 /**
 	A função verificarLinhas verifica as linhas em busca de um ganhador
-	Parâmetro: O jogo e uma peca(armazenará peça ganhadora, caso o jogo tenha um ganhador)
+	Parâmetro: O jogo, peca(peça ganhadora), vitoriaPorCaptura
 	Retorno: 0(se não houver ganhador pelas linhas) ou 1(caso haja ganhador por uma linha)
 **/ 
 int verificarLinhas(Jogo *jogo, Peca *peca, int *vitoriaPorCaptura) {
@@ -66,7 +68,7 @@ int verificarLinhas(Jogo *jogo, Peca *peca, int *vitoriaPorCaptura) {
 
 /**
 	A função verificarColunas verifica as colunas em busca de um ganhador
-	Parâmetro: O jogo e uma peca(que armazenará peça ganhadora, caso o jogo tenha um ganhador)
+	Parâmetro: O jogo, peca(peça ganhadora), vitoriaPorCaptura
 	Retorno: 0(se não houver ganhador pelas colunas) ou 1(caso haja ganhador por uma coluna)
 **/ 
 int verificarColunas(Jogo *jogo, Peca *peca, int *vitoriaPorCaptura) {
@@ -95,7 +97,7 @@ int verificarColunas(Jogo *jogo, Peca *peca, int *vitoriaPorCaptura) {
 /**
 	A função verificarDiagPrincipalBaixo verifica o tabuleiro da diagonal principal
 	para baixo em busca busca de um ganhador
-	Parâmetro: O jogo e uma peca(que armazenará peça ganhadora, caso o jogo tenha um ganhador)
+	Parâmetro: O jogo, peca(peça ganhadora), vitoriaPorCaptura
 	Retorno: 0(se não houve ganhador) ou 1(ganhador encontrado)
 **/
 int verificarDiagPrincipalBaixo(Jogo *jogo, Peca *peca, int *vitoriaPorCaptura) {
@@ -124,7 +126,7 @@ int verificarDiagPrincipalBaixo(Jogo *jogo, Peca *peca, int *vitoriaPorCaptura) 
 /**
 	A função verificarDiagPrincipalCima verifica o tabuleiro da diagonal principal
 	para cima em busca busca de um ganhador
-	Parâmetro: O jogo e uma peca(que armazenará peça ganhadora, caso o jogo tenha um ganhador)
+	Parâmetro: O jogo, peca(peça ganhadora), vitoriaPorCaptura
 	Retorno: 0(se não houve ganhador) ou 1(ganhador encontrado)
 **/
 int verificarDiagPrincipalCima(Jogo *jogo, Peca *peca, int *vitoriaPorCaptura) {
@@ -153,7 +155,7 @@ int verificarDiagPrincipalCima(Jogo *jogo, Peca *peca, int *vitoriaPorCaptura) {
 /**
 	A função verificarDiagSecundariaCima verifica o tabuleiro da diagonal secundária
 	para cima em busca busca de um ganhador
-	Parâmetro: O jogo e uma peca(que armazenará peça ganhadora, caso o jogo tenha um ganhador)
+	Parâmetro: O jogo, peca(peça ganhadora), vitoriaPorCaptura
 	Retorno: 0(se não houve ganhador) ou 1(ganhador encontrado)
 **/
 int verificarDiagSecundariaCima(Jogo *jogo, Peca *peca, int *vitoriaPorCaptura) {
@@ -182,7 +184,7 @@ int verificarDiagSecundariaCima(Jogo *jogo, Peca *peca, int *vitoriaPorCaptura) 
 /**
 	A função verificarDiagSecundariaBaixo verifica o tabuleiro da diagonal secundária
 	para baixo em busca busca de um ganhador
-	Parâmetro: O jogo e uma peca(que armazenará peça ganhadora, caso o jogo tenha um ganhador)
+	Parâmetro: O jogo, peca(peça ganhadora), vitoriaPorCaptura
 	Retorno: 0(se não houve ganhador) ou 1(ganhador encontrado)
 **/
 int verificarDiagSecundariaBaixo(Jogo *jogo, Peca *peca, int *vitoriaPorCaptura) {
