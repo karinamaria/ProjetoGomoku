@@ -14,6 +14,14 @@ No Windows
 git clone https://github.com/karinamaria/ProjetoGomoku.git
 script.bat
 ```
+## Funcionalidade implementadas
+
+- Validação de cada jogada
+- Finalização do jogo pelo alinhamento de 5 peças no sentido horizontal, vertical ou diagonal
+- Captura de peças (1ª Regra do Ninuki)
+- Proibição de formação de jogadas 3x3 (2ª Regra do Ninuki)
+- Finalização do jogo pela quantidade de capturas (3ª Regra do Ninuki)
+- Salvar o jogo em um arquivo para continuar depois
 
 ## Autores
 
