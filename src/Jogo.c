@@ -202,14 +202,7 @@ void salvarInformacoesJogo(Jogo jogo){
 		jogo.jogador2.capturas, jogo.jogador2.peca);
 
 	fprintf(arquivo, "%d \n", jogo.goban.dimensao);
-	for(int i=0; i<jogo.goban.dimensao; i++){
-		for(int j=0; j<jogo.goban.dimensao; j++){
-			fprintf(arquivo, "%d ", jogo.goban.matriz[i][j]);
-			
-		}
-		fprintf(arquivo, "\n");
-	}
-	fprintf(arquivo, "%d ", jogo.proximoJogador);
+	
 	fclose(arquivo);
 }
 
