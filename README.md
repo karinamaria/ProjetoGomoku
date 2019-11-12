@@ -14,7 +14,7 @@ No Windows
 git clone https://github.com/karinamaria/ProjetoGomoku.git
 script.bat
 ```
-## Funcionalidade implementadas
+## Funcionalidades implementadas
 
 - Validação de cada jogada
 - Finalização do jogo pelo alinhamento de 5 peças no sentido horizontal, vertical ou diagonal
