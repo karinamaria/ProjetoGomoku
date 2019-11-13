@@ -86,7 +86,7 @@ int validarInsercao(Tabuleiro tabuleiro, int lin, int col, Peca peca){
 		return 0;
 	}
 
-	if (!verificarFormacao3x3(tabuleiro, lin, col, peca)){
+	if (verificarFormacao3x3(tabuleiro, lin, col, peca)){
 		printf("----Jogada invalida. Nao eh permitido fazer a formacao 3x3.----\n");
 		return 0;
 	}
@@ -95,56 +95,122 @@ int validarInsercao(Tabuleiro tabuleiro, int lin, int col, Peca peca){
 }
 
 int verificarFormacao3x3(Tabuleiro goban, int i, int j, Peca peca) {
-	int di1, dj1, di2, dj2, di3, dj3, ip1, jp1, ip2, jp2, ip3, jp3;
+	Casa c0 = {i, j};
+	Casa c1, c2;
 
-	if (
-		(  contarSequencia(goban, i, j,  0, 1, &di1, &dj1, &ip1, &jp1, peca) + contarSequencia(goban, i, j,  0, -1, &di2, &dj2, &ip2, &jp2, peca) == 4
-        || contarSequencia(goban, i, j,  1, 0, &di1, &dj1, &ip1, &jp1, peca) + contarSequencia(goban, i, j, -1,  0, &di2, &dj2, &ip2, &jp2, peca) == 4
-		|| contarSequencia(goban, i, j,  1, 1, &di1, &dj1, &ip1, &jp1, peca) + contarSequencia(goban, i, j, -1, -1, &di2, &dj2, &ip2, &jp2, peca) == 4
-		|| contarSequencia(goban, i, j, -1, 1, &di1, &dj1, &ip1, &jp1, peca) + contarSequencia(goban, i, j,  1, -1, &di2, &dj2, &ip2, &jp2, peca) == 4)
-		&&
-		(  (contarSequencia(goban, ip1, jp1,  0, 1, &di3, &dj3, &ip3, &jp3, peca) == 3 && !(di3 == di1 && dj3 == dj1) && !(di3 == di2 && dj3 == dj2))
-		|| (contarSequencia(goban, ip1, jp1,  0, -1, &di3, &dj3, &ip3, &jp3, peca) == 3 && !(di3 == di1 && dj3 == dj1) && !(di3 == di2 && dj3 == dj2))
-        || (contarSequencia(goban, ip1, jp1,  1, 0, &di3, &dj3, &ip3, &jp3, peca) == 3 && !(di3 == di1 && dj3 == dj1) && !(di3 == di2 && dj3 == dj2))
-        || (contarSequencia(goban, ip1, jp1, -1,  0, &di3, &dj3, &ip3, &jp3, peca) == 3 && !(di3 == di1 && dj3 == dj1) && !(di3 == di2 && dj3 == dj2))
-		|| (contarSequencia(goban, ip1, jp1,  1, 1, &di3, &dj3, &ip3, &jp3, peca) == 3 && !(di3 == di1 && dj3 == dj1) && !(di3 == di2 && dj3 == dj2))
-		|| (contarSequencia(goban, ip1, jp1, -1, -1, &di3, &dj3, &ip3, &jp3, peca) == 3 && !(di3 == di1 && dj3 == dj1) && !(di3 == di2 && dj3 == dj2))
-		|| (contarSequencia(goban, ip1, jp1, -1, 1, &di3, &dj3, &ip3, &jp3, peca) == 3 && !(di3 == di1 && dj3 == dj1) && !(di3 == di2 && dj3 == dj2))
-		|| (contarSequencia(goban, ip1, jp1,  1, -1, &di3, &dj3, &ip3, &jp3, peca) == 3 && !(di3 == di1 && dj3 == dj1) && !(di3 == di2 && dj3 == dj2))
-		|| (contarSequencia(goban, ip2, jp2,  0, 1, &di3, &dj3, &ip3, &jp3, peca) == 3 && !(di3 == di1 && dj3 == dj1) && !(di3 == di2 && dj3 == dj2))
-		|| (contarSequencia(goban, ip2, jp2,  0, -1, &di3, &dj3, &ip3, &jp3, peca) == 3 && !(di3 == di1 && dj3 == dj1) && !(di3 == di2 && dj3 == dj2))
-        || (contarSequencia(goban, ip2, jp2,  1, 0, &di3, &dj3, &ip3, &jp3, peca) == 3 && !(di3 == di1 && dj3 == dj1) && !(di3 == di2 && dj3 == dj2))
-        || (contarSequencia(goban, ip2, jp2, -1,  0, &di3, &dj3, &ip3, &jp3, peca) == 3 && !(di3 == di1 && dj3 == dj1) && !(di3 == di2 && dj3 == dj2))
-		|| (contarSequencia(goban, ip2, jp2,  1, 1, &di3, &dj3, &ip3, &jp3, peca) == 3 && !(di3 == di1 && dj3 == dj1) && !(di3 == di2 && dj3 == dj2))
-		|| (contarSequencia(goban, ip2, jp2, -1, -1, &di3, &dj3, &ip3, &jp3, peca) == 3 && !(di3 == di1 && dj3 == dj1) && !(di3 == di2 && dj3 == dj2))
-		|| (contarSequencia(goban, ip2, jp2, -1, 1, &di3, &dj3, &ip3, &jp3, peca) == 3 && !(di3 == di1 && dj3 == dj1) && !(di3 == di2 && dj3 == dj2))
-		|| (contarSequencia(goban, ip2, jp2,  1, -1, &di3, &dj3, &ip3, &jp3, peca) == 3 && !(di3 == di1 && dj3 == dj1) && !(di3 == di2 && dj3 == dj2)))
-	) {
+	if (existeSeqMaiorQ3(goban, c0, peca)) {
 		return 0;
-		}
-	return 1;
+	}
+	else if (validarPrimeiraSeq(goban, c0, &c1, &c2, 0, 1, peca)) {
+		return analisarSegundaSeq(goban, 0, 1, c1, c2, peca);
+	}
+    else if (validarPrimeiraSeq(goban, c0, &c1, &c2, 1, 0, peca)) {
+    	return analisarSegundaSeq(goban, 1, 0, c1, c2, peca);
+    }
+	else if (validarPrimeiraSeq(goban, c0, &c1, &c2, 1, 1, peca)) {
+		return analisarSegundaSeq(goban, 1, 1, c1, c2, peca);
+	}
+	else if (validarPrimeiraSeq(goban, c0, &c1, &c2, -1, 1, peca)) {
+		return analisarSegundaSeq(goban, -1, 1, c1, c2, peca);
+	}
+
+	return 0;
+
 }
 
-int contarSequencia(Tabuleiro goban, int i, int j, int di, int dj, int *pdi, int *pdj, int *fi, int *fj, Peca peca) {
-	int cont = 1;
-
-	*fi = i;
-	*fj = j;
-
-	while (
-		      i+di*cont >= 0
-		   && i+di*cont < goban.dimensao
-		   && j+dj*cont >= 0
-		   && j+dj*cont < goban.dimensao
-		   && goban.matriz[i+di*cont][j+dj*cont] == peca
-    ) {
-    	*pdi = di;
-    	*pdj = dj;
-		*fi = i+di*cont;
-		*fj = j+dj*cont;
-		cont++;
+int analisarSegundaSeq(Tabuleiro goban, int direcao_lin, int direcao_col, Casa c1, Casa c2, Peca peca) {
+	if (existeSeqMaiorQ3(goban, c1, peca) || existeSeqMaiorQ3(goban, c2, peca)) {
+		return 0;
 	}
-	return cont;
+
+	return    verificarSegundaSeq(goban, direcao_lin, direcao_col, c1, peca)
+	       || verificarSegundaSeq(goban, direcao_lin, direcao_col, c2, peca);
+		
+}
+
+int verificarSegundaSeq(Tabuleiro goban, int di, int dj, Casa c, Peca peca) {
+	return    (!(di ==  0 && dj == 1) && validarSegundaSeq(goban, c,  0, 1, peca))
+           || (!(di ==  1 && dj == 0) && validarSegundaSeq(goban, c,  1, 0, peca))
+		   || (!(di ==  1 && dj == 1) && validarSegundaSeq(goban, c,  1, 1, peca))
+		   || (!(di == -1 && dj == 1) && validarSegundaSeq(goban, c, -1, 1, peca));
+}
+
+int existeSeqMaiorQ3(Tabuleiro goban, Casa c, Peca peca) {
+	return    contarSeq(goban, c, 0, 1, peca) > 4
+	       || contarSeq(goban, c, 1, 0, peca) > 4
+	       || contarSeq(goban, c, 1, 1, peca) > 4
+	       || contarSeq(goban, c,-1, 1, peca) > 4;
+}
+
+int contarSeq(Tabuleiro goban, Casa c, int di, int dj, Peca peca) {
+	int n1 = 1;
+	int n2 = 1;
+
+	while (verificarPeca(goban, c, di, dj, peca, n1)) {
+		n1++;
+	}
+
+	while (verificarPeca(goban, c, -di, -dj, peca, n2)) {
+		n2++;
+	}
+
+	return n1 + n2;
+}
+
+int validarPrimeiraSeq(Tabuleiro goban, Casa c0, Casa *c1, Casa *c2, int di, int dj, Peca peca) {
+	int n1 = 1;
+	int n2 = 1;
+
+	while (verificarPeca(goban, c0, di, dj, peca, n1)) {
+		n1++;
+	}
+
+	c1->lin = c0.lin + di*(n1 - 1);
+	c1->col = c0.col + dj*(n1 - 1);
+
+	while (verificarPeca(goban, c0, -di, -dj, peca, n2)) {
+		n2++;
+	}
+
+	c2->lin = c0.lin - di*(n2 - 1);
+	c2->col = c0.col - dj*(n2 - 1);
+
+	if (n1 + n2 == 4) {
+		return 1;
+	}
+
+	return 0;
+}
+
+int validarSegundaSeq(Tabuleiro goban, Casa c0, int di, int dj, Peca peca) {
+	int n1 = 1;
+	int n2 = 1;
+
+	while (verificarPeca(goban, c0, di, dj, peca, n1)) {
+		n1++;
+	}
+
+	while (verificarPeca(goban, c0, -di, -dj, peca, n2)) {
+		n2++;
+	}
+
+	if (n1 == 3 && n2 == 1) {
+		return 1;
+	}
+
+	else if (n1 == 1 && n2 == 3) {
+		return 1;
+	}
+
+	return 0;
+}
+
+int verificarPeca(Tabuleiro goban, Casa casa, int di, int dj, Peca peca, int n) {
+	return    casa.lin + di*n >= 0
+		   && casa.lin + di*n < goban.dimensao
+		   && casa.col + dj*n >= 0
+		   && casa.col + dj*n < goban.dimensao
+		   && goban.matriz[casa.lin + di*n][casa.col + dj*n] == peca;
 }
 
 /**
