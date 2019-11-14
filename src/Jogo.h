@@ -28,10 +28,6 @@ int continuarJogo();
 void salvarJogo(Jogo jogo);
 void salvarInformacoesJogo(Jogo jogo);
 void nomeArquivoJogo(char *nomeArquivo);
-void analisarCaptura(Jogo *jogo, int i, int j);
-int verificarCaptura(Jogo *jogo, int i, int j);
-int capturouPecas(Jogo *jogo, int i, int j, int di, int dj);
-int validarCaptura(Jogo *jogo, int i, int j, int di, int dj);
 void imprimirGanhador(Jogador *jogador1, Jogador *jogador2, Peca peca, int vitoriaPorCaptura);
 
 #endif
