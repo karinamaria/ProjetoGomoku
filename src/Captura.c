@@ -2,32 +2,20 @@
 #include "Captura.h"
 
 /**
-	A função analisarCaptura incrementa a quantidade de capturas de um jogador,
-	se permitido pela função verificarCaptura
-	Parâmetro: O jogo, a linha e coluna da jogada atual 	
-**/
-void analisarCaptura(Jogo *jogo, int i, int j) {
-	if (verificarCaptura(jogo, i, j)) {
-		if (jogo->jogador1.peca == jogo->goban.matriz[i][j]) {
-			jogo->jogador1.capturas++;
-		}
-		else {
-			jogo->jogador2.capturas++;
-		}
-	}
-}
-
-/**
 	A função verificarCaptura vê se em uma das 8 direções existe uma
 	situação de captura (XYYX)
 	Parâmetro: O jogo, a linha e coluna da jogada atual
 	Retorno: 1(Se o jogador atual realizou uma captura) ou 0(Não houve nenhuma captura)
 **/
 int verificarCaptura(Jogo *jogo, int i, int j) {
-	return    capturouPecas(jogo, i, j,  0, 1) || capturouPecas(jogo, i, j,  0, -1)
-		   || capturouPecas(jogo, i, j,  1, 0) || capturouPecas(jogo, i, j, -1,  0)
-		   || capturouPecas(jogo, i, j,  1, 1) || capturouPecas(jogo, i, j, -1, -1)
-		   || capturouPecas(jogo, i, j, -1, 1) || capturouPecas(jogo, i, j,  1, -1);
+	capturouPecas(jogo, i, j,  0,  1);
+	capturouPecas(jogo, i, j,  0, -1);
+	capturouPecas(jogo, i, j,  1,  0);
+	capturouPecas(jogo, i, j, -1,  0);
+	capturouPecas(jogo, i, j,  1,  1);
+	capturouPecas(jogo, i, j, -1, -1);
+	capturouPecas(jogo, i, j, -1,  1);
+	capturouPecas(jogo, i, j,  1, -1);
 }
 
 /**
@@ -40,6 +28,13 @@ int capturouPecas(Jogo *jogo, int i, int j, int di, int dj) {
 	if (validarCaptura(jogo, i, j, di, dj)) {
 		jogo->goban.matriz[i +   di][j +   dj] = -1;
 		jogo->goban.matriz[i + 2*di][j + 2*dj] = -1;
+
+		if (jogo->proximoJogador == jogo->jogador1.peca) {
+			jogo->jogador1.capturas++;
+		}
+		else {
+			jogo->jogador2.capturas++;
+		}
 
 		return 1;
 	}

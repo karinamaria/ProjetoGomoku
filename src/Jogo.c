@@ -57,7 +57,7 @@ void loopJogo(Jogo *jogo){
 		}while(!validarInsercao(jogo->goban, lin, col, jogo->proximoJogador));
 		limparTela();
 		jogo->goban.matriz[lin][col] = jogo->proximoJogador;
-		analisarCaptura(jogo, lin, col);
+		verificarCaptura(jogo, lin, col);
 		alternarJogador(&jogo->proximoJogador);
 		peca = -1;
 	}while(!verificarFimDeJogo(jogo, &peca, &vitoriaPorCaptura));

@@ -18,7 +18,6 @@ int verificarFimDeJogo(Jogo *jogo, Peca *peca, int *vitoriaPorCaptura) {
 		     + verificarDiagPrincipalCima(jogo->goban, peca, jogo->ganhando)
 		     + verificarDiagSecundariaCima(jogo->goban, peca, jogo->ganhando)
 		     + verificarDiagSecundariaBaixo(jogo->goban, peca, jogo->ganhando)
-		     > 0
 	) {
 		if (jogo->ganhando == *peca) {
 			*vitoriaPorCaptura = 0;
