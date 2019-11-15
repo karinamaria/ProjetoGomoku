@@ -4,13 +4,13 @@
 #include "Jogo.h"
 
 int verificarFimDeJogo(Jogo *jogo, Peca *peca, int *vitoriaPorCaptura);
-int verificarQntCapturas(Jogo *jogo, Peca *peca, int *vitoriaPorCaptura);
-int verificarLinhas(Jogo *jogo, Peca *peca, int *vitoriaPorCaptura);
-int verificarColunas(Jogo *jogo, Peca *peca, int *vitoriaPorCaptura);
-int verificarDiagPrincipalBaixo(Jogo *jogo, Peca *peca, int *vitoriaPorCaptura);
-int verificarDiagPrincipalCima(Jogo *jogo, Peca *peca, int *vitoriaPorCaptura);
-int verificarDiagSecundariaCima(Jogo *jogo, Peca *peca, int *vitoriaPorCaptura);
-int verificarDiagSecundariaBaixo(Jogo *jogo, Peca *peca, int *vitoriaPorCaptura);
+int verificarQntCapturas(Jogo *jogo, Peca *peca);
+int verificarLinhas(Tabuleiro goban, Peca *peca, int ganhando);
+int verificarColunas(Tabuleiro goban, Peca *peca, int ganhando);
+int verificarDiagPrincipalBaixo(Tabuleiro goban, Peca *peca, int ganhando);
+int verificarDiagPrincipalCima(Tabuleiro goban, Peca *peca, int ganhando);
+int verificarDiagSecundariaCima(Tabuleiro goban, Peca *peca, int ganhando);
+int verificarDiagSecundariaBaixo(Tabuleiro goban, Peca *peca, int ganhando);
 int verificarEmpate(Jogo *jogo, Peca *peca);
 
 #endif

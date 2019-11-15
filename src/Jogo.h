@@ -9,9 +9,11 @@ typedef struct{
 	Jogador jogador2;
 	Tabuleiro goban;
 	Peca proximoJogador;
+	int ganhando;
 }Jogo;
 
 void iniciarJogo(Jogo jogo);
+void inicializarJogo(Jogo *jogo);
 void loopJogo(Jogo *jogo);
 void informarProximoJogador(Jogo *jogo);
 void alternarJogador(Peca *proximoJogador);

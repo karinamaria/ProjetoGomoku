@@ -7,31 +7,50 @@
 	Retorno: Será 0(Se o jogo não tiver finalizado) e 1(se o jogo acabou).
 **/
 int verificarFimDeJogo(Jogo *jogo, Peca *peca, int *vitoriaPorCaptura) {
-	return    verificarQntCapturas(jogo, peca, vitoriaPorCaptura)
-	       || verificarLinhas(jogo, peca, vitoriaPorCaptura)
-		   || verificarColunas(jogo, peca, vitoriaPorCaptura)
-		   || verificarDiagPrincipalBaixo(jogo, peca, vitoriaPorCaptura)
-		   || verificarDiagPrincipalCima(jogo, peca, vitoriaPorCaptura)
-		   || verificarDiagSecundariaCima(jogo, peca, vitoriaPorCaptura)
-		   || verificarDiagSecundariaBaixo(jogo, peca, vitoriaPorCaptura)
-		   || verificarEmpate(jogo, peca);
+	if (verificarQntCapturas(jogo, peca)) {
+		*vitoriaPorCaptura = 1;
+		return 1;
+	}
+	else if (
+		       verificarLinhas(jogo->goban, peca, jogo->ganhando)
+		     + verificarColunas(jogo->goban, peca, jogo->ganhando)
+		     + verificarDiagPrincipalBaixo(jogo->goban, peca, jogo->ganhando)
+		     + verificarDiagPrincipalCima(jogo->goban, peca, jogo->ganhando)
+		     + verificarDiagSecundariaCima(jogo->goban, peca, jogo->ganhando)
+		     + verificarDiagSecundariaBaixo(jogo->goban, peca, jogo->ganhando)
+		     > 0
+	) {
+		if (jogo->ganhando == *peca) {
+			*vitoriaPorCaptura = 0;
+			return 1;
+		}
+		else {
+			jogo->ganhando = *peca;
+			return 0;
+		}
+	}
+
+	if (verificarEmpate(jogo, peca)) {
+		return 1;
+	}
+
+	jogo->ganhando = -1;
+	return 0;
 }
 
 /**
 	A função verificarQntCapturas verifica se houve vitória por qnt de capturas
-	Parâmetro: O jogo, peca(peça ganhadora), vitoriaPorCaptura(informa se o jogo foi vencido dessa forma)
+	Parâmetro: O jogo e peca(peça ganhadora)
 	Retorno: 0(se não houver ganhador por capturas) ou 1(caso haja ganhador por capturas)
 **/
-int verificarQntCapturas(Jogo *jogo, Peca *peca, int *vitoriaPorCaptura) {
+int verificarQntCapturas(Jogo *jogo, Peca *peca) {
 	if (jogo->jogador1.capturas == 5) {
 		*peca = jogo->jogador1.peca;
-		*vitoriaPorCaptura = 1;
 		return 1;
 	}
 
 	else if (jogo->jogador2.capturas == 5) {
 		*peca = jogo->jogador2.peca;
-		*vitoriaPorCaptura = 1;
 		return 1;
 	}
 
@@ -40,30 +59,30 @@ int verificarQntCapturas(Jogo *jogo, Peca *peca, int *vitoriaPorCaptura) {
 
 /**
 	A função verificarLinhas verifica as linhas em busca de um ganhador
-	Parâmetro: O jogo, peca(peça ganhadora), vitoriaPorCaptura
+	Parâmetro: O goban, peca(peça ganhadora), vitoriaPorCaptura
 	Retorno: 0(se não houver ganhador pelas linhas) ou 1(caso haja ganhador por uma linha)
 **/ 
-int verificarLinhas(Jogo *jogo, Peca *peca, int *vitoriaPorCaptura) {
+int verificarLinhas(Tabuleiro goban, Peca *peca, int ganhando) {
 	int cont = 1;
+	int retorno = 0;
 
-	for (int i = 0; i < jogo->goban.dimensao; i++) {
-		for (int j = 1; j < jogo->goban.dimensao; j++) {
-			if (jogo->goban.matriz[i][j] != -1 && jogo->goban.matriz[i][j] == jogo->goban.matriz[i][j-1]) {
+	for (int i = 0; i < goban.dimensao; i++) {
+		for (int j = 1; j < goban.dimensao; j++) {
+			if (goban.matriz[i][j] != -1 && goban.matriz[i][j] == goban.matriz[i][j-1]) {
 				cont++;
 			}else {
 				cont = 1;
 			}
 
-			if (cont == 5) {
-				*peca = jogo->goban.matriz[i][j];
-				*vitoriaPorCaptura = 0;
-				return 1;
+			if (cont == 5 && (*peca == -1 || goban.matriz[i][j] == ganhando)) {
+				*peca = goban.matriz[i][j];
+				retorno = 1;
 			}
 		}
 		cont = 1;
 	}
 
-	return 0;
+	return retorno;
 }
 
 /**
@@ -71,27 +90,27 @@ int verificarLinhas(Jogo *jogo, Peca *peca, int *vitoriaPorCaptura) {
 	Parâmetro: O jogo, peca(peça ganhadora), vitoriaPorCaptura
 	Retorno: 0(se não houver ganhador pelas colunas) ou 1(caso haja ganhador por uma coluna)
 **/ 
-int verificarColunas(Jogo *jogo, Peca *peca, int *vitoriaPorCaptura) {
+int verificarColunas(Tabuleiro goban, Peca *peca, int ganhando) {
 	int cont = 1;
+	int retorno = 0;
 
-	for (int j = 0; j < jogo->goban.dimensao; j++) {
-		for (int i = 1; i < jogo->goban.dimensao; i++) {
-			if (jogo->goban.matriz[i][j] != -1 && jogo->goban.matriz[i][j] == jogo->goban.matriz[i-1][j]) {
+	for (int j = 0; j < goban.dimensao; j++) {
+		for (int i = 1; i < goban.dimensao; i++) {
+			if (goban.matriz[i][j] != -1 && goban.matriz[i][j] == goban.matriz[i-1][j]) {
 				cont++;
 			}else {
 				cont = 1;
 			}
 
-			if (cont == 5) {
-				*peca = jogo->goban.matriz[i][j];
-				*vitoriaPorCaptura = 0;
-				return 1;
+			if (cont == 5 && (*peca == -1 || goban.matriz[i][j] == ganhando)) {
+				*peca = goban.matriz[i][j];
+				retorno = 1;
 			}
 		}
 		cont = 1;
 	}
 
-	return 0;
+	return retorno;
 }
 
 /**
@@ -100,27 +119,27 @@ int verificarColunas(Jogo *jogo, Peca *peca, int *vitoriaPorCaptura) {
 	Parâmetro: O jogo, peca(peça ganhadora), vitoriaPorCaptura
 	Retorno: 0(se não houve ganhador) ou 1(ganhador encontrado)
 **/
-int verificarDiagPrincipalBaixo(Jogo *jogo, Peca *peca, int *vitoriaPorCaptura) {
+int verificarDiagPrincipalBaixo(Tabuleiro goban, Peca *peca, int ganhando) {
 	int cont = 1;
+	int retorno = 0;
 
-	for(int lin=0; lin < jogo->goban.dimensao; lin++){
-		for(int i=lin+1, j=1; i < jogo->goban.dimensao; i++, j++){
-			if (jogo->goban.matriz[i][j] != -1 && jogo->goban.matriz[i][j] == jogo->goban.matriz[i-1][j-1]) {
+	for(int lin=0; lin < goban.dimensao; lin++){
+		for(int i=lin+1, j=1; i < goban.dimensao; i++, j++){
+			if (goban.matriz[i][j] != -1 && goban.matriz[i][j] == goban.matriz[i-1][j-1]) {
 				cont++;
 			}else{
 				cont = 1;
 			}
 
-			if (cont == 5) {
-				*peca = jogo->goban.matriz[i][j];
-				*vitoriaPorCaptura = 0;
-				return 1;
+			if (cont == 5 && (*peca == -1 || goban.matriz[i][j] == ganhando)) {
+				*peca = goban.matriz[i][j];
+				retorno = 1;
 			}
 		}
 		cont = 1;
 	}
 
-	return 0;
+	return retorno;
 }
 
 /**
@@ -129,27 +148,27 @@ int verificarDiagPrincipalBaixo(Jogo *jogo, Peca *peca, int *vitoriaPorCaptura) 
 	Parâmetro: O jogo, peca(peça ganhadora), vitoriaPorCaptura
 	Retorno: 0(se não houve ganhador) ou 1(ganhador encontrado)
 **/
-int verificarDiagPrincipalCima(Jogo *jogo, Peca *peca, int *vitoriaPorCaptura) {
+int verificarDiagPrincipalCima(Tabuleiro goban, Peca *peca, int ganhando) {
 	int cont = 1;
+	int retorno = 0;
 
-	for(int col=1; col < jogo->goban.dimensao; col++){
-		for(int j=col+1, i=1; j < jogo->goban.dimensao; j++, i++){
-			if (jogo->goban.matriz[i][j] != -1 && jogo->goban.matriz[i][j] == jogo->goban.matriz[i-1][j-1]) {
+	for(int col=1; col < goban.dimensao; col++){
+		for(int j=col+1, i=1; j < goban.dimensao; j++, i++){
+			if (goban.matriz[i][j] != -1 && goban.matriz[i][j] == goban.matriz[i-1][j-1]) {
 				cont++;
 			}else{
 				cont = 1;
 			}
 
-			if (cont == 5) {
-				*peca = jogo->goban.matriz[i][j];
-				*vitoriaPorCaptura = 0;
-				return 1;
+			if (cont == 5 && (*peca == -1 || goban.matriz[i][j] == ganhando)) {
+				*peca = goban.matriz[i][j];
+				retorno = 1;
 			}
 		}
 		cont = 1;
 	}
 
-	return 0;
+	return retorno;
 }
 
 /**
@@ -158,27 +177,27 @@ int verificarDiagPrincipalCima(Jogo *jogo, Peca *peca, int *vitoriaPorCaptura) {
 	Parâmetro: O jogo, peca(peça ganhadora), vitoriaPorCaptura
 	Retorno: 0(se não houve ganhador) ou 1(ganhador encontrado)
 **/
-int verificarDiagSecundariaCima(Jogo *jogo, Peca *peca, int *vitoriaPorCaptura) {
+int verificarDiagSecundariaCima(Tabuleiro goban, Peca *peca, int ganhando) {
 	int cont = 1;
+	int retorno = 0;
 
-	for(int lin=jogo->goban.dimensao-1; lin>=0; lin--){
+	for(int lin=goban.dimensao-1; lin>=0; lin--){
 		for(int i=lin-1, j=1; i>=0; i--, j++){
-			if (jogo->goban.matriz[i][j] != -1 && jogo->goban.matriz[i][j] == jogo->goban.matriz[i+1][j-1]) {
+			if (goban.matriz[i][j] != -1 && goban.matriz[i][j] == goban.matriz[i+1][j-1]) {
 				cont++;
 			}else{
 				cont = 1;
 			}
 
-			if (cont == 5) {
-				*peca = jogo->goban.matriz[i][j];
-				*vitoriaPorCaptura = 0;
-				return 1;
+			if (cont == 5 && (*peca == -1 || goban.matriz[i][j] == ganhando)) {
+				*peca = goban.matriz[i][j];
+				retorno = 1;
 			}
 		}
 		cont = 1;
 	}
 
-	return 0;
+	return retorno;
 }
 
 /**
@@ -187,27 +206,27 @@ int verificarDiagSecundariaCima(Jogo *jogo, Peca *peca, int *vitoriaPorCaptura) 
 	Parâmetro: O jogo, peca(peça ganhadora), vitoriaPorCaptura
 	Retorno: 0(se não houve ganhador) ou 1(ganhador encontrado)
 **/
-int verificarDiagSecundariaBaixo(Jogo *jogo, Peca *peca, int *vitoriaPorCaptura) {
+int verificarDiagSecundariaBaixo(Tabuleiro goban, Peca *peca, int ganhando) {
 	int cont = 1;
+	int retorno = 0;
 
-	for(int col=1; col < jogo->goban.dimensao; col++){
-		for(int j=col+1, i=jogo->goban.dimensao-2; j < jogo->goban.dimensao; j++, i--){
-			if (jogo->goban.matriz[i][j] != -1 && jogo->goban.matriz[i][j] == jogo->goban.matriz[i+1][j-1]) {
+	for(int col=1; col < goban.dimensao; col++){
+		for(int j=col+1, i=goban.dimensao-2; j < goban.dimensao; j++, i--){
+			if (goban.matriz[i][j] != -1 && goban.matriz[i][j] == goban.matriz[i+1][j-1]) {
 				cont++;
 			}else{
 				cont = 1;
 			}
 
-			if (cont == 5) {
-				*peca = jogo->goban.matriz[i][j];
-				*vitoriaPorCaptura = 0;
-				return 1;
+			if (cont == 5 && (*peca == -1 || goban.matriz[i][j] == ganhando)) {
+				*peca = goban.matriz[i][j];
+				retorno = 1;
 			}
 		}
 		cont = 1;
 	}
 
-	return 0;
+	return retorno;
 }
 
 /**

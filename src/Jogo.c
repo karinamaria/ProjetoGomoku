@@ -19,13 +19,22 @@ void iniciarJogo(Jogo jogo){
 	do{
 		limparTela();
 		sortearPecas(&jogo.jogador1, &jogo.jogador2);
-		jogo.proximoJogador=P;
+		inicializarJogo(&jogo);
 		zerarCapturas(&jogo.jogador1, &jogo.jogador2);
 		limparMatriz(jogo.goban.matriz, jogo.goban.dimensao);
 		loopJogo(&jogo);
 	}while(continuarJogo());
 	salvarJogo(jogo);
 	liberarMatriz(jogo.goban.matriz, jogo.goban.dimensao);
+}
+
+/**
+	A função inicializarJogo atribui valores iniciais a estrutura Jogo
+	Parâmetros: O jogo
+**/
+void inicializarJogo(Jogo *jogo) {
+	jogo->proximoJogador=P;
+	jogo->ganhando = -1;
 }
 
 /**
@@ -50,6 +59,7 @@ void loopJogo(Jogo *jogo){
 		jogo->goban.matriz[lin][col] = jogo->proximoJogador;
 		analisarCaptura(jogo, lin, col);
 		alternarJogador(&jogo->proximoJogador);
+		peca = -1;
 	}while(!verificarFimDeJogo(jogo, &peca, &vitoriaPorCaptura));
 	informarQntCapturas(jogo->jogador1, jogo->jogador2);
 	imprimirTabuleiro(jogo->goban);
