@@ -13,19 +13,54 @@
 	Parâmetro: O jogo
 **/
 void iniciarJogo(Jogo jogo){
+	jogo.id=0;
 	inicializarJogadores(&jogo.jogador1, &jogo.jogador2);
 	limparTela();
 	inicializarTabuleiro(&jogo.goban);
+	jogar(&jogo);
+	
+}
+void reiniciarJogo(Jogo jogo){
+	if(!existeArquivoJogo(&jogo)){
+		exibirMenu();
+	}else{
+		jogo.goban.matriz=inicializarMatriz(jogo.goban.dimensao);
+		jogar(&jogo);
+	}
+}
+
+void jogar(Jogo *jogo){
 	do{
 		limparTela();
-		sortearPecas(&jogo.jogador1, &jogo.jogador2);
-		inicializarJogo(&jogo);
-		zerarCapturas(&jogo.jogador1, &jogo.jogador2);
-		limparMatriz(jogo.goban.matriz, jogo.goban.dimensao);
-		loopJogo(&jogo);
+		sortearPecas(&jogo->jogador1, &jogo->jogador2);
+		inicializarJogo(jogo);
+		zerarCapturas(&jogo->jogador1, &jogo->jogador2);
+		limparMatriz(jogo->goban.matriz, jogo->goban.dimensao);
+		loopJogo(jogo);
 	}while(continuarJogo());
 	salvarJogo(jogo);
-	liberarMatriz(jogo.goban.matriz, jogo.goban.dimensao);
+	liberarMatriz(jogo->goban.matriz, jogo->goban.dimensao);
+}
+
+void exibirMenu(){
+	Jogo jogo;
+	int opcao;
+	do{
+		limparTela();
+		printf("------------------\n");
+		printf("0. Sair\n");
+		printf("1. Novo Jogo\n");
+		printf("2. Continuar Jogo\n");
+		printf("------------------\n");
+		scanf("%d", &opcao);
+		if(opcao == 1){
+			iniciarJogo(jogo);
+		}else if(opcao == 2){
+			reiniciarJogo(jogo);
+		}else if(opcao == 0){
+			break;
+		}
+	}while(opcao != 0);
 }
 
 /**
@@ -306,7 +341,7 @@ int continuarJogo(){
 	A função salvarJogo pergunta se os usuário desejam salvar o jogo 
 	Parâmetro: O jogo
 **/
-void salvarJogo(Jogo jogo){
+void salvarJogo(Jogo *jogo){
 	char resposta[3];
 	do{
 		printf("Deseja salvar esse jogo (sim | nao)? ");
@@ -323,19 +358,25 @@ void salvarJogo(Jogo jogo){
 	A função salvarInformacoesJogo grava os detalhes do jogo em um arquivo 'jogo_x.txt'
 	Parâmetro: O jogo
 **/
-void salvarInformacoesJogo(Jogo jogo){
+void salvarInformacoesJogo(Jogo *jogo){
 	char nomeArquivo[50];
 	
-	nomeArquivoJogo(nomeArquivo);
+	int id_jogo;
+	if(jogo->id > 0){
+		id_jogo=jogo->id;
+	}else{
+		id_jogo=contarArquivos()+1;
+	}
+
+	nomeArquivoJogo(nomeArquivo, id_jogo);
 
 	FILE *arquivo;
 	
 	arquivo = fopen(nomeArquivo, "w");
 
-	fprintf(arquivo, "%s; %d\n", jogo.jogador1.nome, jogo.jogador1.vitorias);
-	fprintf(arquivo, "%s; %d\n", jogo.jogador2.nome, jogo.jogador2.vitorias);
-
-	fprintf(arquivo, "%d\n", jogo.goban.dimensao);
+	fprintf(arquivo, "%s\n", jogo->jogador1.nome);
+	fprintf(arquivo, "%s\n", jogo->jogador2.nome);
+	fprintf(arquivo, "%d %d %d\n", jogo->jogador1.vitorias, jogo->jogador2.vitorias, jogo->goban.dimensao);
 	
 	fclose(arquivo);
 }
@@ -344,24 +385,69 @@ void salvarInformacoesJogo(Jogo jogo){
 	A função nomeArquivoJogo nomeia um arquivo que contém informações do jogo
 	Parâmetro: O nome do arquivo;
 **/
-void nomeArquivoJogo(char *nomeArquivo){
-	const char *pattern = "./jogo_*.txt";
-  	glob_t pglob; 
-
-  	glob(pattern, GLOB_ERR, NULL, &pglob);      
-
-  	int qntJogosSalvos=(int)pglob.gl_pathc+1;
-
-  	globfree(&pglob);
-
-  	char caracter[3];
+void nomeArquivoJogo(char *nomeArquivo, int qntJogosSalvos){
+	char caracter[3];
   	sprintf(caracter, "%i", qntJogosSalvos);
 
   	strcpy(nomeArquivo, "jogo_");
   	strcat(nomeArquivo, strcat(caracter, ".txt"));
-  	
-
 }
+
+int contarArquivos(){
+	const char *pattern = "./jogo_*.txt";
+
+	glob_t pglob; 
+
+  	glob(pattern, GLOB_ERR, NULL, &pglob);      
+
+  	int qntJogosSalvos=(int)pglob.gl_pathc;
+
+  	globfree(&pglob);
+
+  	return qntJogosSalvos;
+}
+
+int existeArquivoJogo(Jogo *jogo){
+	int qntJogosSalvos=contarArquivos();
+
+	int numArquivo;
+
+	if(qntJogosSalvos != 0){
+		printf("\n---- Escolha um jogo ----\n");
+		do{
+			for(int i=0; i<qntJogosSalvos; i++){
+				printf("%d. Jogo_%d\n", i+1, i+1);
+			}
+			scanf(" %d",&numArquivo);
+		}while(numArquivo < 1 || numArquivo > qntJogosSalvos);
+		abrirArquivoJogo(jogo, numArquivo);
+		return 1;
+	}else{
+		printf("Nenhum jogo salvo.\n");
+		return 0;
+	}
+}
+
+//erro na hora de pegar o nome
+void abrirArquivoJogo(Jogo *jogo, int numArquivo){
+	char nomeArquivo[50];
+	nomeArquivoJogo(nomeArquivo, numArquivo);
+	jogo->id=numArquivo;
+
+	FILE *arquivo;
+
+	arquivo = fopen(nomeArquivo, "r");
+
+	fgets(jogo->jogador1.nome, 16, arquivo);
+	fgets(jogo->jogador2.nome, 16, arquivo);
+	fscanf(arquivo, "%d %d %d\n", &jogo->jogador1.vitorias, &jogo->jogador2.vitorias, &jogo->goban.dimensao);
+
+	fclose(arquivo);
+
+	jogo->jogador1.nome[strlen(jogo->jogador1.nome)-1]='\0';
+	jogo->jogador2.nome[strlen(jogo->jogador2.nome)-1]='\0';
+}
+
 
 /**
 	A função imprimirGanhador é responsável por imprimir o ganhador

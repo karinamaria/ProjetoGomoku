@@ -1,11 +1,9 @@
 #include "Jogo.h"
-
+#include <stdio.h>
 
 int main(){
 
-	Jogo jogo;
-
-	iniciarJogo(jogo);
+	exibirMenu();
 
 	return 0;
 }
