@@ -43,12 +43,12 @@ int verificarFimDeJogo(Jogo *jogo, Peca *peca, int *vitoriaPorCaptura) {
 	Retorno: 0(se não houver ganhador por capturas) ou 1(caso haja ganhador por capturas)
 **/
 int verificarQntCapturas(Jogo *jogo, Peca *peca) {
-	if (jogo->jogador1.capturas == 5) {
+	if (jogo->jogador1.capturas > 4) {
 		*peca = jogo->jogador1.peca;
 		return 1;
 	}
 
-	else if (jogo->jogador2.capturas == 5) {
+	else if (jogo->jogador2.capturas > 4) {
 		*peca = jogo->jogador2.peca;
 		return 1;
 	}
