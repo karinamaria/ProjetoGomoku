@@ -194,28 +194,33 @@ int verificarSeSeqContinua(Tabuleiro goban, Casa casa, int di, int dj, Peca peca
 **/
 int validarPrimeiraSeq(Tabuleiro goban, Casa c0, Casa *c1, Casa *c2, Casa *c3, Casa *c4, int di, int dj, Peca peca) {
 	int n1 = 1;
-	int n2 = 1;
+	int n2;
+	int n3;
+    int n4 = 1;
 
 	while (verificarSeSeqContinua(goban, c0, di, dj, peca, n1)) {
 		n1++;
 	}
 
-	while (verificarSeSeqContinua(goban, c0, -di, -dj, peca, n2)) {
-		n2++;
+	while (verificarSeSeqContinua(goban, c0, -di, -dj, peca, n4)) {
+		n4++;
 	}
 
 	c1->lin = c0.lin + di*(n1 - 1);
 	c1->col = c0.col + dj*(n1 - 1);
 
-	c4->lin = c0.lin - di*(n2 - 1);
-	c4->col = c0.col - dj*(n2 - 1);
+	c4->lin = c0.lin - di*(n4 - 1);
+	c4->col = c0.col - dj*(n4 - 1);
 
-	if (n1 + n2 > 4) {
-		c2->lin = c0.lin + di*(n1 - 2);
-		c2->col = c0.col + dj*(n1 - 2);
+	if (n1 + n4 > 4) {
+		n2 = (n1 - 2 < 0 ? 0 : n1 - 2);
+		n3 = (n4 - 2 < 0 ? 0 : n4 - 2);
 
-		c3->lin = c0.lin - di*(n2 - 2);
-		c3->col = c0.col - dj*(n2 - 2);
+		c2->lin = c0.lin + di*n2;
+		c2->col = c0.col + dj*n2;
+
+		c3->lin = c0.lin - di*n3;
+		c3->col = c0.col - dj*n3;
 	}
 	else {
 		c2->lin = -9;
@@ -225,7 +230,7 @@ int validarPrimeiraSeq(Tabuleiro goban, Casa c0, Casa *c1, Casa *c2, Casa *c3, C
 		c3->col = -9;
 	}
 
-	if (n1 + n2 > 3) {
+	if (n1 + n4 > 3) {
 		return 1;
 	}
 
