@@ -7,7 +7,10 @@
 #define LIMPAR_TELA "clear"
 #endif
 
+int lixo;
+
 char* converterParaMinusculo(char *resposta);
+void limparBuffer();
 void limparTela();
 
 #endif

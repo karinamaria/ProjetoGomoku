@@ -1,4 +1,5 @@
 #include "Util.h"
+#include <stdio.h>
 #include <ctype.h>
 #include <string.h>
 #include <stdlib.h>
@@ -14,6 +15,10 @@ char* converterParaMinusculo (char *resposta){
 		resposta[i]=tolower(resposta[i]);
 	}
 	return resposta;
+}
+
+void limparBuffer() {
+	while ((lixo = getchar()) != '\n' && lixo != EOF);
 }
 
 void limparTela() {

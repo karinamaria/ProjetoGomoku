@@ -14,6 +14,7 @@
 **/
 void iniciarJogo(Jogo jogo){
 	jogo.id=0;
+	limparBuffer();
 	inicializarJogadores(&jogo.jogador1, &jogo.jogador2);
 	limparTela();
 	inicializarTabuleiro(&jogo.goban);
@@ -21,9 +22,7 @@ void iniciarJogo(Jogo jogo){
 	
 }
 void reiniciarJogo(Jogo jogo){
-	if(!existeArquivoJogo(&jogo)){
-		exibirMenu();
-	}else{
+	if(existeArquivoJogo(&jogo)){
 		jogo.goban.matriz=inicializarMatriz(jogo.goban.dimensao);
 		jogar(&jogo);
 	}
@@ -57,8 +56,6 @@ void exibirMenu(){
 			iniciarJogo(jogo);
 		}else if(opcao == 2){
 			reiniciarJogo(jogo);
-		}else if(opcao == 0){
-			break;
 		}
 	}while(opcao != 0);
 }
@@ -429,6 +426,8 @@ int existeArquivoJogo(Jogo *jogo){
 		return 1;
 	}else{
 		printf("Nenhum jogo salvo.\n");
+		limparBuffer();
+		getchar();
 		return 0;
 	}
 }
