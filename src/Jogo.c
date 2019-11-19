@@ -1,3 +1,4 @@
+#include "ArquivoJogo.h"
 #include "Validacoes.h"
 #include "Captura.h"
 #include "Util.h"
@@ -5,11 +6,10 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#include <glob.h>
+
 
 /**
-	A função iniciarJogo inicializa todas as variáveis,
-	roda o jogo em si e executa as funções de fim de jogo
+	A função iniciarJogo inicializa todas as variáveis do jogo
 	Parâmetro: O jogo
 **/
 void iniciarJogo(Jogo jogo){
@@ -21,6 +21,11 @@ void iniciarJogo(Jogo jogo){
 	jogar(&jogo);
 	
 }
+
+/**
+	A função reiniciarJogo carrega um jogo salvo em um arquivo
+	Parâmetro: o jogo
+**/
 void reiniciarJogo(Jogo jogo){
 	if(existeArquivoJogo(&jogo)){
 		jogo.goban.matriz=inicializarMatriz(jogo.goban.dimensao);
@@ -28,6 +33,10 @@ void reiniciarJogo(Jogo jogo){
 	}
 }
 
+/**
+	A função jogar executa o jogo e as funções de fim de jogo
+	Parâmetro: o jogo
+**/
 void jogar(Jogo *jogo){
 	do{
 		limparTela();
@@ -41,24 +50,6 @@ void jogar(Jogo *jogo){
 	liberarMatriz(jogo->goban.matriz, jogo->goban.dimensao);
 }
 
-void exibirMenu(){
-	Jogo jogo;
-	int opcao;
-	do{
-		limparTela();
-		printf("------------------\n");
-		printf("0. Sair\n");
-		printf("1. Novo Jogo\n");
-		printf("2. Continuar Jogo\n");
-		printf("------------------\n");
-		scanf("%d", &opcao);
-		if(opcao == 1){
-			iniciarJogo(jogo);
-		}else if(opcao == 2){
-			reiniciarJogo(jogo);
-		}
-	}while(opcao != 0);
-}
 
 /**
 	A função inicializarJogo atribui valores iniciais a estrutura Jogo
@@ -70,8 +61,8 @@ void inicializarJogo(Jogo *jogo) {
 }
 
 /**
-	A função loopJogo onde acontece a partida em si,
-	todas as jogadas, verificações e impressões na tela
+	A função loopJogo é onde acontece a partida em si, todas as jogadas, 
+	verificações e impressões na tela
 	Parâmetro: O jogo
 **/
 void loopJogo(Jogo *jogo){
@@ -119,8 +110,8 @@ void alternarJogador(Peca *proximoJogador){
 }
 
 /**
-	A função validarInsercao verifica se a posição que o jogador
-	escolheu no tabuleiro exite, não está ocupada e não gera a formação 3x3.
+	A função validarInsercao verifica se a posição escolhida pelo jogador
+	existe no tabuleiro, não está ocupada e não gera a formação 3x3.
 	Parâmetros: tabuleiro, linha e coluna(escolhidos pelo usuário) e peca
 	Retorno: Será 0(se a jogada for inválida) ou 1(se não tiver nenhum impedimento)
 **/
@@ -145,7 +136,7 @@ int validarInsercao(Tabuleiro tabuleiro, int lin, int col, Peca peca){
 
 /**
 	A função verificarFormacao3x3 verifica se a posição que o jogador
-	escolheu no tabuleiro gera a formação 3x3.
+	escolheu no tabuleiro gera uma formação 3x3.
 	Parâmetros: tabuleiro, linha, coluna e peca
 	Retorno: Será 0(se nem um problema) ou 1(se gera uma formação 3x3)
 **/
@@ -174,7 +165,7 @@ int verificarFormacao3x3(Tabuleiro goban, int i, int j, Peca peca) {
 }
 
 /**
-	A função existeSeqMaiorQ3 verifica se a posição pretendida
+	A função existeSeqMaiorQ3 verifica se a posição escolhida
 	pelo jogador gera uma sequência de mais de 3 peças.
 	Parâmetros: tabuleiro, posição/casa e peca
 	Retorno: Será 0(se não gera uma sequência de 4 ou 5 peças) ou 1(se gera)
@@ -337,119 +328,6 @@ int continuarJogo(){
 		return 1;
 	}
 	return 0;
-}
-
-/**
-	A função salvarJogo pergunta se os usuário desejam salvar o jogo 
-	Parâmetro: O jogo
-**/
-void salvarJogo(Jogo *jogo){
-	char resposta[3];
-	do{
-		printf("Deseja salvar esse jogo (sim | nao)? ");
-		scanf("%s",resposta);
-		strcpy(resposta,converterParaMinusculo(resposta));
-	}while(strcmp("sim", resposta) != 0 && strcmp("nao", resposta) != 0);
-	if(strcmp("sim", resposta) == 0){
-		salvarInformacoesJogo(jogo);
-	}
-	
-}
-
-/**
-	A função salvarInformacoesJogo grava os detalhes do jogo em um arquivo 'jogo_x.txt'
-	Parâmetro: O jogo
-**/
-void salvarInformacoesJogo(Jogo *jogo){
-	char nomeArquivo[50];
-	
-	int id_jogo;
-	if(jogo->id > 0){
-		id_jogo=jogo->id;
-	}else{
-		id_jogo=contarArquivos()+1;
-	}
-
-	nomeArquivoJogo(nomeArquivo, id_jogo);
-
-	FILE *arquivo;
-	
-	arquivo = fopen(nomeArquivo, "w");
-
-	fprintf(arquivo, "%s\n", jogo->jogador1.nome);
-	fprintf(arquivo, "%s\n", jogo->jogador2.nome);
-	fprintf(arquivo, "%d %d %d\n", jogo->jogador1.vitorias, jogo->jogador2.vitorias, jogo->goban.dimensao);
-	
-	fclose(arquivo);
-}
-
-/**
-	A função nomeArquivoJogo nomeia um arquivo que contém informações do jogo
-	Parâmetro: O nome do arquivo;
-**/
-void nomeArquivoJogo(char *nomeArquivo, int qntJogosSalvos){
-	char caracter[3];
-  	sprintf(caracter, "%i", qntJogosSalvos);
-
-  	strcpy(nomeArquivo, "jogo_");
-  	strcat(nomeArquivo, strcat(caracter, ".txt"));
-}
-
-int contarArquivos(){
-	const char *pattern = "./jogo_*.txt";
-
-	glob_t pglob; 
-
-  	glob(pattern, GLOB_ERR, NULL, &pglob);      
-
-  	int qntJogosSalvos=(int)pglob.gl_pathc;
-
-  	globfree(&pglob);
-
-  	return qntJogosSalvos;
-}
-
-int existeArquivoJogo(Jogo *jogo){
-	int qntJogosSalvos=contarArquivos();
-
-	int numArquivo;
-
-	if(qntJogosSalvos != 0){
-		printf("\n---- Escolha um jogo ----\n");
-		do{
-			for(int i=0; i<qntJogosSalvos; i++){
-				printf("%d. Jogo_%d\n", i+1, i+1);
-			}
-			scanf(" %d",&numArquivo);
-		}while(numArquivo < 1 || numArquivo > qntJogosSalvos);
-		abrirArquivoJogo(jogo, numArquivo);
-		return 1;
-	}else{
-		printf("Nenhum jogo salvo.\n");
-		limparBuffer();
-		getchar();
-		return 0;
-	}
-}
-
-//erro na hora de pegar o nome
-void abrirArquivoJogo(Jogo *jogo, int numArquivo){
-	char nomeArquivo[50];
-	nomeArquivoJogo(nomeArquivo, numArquivo);
-	jogo->id=numArquivo;
-
-	FILE *arquivo;
-
-	arquivo = fopen(nomeArquivo, "r");
-
-	fgets(jogo->jogador1.nome, 16, arquivo);
-	fgets(jogo->jogador2.nome, 16, arquivo);
-	fscanf(arquivo, "%d %d %d\n", &jogo->jogador1.vitorias, &jogo->jogador2.vitorias, &jogo->goban.dimensao);
-
-	fclose(arquivo);
-
-	jogo->jogador1.nome[strlen(jogo->jogador1.nome)-1]='\0';
-	jogo->jogador2.nome[strlen(jogo->jogador2.nome)-1]='\0';
 }
 
 

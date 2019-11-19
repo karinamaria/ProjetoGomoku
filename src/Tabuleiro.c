@@ -2,6 +2,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+/**
+	A função inicializarTabuleiro pergunta as dimensões do tabuleiro
+	e inicializa a matriz
+	Parâmetro: o tabuleiro
+**/
 void inicializarTabuleiro(Tabuleiro *tabuleiro){
 	do{
 		printf("Tamanho do goban (4<n<20): ");
@@ -13,7 +18,7 @@ void inicializarTabuleiro(Tabuleiro *tabuleiro){
 
 /**
 	A função inicializarMatriz aloca dinamicamente o espaço da matriz
-	Parâmetro: A dimensão digitada pelo usuário
+	Parâmetro: A dimensão
 	Retorno: A matriz alocada dinamicamente
 **/
 int** inicializarMatriz(int dimensao){
@@ -27,7 +32,7 @@ int** inicializarMatriz(int dimensao){
 }
 
 /**
-	A função liberarMatriz libera a memória que foi alocada
+	A função liberarMatriz libera a memória que foi alocada.
 	Será útil quando o jogo for finalizado
 	Parâmetros: A matriz e a dimensão
 **/
@@ -74,6 +79,7 @@ void imprimirTabuleiro(Tabuleiro tabuleiro){
 	A função limparMatriz será útil para preencher a matriz com 
 	algum valor qualquer para que saiba se o espaço da matriz está
 	ocupado por uma peça ou não.
+	Parâmetros: a matriz e a dimensão
 **/
 void limparMatriz(int **matriz, int dimensao){
 	for(int i=0; i < dimensao; i++){

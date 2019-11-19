@@ -16,7 +16,6 @@ typedef struct{
 void iniciarJogo(Jogo jogo);
 void reiniciarJogo(Jogo jogo);
 void jogar(Jogo *jogo);
-void exibirMenu();
 void inicializarJogo(Jogo *jogo);
 void loopJogo(Jogo *jogo);
 void informarProximoJogador(Jogo *jogo);
@@ -31,12 +30,6 @@ int analisarSegundaSeq(Tabuleiro goban, int di, int dj, Casa c1, Casa c2, Casa c
 int verificarSegundaSeq(Tabuleiro goban, int di, int dj, Casa c, Peca peca);
 int validarSegundaSeq(Tabuleiro goban, Casa c0, int di, int dj, Peca peca);
 int continuarJogo();
-void salvarJogo(Jogo *jogo);
-void salvarInformacoesJogo(Jogo *jogo);
-void nomeArquivoJogo(char *nomeArquivo, int numArquivo);
-int contarArquivos();
-int existeArquivoJogo(Jogo *jogo);
-void abrirArquivoJogo(Jogo *jogo, int numArquivo);
 void imprimirGanhador(Jogador *jogador1, Jogador *jogador2, Peca peca, int vitoriaPorCaptura);
 
 #endif
