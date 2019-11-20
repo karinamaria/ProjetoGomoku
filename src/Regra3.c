@@ -1,4 +1,4 @@
-#include "Validacoes.h"
+#include "Regra3.h"
 
 /**
 	A função verificarFimDeJogo analisa linhas, colunas e diagonais procurando
@@ -73,7 +73,7 @@ int verificarLinhas(Tabuleiro goban, Peca *peca, int ganhando) {
 				cont = 1;
 			}
 
-			if (cont == 5 && (*peca == -1 || goban.matriz[i][j] == ganhando)) {
+			if (cont > 4 && (*peca == -1 || goban.matriz[i][j] == ganhando)) {
 				*peca = goban.matriz[i][j];
 				retorno = 1;
 			}
@@ -101,7 +101,7 @@ int verificarColunas(Tabuleiro goban, Peca *peca, int ganhando) {
 				cont = 1;
 			}
 
-			if (cont == 5 && (*peca == -1 || goban.matriz[i][j] == ganhando)) {
+			if (cont > 4 && (*peca == -1 || goban.matriz[i][j] == ganhando)) {
 				*peca = goban.matriz[i][j];
 				retorno = 1;
 			}
@@ -130,7 +130,7 @@ int verificarDiagPrincipalBaixo(Tabuleiro goban, Peca *peca, int ganhando) {
 				cont = 1;
 			}
 
-			if (cont == 5 && (*peca == -1 || goban.matriz[i][j] == ganhando)) {
+			if (cont > 4 && (*peca == -1 || goban.matriz[i][j] == ganhando)) {
 				*peca = goban.matriz[i][j];
 				retorno = 1;
 			}
@@ -159,7 +159,7 @@ int verificarDiagPrincipalCima(Tabuleiro goban, Peca *peca, int ganhando) {
 				cont = 1;
 			}
 
-			if (cont == 5 && (*peca == -1 || goban.matriz[i][j] == ganhando)) {
+			if (cont > 4 && (*peca == -1 || goban.matriz[i][j] == ganhando)) {
 				*peca = goban.matriz[i][j];
 				retorno = 1;
 			}
@@ -188,7 +188,7 @@ int verificarDiagSecundariaCima(Tabuleiro goban, Peca *peca, int ganhando) {
 				cont = 1;
 			}
 
-			if (cont == 5 && (*peca == -1 || goban.matriz[i][j] == ganhando)) {
+			if (cont > 4 && (*peca == -1 || goban.matriz[i][j] == ganhando)) {
 				*peca = goban.matriz[i][j];
 				retorno = 1;
 			}
@@ -217,7 +217,7 @@ int verificarDiagSecundariaBaixo(Tabuleiro goban, Peca *peca, int ganhando) {
 				cont = 1;
 			}
 
-			if (cont == 5 && (*peca == -1 || goban.matriz[i][j] == ganhando)) {
+			if (cont > 4 && (*peca == -1 || goban.matriz[i][j] == ganhando)) {
 				*peca = goban.matriz[i][j];
 				retorno = 1;
 			}
@@ -237,7 +237,7 @@ int verificarDiagSecundariaBaixo(Tabuleiro goban, Peca *peca, int ganhando) {
 int verificarEmpate(Jogo *jogo, Peca *peca) {
 	for (int i = 0; i < jogo->goban.dimensao; i++) {
 		for (int j = 0; j < jogo->goban.dimensao; j++) {
-			if (jogo->goban.matriz[i][j] == -1){
+			if (jogo->goban.matriz[i][j] == -1 && !verificarFormacao3x3(jogo->goban, i, j, jogo->proximoJogador)){
 				return 0;
 			}
 		}

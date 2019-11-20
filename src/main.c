@@ -17,7 +17,7 @@ void exibirMenu(){
 	Jogo jogo;
 	int opcao;
 	do{
-		limparTela();
+		// limparTela();
 		printf("--------MENU------\n");
 		printf("0. Sair\n");
 		printf("1. Novo Jogo\n");

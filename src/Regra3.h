@@ -1,5 +1,5 @@
-#ifndef VALIDACOES_H
-#define VALIDACOES_H
+#ifndef REGRA3_H
+#define REGRA3_H
 
 #include "Jogo.h"
 

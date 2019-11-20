@@ -1,5 +1,5 @@
 #include "Jogo.h"
-#include "Captura.h"
+#include "Regra1.h"
 
 /**
 	A função verificarCaptura vê se em uma das 8 direções existe uma
@@ -7,7 +7,7 @@
 	Parâmetro: O jogo, a linha e coluna da jogada atual
 	Retorno: 1(Se o jogador atual realizou uma captura) ou 0(Não houve nenhuma captura)
 **/
-int verificarCaptura(Jogo *jogo, int i, int j) {
+void verificarCaptura(Jogo *jogo, int i, int j) {
 	capturouPecas(jogo, i, j,  0,  1);
 	capturouPecas(jogo, i, j,  0, -1);
 	capturouPecas(jogo, i, j,  1,  0);

@@ -1,4 +1,4 @@
-#include "ArquivoJogo.h"
+#include "Arquivo.h"
 #include "Util.h"
 #include <glob.h>
 #include <string.h>
@@ -25,7 +25,7 @@ void salvarJogo(Jogo *jogo){
 	Parâmetro: O jogo
 **/
 void salvarInformacoesJogo(Jogo *jogo){
-	char nomeArquivo[50];
+	char nomeArquivo[50] = "jogo_";
 	
 	int id_jogo;
 
@@ -62,10 +62,9 @@ void ehNovoJogo(Jogo *jogo, int *id_jogo){
 	Parâmetro: O nome do arquivo e o número do arquivo;
 **/
 void nomeArquivoJogo(char *nomeArquivo, int numArquivo){
-	char caracter[3];
+	char caracter[10];
   	sprintf(caracter, "%i", numArquivo);
 
-  	strcpy(nomeArquivo, "jogo_");
   	strcat(nomeArquivo, strcat(caracter, ".txt"));
 }
 
