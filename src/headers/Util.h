@@ -12,5 +12,7 @@ int lixo;
 char* converterParaMinusculo(char *resposta);
 void limparBuffer();
 void limparTela();
+void existePasta();
+int contarArquivoOuPasta(char *caminho);
 
 #endif

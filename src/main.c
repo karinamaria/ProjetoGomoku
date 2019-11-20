@@ -1,5 +1,5 @@
-#include "Jogo.h"
-#include "Util.h"
+#include "headers/Jogo.h"
+#include "headers/Util.h"
 #include <stdio.h>
 
 void exibirMenu();
@@ -25,9 +25,9 @@ void exibirMenu(){
 		printf("------------------\n");
 		scanf("%d", &opcao);
 		if(opcao == 1){
-			iniciarJogo(jogo);
+			novoJogo(jogo);
 		}else if(opcao == 2){
-			reiniciarJogo(jogo);
+			continuarJogo(jogo);
 		}
 	}while(opcao != 0);
 }

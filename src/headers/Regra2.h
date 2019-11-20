@@ -12,7 +12,5 @@ int validarPrimeiraSeq(Tabuleiro goban, Casa c0, Casa *c1, Casa *c2, Casa *c3, C
 int analisarSegundaSeq(Tabuleiro goban, int di, int dj, Casa c1, Casa c2, Casa c3, Casa c4, Peca peca);
 int verificarSegundaSeq(Tabuleiro goban, int di, int dj, Casa c, Peca peca);
 int validarSegundaSeq(Tabuleiro goban, Casa c0, int di, int dj, Peca peca);
-int continuarJogo();
-void imprimirGanhador(Jogador *jogador1, Jogador *jogador2, Peca peca, int vitoriaPorCaptura);
 
 #endif

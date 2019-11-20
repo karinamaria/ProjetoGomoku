@@ -1,5 +1,5 @@
-#include "Jogo.h"
-#include "Regra1.h"
+#include "headers/Jogo.h"
+#include "headers/Regra1.h"
 
 /**
 	A função verificarCaptura vê se em uma das 8 direções existe uma

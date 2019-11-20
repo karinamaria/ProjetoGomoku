@@ -1,19 +1,19 @@
-#include "Arquivo.h"
-#include "Regra1.h"
-#include "Regra2.h"
-#include "Regra3.h"
-#include "Util.h"
-#include "Jogo.h"
+#include "headers/Arquivo.h"
+#include "headers/Regra1.h"
+#include "headers/Regra2.h"
+#include "headers/Regra3.h"
+#include "headers/Util.h"
+#include "headers/Jogo.h"
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
 
 
 /**
-	A função iniciarJogo inicializa todas as variáveis do jogo
+	A função novoJogo inicializa todas as variáveis do jogo
 	Parâmetro: O jogo
 **/
-void iniciarJogo(Jogo jogo){
+void novoJogo(Jogo jogo){
 	jogo.id=0;
 	limparBuffer();
 	limparTela();
@@ -25,10 +25,10 @@ void iniciarJogo(Jogo jogo){
 }
 
 /**
-	A função reiniciarJogo carrega um jogo salvo em um arquivo
+	A função continuarJogo carrega um jogo salvo em um arquivo
 	Parâmetro: o jogo
 **/
-void reiniciarJogo(Jogo jogo){
+void continuarJogo(Jogo jogo){
 	if(existeArquivoJogo(&jogo)){
 		jogo.goban.matriz=inicializarMatriz(jogo.goban.dimensao);
 		jogar(&jogo);
@@ -45,9 +45,9 @@ void jogar(Jogo *jogo){
 		sortearPecas(&jogo->jogador1, &jogo->jogador2);
 		inicializarJogo(jogo);
 		zerarCapturas(&jogo->jogador1, &jogo->jogador2);
-		limparMatriz(jogo->goban.matriz, jogo->goban.dimensao);
+		limparTabuleiro(jogo->goban);
 		loopJogo(jogo);
-	}while(continuarJogo());
+	}while(continuarJogando());
 	salvarJogo(jogo);
 	liberarMatriz(jogo->goban.matriz, jogo->goban.dimensao);
 }
@@ -75,13 +75,8 @@ void loopJogo(Jogo *jogo){
 		informarQntCapturas(jogo->jogador1, jogo->jogador2);
 		imprimirTabuleiro(jogo->goban);
 		informarProximoJogador(jogo);
-		do{
-			printf("Onde deseja inserir a peca (lin col)? ");
-			scanf("%d",&lin);
-			scanf("%d",&col);
-		}while(!validarInsercao(jogo->goban, lin, col, jogo->proximoJogador));
+		novaJogada(jogo, &lin, &col);
 		limparTela();
-		jogo->goban.matriz[lin][col] = jogo->proximoJogador;
 		verificarCaptura(jogo, lin, col);
 		alternarJogador(&jogo->proximoJogador);
 		peca = -1;
@@ -104,32 +99,26 @@ void informarProximoJogador(Jogo *jogo){
 }
 
 /**
+	A função navaJogada recebe a posição e adiciona a peça
+	Parâmetro: O jogo, a linha e a coluna
+**/
+void novaJogada(Jogo *jogo, int *lin, int *col) {
+	do{
+		printf("Onde deseja inserir a peca (lin col)? ");
+		scanf("%d",lin);
+		scanf("%d",col);
+	}while(!validarInsercao(jogo->goban, *lin, *col, jogo->proximoJogador));
+
+	jogo->goban.matriz[*lin][*col] = jogo->proximoJogador;
+}
+
+/**
 	A função alternarJogador faz a alternância dos jogadores
 	Parâmetro: O proximoJogador
 **/
 void alternarJogador(Peca *proximoJogador){
 	*proximoJogador=(1-*proximoJogador);
 }
-
-/**
-	A função continuarJogo é responsável por perguntar ao jogadores se eles desejam
-	continuar o jogo.
-	Retorno: Será 0(caso não queira continuar o jogo) ou 1(se o jogo pode continuar)
-**/
-int continuarJogo(){
-	char resposta[3];
-
-	do{
-		printf("Deseja continuar (sim | nao)? ");
-		scanf("%s",resposta);
-		strcpy(resposta,converterParaMinusculo(resposta));
-	}while(strcmp("sim", resposta) != 0 && strcmp("nao", resposta) != 0);
-	if(strcmp("sim", resposta) == 0){
-		return 1;
-	}
-	return 0;
-}
-
 
 /**
 	A função imprimirGanhador é responsável por imprimir o ganhador
@@ -150,4 +139,23 @@ void imprimirGanhador(Jogador *jogador1, Jogador *jogador2, Peca peca, int vitor
 		printf("Empate\n");
 	}
 	printf("Placar: %s %d x %d %s \n",jogador1->nome,jogador1->vitorias,jogador2->vitorias, jogador2->nome);
+}
+
+/**
+	A função continuarJogando é responsável por perguntar ao jogadores se eles desejam
+	continuar o jogo.
+	Retorno: Será 0(caso não queira continuar o jogo) ou 1(se o jogo pode continuar)
+**/
+int continuarJogando(){
+	char resposta[3];
+
+	do{
+		printf("Deseja continuar (sim | nao)? ");
+		scanf("%s",resposta);
+		strcpy(resposta,converterParaMinusculo(resposta));
+	}while(strcmp("sim", resposta) != 0 && strcmp("nao", resposta) != 0);
+	if(strcmp("sim", resposta) == 0){
+		return 1;
+	}
+	return 0;
 }

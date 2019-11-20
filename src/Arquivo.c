@@ -1,6 +1,5 @@
-#include "Arquivo.h"
-#include "Util.h"
-#include <glob.h>
+#include "headers/Arquivo.h"
+#include "headers/Util.h"
 #include <string.h>
 #include <stdio.h>
 /**
@@ -15,6 +14,7 @@ void salvarJogo(Jogo *jogo){
 		strcpy(resposta,converterParaMinusculo(resposta));
 	}while(strcmp("sim", resposta) != 0 && strcmp("nao", resposta) != 0);
 	if(strcmp("sim", resposta) == 0){
+		existePasta();
 		salvarInformacoesJogo(jogo);
 	}
 	
@@ -25,11 +25,11 @@ void salvarJogo(Jogo *jogo){
 	Parâmetro: O jogo
 **/
 void salvarInformacoesJogo(Jogo *jogo){
-	char nomeArquivo[50] = "jogo_";
+	char nomeArquivo[50] = "jogos/jogo_";
 	
 	int id_jogo;
 
-	ehNovoJogo(jogo, &id_jogo);
+	gerarId(jogo, &id_jogo);
 	
 	nomeArquivoJogo(nomeArquivo, id_jogo);
 
@@ -45,15 +45,14 @@ void salvarInformacoesJogo(Jogo *jogo){
 }
 
 /**
-	A função ehNovoJogo verifica se o jogo atual foi iniciado a partir de um 
-	arquivo. Caso positivo, salva as alterações no mesmo arquivo.
+	A função gerarId busca ou gera um id
 	Parâmetros: O jogo e id_jogo
 **/
-void ehNovoJogo(Jogo *jogo, int *id_jogo){
+void gerarId(Jogo *jogo, int *id_jogo){
 	if(jogo->id > 0){
 		*id_jogo=jogo->id;
 	}else{
-		*id_jogo=contarArquivos()+1;
+		*id_jogo=contarArquivoOuPasta("./jogos/jogo_*.txt")+1;
 	}
 }
 
@@ -69,29 +68,12 @@ void nomeArquivoJogo(char *nomeArquivo, int numArquivo){
 }
 
 /**
-	A função contarArquivo conta a qnt de arquivos do tipo jogo_*.txt
-**/
-int contarArquivos(){
-	const char *pattern = "./jogo_*.txt";
-
-	glob_t pglob; 
-
-  	glob(pattern, GLOB_ERR, NULL, &pglob);      
-
-  	int qntJogosSalvos=(int)pglob.gl_pathc;
-
-  	globfree(&pglob);
-
-  	return qntJogosSalvos;
-}
-
-/**
 	A função existeArquivoJogo verifica se existe jogos salvos e os exibe
 	Parâmetro: o jogo
 	Retorno: 0(Não existe jogo salvo) e 1(existe jogo salvo)
 **/
 int existeArquivoJogo(Jogo *jogo){
-	int qntJogosSalvos=contarArquivos();
+	int qntJogosSalvos=contarArquivoOuPasta("./jogos/jogo_*.txt");
 
 	int numArquivo;
 
@@ -124,7 +106,7 @@ int existeArquivoJogo(Jogo *jogo){
 	Parâmetros: o jogo e o número do arquivo
 **/
 void abrirArquivoJogo(Jogo *jogo, int numArquivo){
-	char nomeArquivo[50];
+	char nomeArquivo[50] = "jogos/jogo_";
 	nomeArquivoJogo(nomeArquivo, numArquivo);
 	jogo->id=numArquivo;
 

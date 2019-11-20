@@ -1,4 +1,4 @@
-#include "Regra3.h"
+#include "headers/Regra3.h"
 
 /**
 	A função verificarFimDeJogo analisa linhas, colunas e diagonais procurando

@@ -1,4 +1,4 @@
-#include "Tabuleiro.h"
+#include "headers/Tabuleiro.h"
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -76,15 +76,15 @@ void imprimirTabuleiro(Tabuleiro tabuleiro){
 }
 
 /**
-	A função limparMatriz será útil para preencher a matriz com 
+	A função limparTabuleiro será útil para preencher a matriz com 
 	algum valor qualquer para que saiba se o espaço da matriz está
 	ocupado por uma peça ou não.
-	Parâmetros: a matriz e a dimensão
+	Parâmetros: o tabuleiro
 **/
-void limparMatriz(int **matriz, int dimensao){
-	for(int i=0; i < dimensao; i++){
-		for(int j=0; j < dimensao; j++){
-			matriz[i][j] = -1; 
+void limparTabuleiro(Tabuleiro tabuleiro){
+	for(int i=0; i < tabuleiro.dimensao; i++){
+		for(int j=0; j < tabuleiro.dimensao; j++){
+			tabuleiro.matriz[i][j] = -1; 
 		}
 	}
 }

@@ -1,4 +1,4 @@
-#include "Regra2.h"
+#include "headers/Regra2.h"
 #include <stdio.h>
 
 /**
