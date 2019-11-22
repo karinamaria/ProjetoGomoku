@@ -21,7 +21,9 @@ script.bat
 - Captura de peças (1ª Regra do Ninuki)
 - Proibição de formação de jogadas 3x3 (2ª Regra do Ninuki)
 - Finalização do jogo pela quantidade de capturas (3ª Regra do Ninuki)
-- Salvar o jogo em um arquivo para continuar depois
+- Salvar o jogo em um arquivo
+- Carreagar jogo salvo em arquivo
+- Menu do jogo
 
 ## Autores
 

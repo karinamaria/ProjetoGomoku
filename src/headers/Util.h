@@ -7,6 +7,15 @@
 #define LIMPAR_TELA "clear"
 #endif
 
+typedef struct{
+	int seg;
+	int min;
+	int hora;
+	int dia;
+	int mes;
+	int ano;
+}Data;
+
 int lixo;
 
 char* converterParaMinusculo(char *resposta);
@@ -14,5 +23,6 @@ void limparBuffer();
 void limparTela();
 void existePasta();
 int contarArquivoOuPasta(char *caminho);
+Data dataAtual();
 
 #endif

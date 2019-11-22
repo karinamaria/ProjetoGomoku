@@ -6,7 +6,7 @@ typedef enum{
 }Peca;
 
 typedef struct{
-	char nome[16];
+	char nome[18];
 	int vitorias;
 	int capturas;
 	Peca peca;
@@ -17,6 +17,5 @@ void sortearPecas(Jogador *jogador1, Jogador *jogador2);
 void zerarCapturas(Jogador *jogador1, Jogador *jogador2);
 void informarQntCapturas(Jogador jogador1, Jogador jogador2);
 char caracterPeca(Peca peca);
-
 
 #endif

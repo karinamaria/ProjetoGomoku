@@ -21,7 +21,6 @@ void novoJogo(Jogo jogo){
 	limparTela();
 	inicializarTabuleiro(&jogo.goban);
 	jogar(&jogo);
-	
 }
 
 /**
@@ -30,7 +29,7 @@ void novoJogo(Jogo jogo){
 **/
 void continuarJogo(Jogo jogo){
 	if(existeArquivoJogo(&jogo)){
-		jogo.goban.matriz=inicializarMatriz(jogo.goban.dimensao);
+		inicializarMatriz(&jogo.goban);
 		jogar(&jogo);
 	}
 }
@@ -55,7 +54,7 @@ void jogar(Jogo *jogo){
 
 /**
 	A função inicializarJogo atribui valores iniciais a estrutura Jogo
-	Parâmetros: O jogo
+	Parâmetro: O jogo
 **/
 void inicializarJogo(Jogo *jogo) {
 	jogo->proximoJogador=P;
@@ -79,7 +78,6 @@ void loopJogo(Jogo *jogo){
 		limparTela();
 		verificarCaptura(jogo, lin, col);
 		alternarJogador(&jogo->proximoJogador);
-		peca = -1;
 	}while(!verificarFimDeJogo(jogo, &peca, &vitoriaPorCaptura));
 	informarQntCapturas(jogo->jogador1, jogo->jogador2);
 	imprimirTabuleiro(jogo->goban);
@@ -99,8 +97,9 @@ void informarProximoJogador(Jogo *jogo){
 }
 
 /**
-	A função navaJogada recebe a posição e adiciona a peça
-	Parâmetro: O jogo, a linha e a coluna
+	A função novaJogada recebe a posição e adiciona a peça
+	no tabuleiro
+	Parâmetros: O jogo, a linha e a coluna
 **/
 void novaJogada(Jogo *jogo, int *lin, int *col) {
 	do{
@@ -124,7 +123,6 @@ void alternarJogador(Peca *proximoJogador){
 	A função imprimirGanhador é responsável por imprimir o ganhador
 	juntamente com o placar do jogo.
 	Parâmetros: Os dois jogadores, peca(ganhadora) e vitoriaPorCaptura(0 ou 1)
-
 **/
 void imprimirGanhador(Jogador *jogador1, Jogador *jogador2, Peca peca, int vitoriaPorCaptura) {
 	if (peca == jogador1->peca) {
@@ -138,12 +136,23 @@ void imprimirGanhador(Jogador *jogador1, Jogador *jogador2, Peca peca, int vitor
 	else{
 		printf("Empate\n");
 	}
-	printf("Placar: %s %d x %d %s \n",jogador1->nome,jogador1->vitorias,jogador2->vitorias, jogador2->nome);
+	imprimirPlacarVitorias(*jogador1, *jogador2);
+}
+
+/**
+	A função imprimirPlacarVitorias imprime o placar de vitórias
+	Parâmetros: Os dois jogadores
+**/
+void imprimirPlacarVitorias(Jogador jogador1, Jogador jogador2) {
+		printf("Placar: ");
+		printf("%s %d", jogador1.nome, jogador1.vitorias);
+		printf(" x ");
+		printf("%d %s\n", jogador2.vitorias, jogador2.nome);
 }
 
 /**
 	A função continuarJogando é responsável por perguntar ao jogadores se eles desejam
-	continuar o jogo.
+	continuar jogando.
 	Retorno: Será 0(caso não queira continuar o jogo) ou 1(se o jogo pode continuar)
 **/
 int continuarJogando(){

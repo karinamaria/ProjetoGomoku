@@ -4,8 +4,7 @@
 /**
 	A função verificarCaptura vê se em uma das 8 direções existe uma
 	situação de captura (XYYX)
-	Parâmetro: O jogo, a linha e coluna da jogada atual
-	Retorno: 1(Se o jogador atual realizou uma captura) ou 0(Não houve nenhuma captura)
+	Parâmetros: O jogo, a linha e coluna da jogada atual
 **/
 void verificarCaptura(Jogo *jogo, int i, int j) {
 	capturouPecas(jogo, i, j,  0,  1);
@@ -22,7 +21,7 @@ void verificarCaptura(Jogo *jogo, int i, int j) {
 	A função capturouPecas é responsável por capturar as peças, se permitido
 	pela função validarCaptura
 	Parâmetros: O jogo, a linha, coluna, a direção da linha e a direção da coluna
-	Retorno: 1(Se é possível realizar a captura) ou 0(Se não é possível)
+	Retorno: 1(Se capturou) ou 0(Se não capturou)
 **/
 int capturouPecas(Jogo *jogo, int i, int j, int di, int dj) {
 	if (validarCaptura(jogo, i, j, di, dj)) {

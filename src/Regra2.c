@@ -37,69 +37,35 @@ int verificarFormacao3x3(Tabuleiro goban, int i, int j, Peca peca) {
 	Casa c1, c2 = {-9, -9}, c3 = {-9, -9}, c4;
 
 	if (validarPrimeiraSeq(goban, c0, &c1, &c2, &c3, &c4, 0, 1, peca)) {
-		return analisarSegundaSeq(goban, 0, 1, c1, c2, c3, c4, peca);
+		return validarSegundaSeq(goban, c1, c2, c3, c4, 0, 1, peca);
 	}
     else if (validarPrimeiraSeq(goban, c0, &c1, &c2, &c3, &c4, 1, 0, peca)) {
-    	return analisarSegundaSeq(goban, 1, 0, c1, c2, c3, c4, peca);
+    	return validarSegundaSeq(goban, c1, c2, c3, c4, 1, 0, peca);
     }
 	else if (validarPrimeiraSeq(goban, c0, &c1, &c2, &c3, &c4, 1, 1, peca)) {
-		return analisarSegundaSeq(goban, 1, 1, c1, c2, c3, c4, peca);
+		return validarSegundaSeq(goban, c1, c2, c3, c4, 1, 1, peca);
 	}
 	else if (validarPrimeiraSeq(goban, c0, &c1, &c2, &c3, &c4, -1, 1, peca)) {
-		return analisarSegundaSeq(goban, -1, 1, c1, c2, c3, c4, peca);
+		return validarSegundaSeq(goban, c1, c2, c3, c4,-1, 1, peca);
 	}
 
 	return 0;
-
 }
 
 /**
-	A função contarSequencia conta o número de peças em sequência na direção di dj
-	Parâmetros: tabuleiro, casa, direção da linha, direção da coluna e peca
-	Retorno: O número de peças da sequência
-**/
-int contarSequencia(Tabuleiro goban, Casa c, int di, int dj, Peca peca) {
-	int n1 = 1;
-	int n2 = 1;
-
-	while (verificarSeSeqContinua(goban, c, di, dj, peca, n1)) {
-		n1++;
-	}
-
-	while (verificarSeSeqContinua(goban, c, -di, -dj, peca, n2)) {
-		n2++;
-	}
-
-	return n1 + n2 - 1;
-}
-
-/**
-	A função verificarSeSeqContinua vê se a posição é valida e pertence ao jogador da vez
-	Parâmetros: tabuleiro, casa, direção da linha, direção da coluna, peca e n
-	Retorno: Será 0(se está fora do goban ou não é do jogador) ou 1(se é do jogador)
-**/
-int verificarSeSeqContinua(Tabuleiro goban, Casa casa, int di, int dj, Peca peca, int n) {
-	return    casa.lin + di*n >= 0
-		   && casa.lin + di*n < goban.dimensao
-		   && casa.col + dj*n >= 0
-		   && casa.col + dj*n < goban.dimensao
-		   && goban.matriz[casa.lin + di*n][casa.col + dj*n] == peca;
-}
-
-/**
-	A função validarPrimeiraSeq verifica se a posição gera uma sequência de 3 peças
-	Parâmetros: tabuleiro, casa central e as duas pontas, direção da linha e coluna e peca
+	A função validarPrimeiraSeq verifica se a posição gera uma sequência de 3 ou mais peças
+	Parâmetros: tabuleiro, casa pretendida e outras 4 casas, direção da linha e coluna e peca
 	Retorno: Será 0(se não foi encontrada sequência de 3) ou 1(se foi encontrado)
 **/
 int validarPrimeiraSeq(Tabuleiro goban, Casa c0, Casa *c1, Casa *c2, Casa *c3, Casa *c4, int di, int dj, Peca peca) {
 	int n1 = 1;
 	int n2 = 1;
 
-	while (verificarSeSeqContinua(goban, c0, di, dj, peca, n1)) {
+	while (verificarSeSeqContinua(goban, c0, di, dj, n1, peca)) {
 		n1++;
 	}
 
-	while (verificarSeSeqContinua(goban, c0, -di, -dj, peca, n2)) {
+	while (verificarSeSeqContinua(goban, c0, -di, -dj, n2, peca)) {
 		n2++;
 	}
 
@@ -117,61 +83,65 @@ int validarPrimeiraSeq(Tabuleiro goban, Casa c0, Casa *c1, Casa *c2, Casa *c3, C
 		c3->col = c0.col - dj*(n2 - 2);
 	}
 
-	if (n1 + n2 > 3) {
-		return 1;
-	}
-
-	return 0;
+	return n1 + n2 > 3;
 }
 
 /**
-	A função analisarSegundaSeq verifica em ambas as pontas
-	da primeira sequência encontrada se existe sequência de 3 conectada.
-	Parâmetros: tabuleiro, direção da linha e coluna, casas das duas pontas e peca
-	Retorno: Será 0(se não existe sequência de 3 	}
-a partir de c1 ou c2) ou 1(se existe)
+	A função verificarSeSeqContinua vê se a posição é valida e pertence ao jogador atual
+	Parâmetros: tabuleiro, casa, direção da linha e coluna, n e peca
+	Retorno: Será 0(se está fora do goban ou não é do jogador) ou 1(se é do jogador)
 **/
-int analisarSegundaSeq(Tabuleiro goban, int di, int dj, Casa c1, Casa c2, Casa c3, Casa c4, Peca peca) {
-	return    verificarSegundaSeq(goban, di, dj, c1, peca)
-	       || verificarSegundaSeq(goban, di, dj, c2, peca)
-	       || verificarSegundaSeq(goban, di, dj, c3, peca)
-	       || verificarSegundaSeq(goban, di, dj, c4, peca);
-		
+int verificarSeSeqContinua(Tabuleiro goban, Casa casa, int di, int dj, int n, Peca peca) {
+	return    casa.lin + di*n >= 0
+		   && casa.lin + di*n < goban.dimensao
+		   && casa.col + dj*n >= 0
+		   && casa.col + dj*n < goban.dimensao
+		   && goban.matriz[casa.lin + di*n][casa.col + dj*n] == peca;
 }
 
 /**
-	A função verificarSegundaSeq verifica se existe sequência de tamanho 3 ou não
-	Parâmetros: tabuleiro, direção da linha e coluna, casa e peca
-	Retorno: Será 0(se não existe sequência de 3) ou 1(se existe)
+	A função validarSegundaSeq verifica a existência de uma segunda
+	sequência a partir de um dos 4 pontos recebidos.
+	Parâmetros: tabuleiro, 4 casas, direção da linha e coluna e peca
+	Retorno: Será 0(se não existe sequência de 3 ou mais peças) ou 1(se existe)
 **/
-int verificarSegundaSeq(Tabuleiro goban, int di, int dj, Casa c, Peca peca) {
-	return    (!(di ==  0 && dj == 1) && validarSegundaSeq(goban, c,  0, 1, peca))
-           || (!(di ==  1 && dj == 0) && validarSegundaSeq(goban, c,  1, 0, peca))
-		   || (!(di ==  1 && dj == 1) && validarSegundaSeq(goban, c,  1, 1, peca))
-		   || (!(di == -1 && dj == 1) && validarSegundaSeq(goban, c, -1, 1, peca));
+int validarSegundaSeq(Tabuleiro goban, Casa c1, Casa c2, Casa c3, Casa c4, int di, int dj, Peca peca) {
+	return    verificarAPartirDaCasa(goban, c1, di, dj, peca)
+	       || verificarAPartirDaCasa(goban, c2, di, dj, peca)
+	       || verificarAPartirDaCasa(goban, c3, di, dj, peca)
+	       || verificarAPartirDaCasa(goban, c4, di, dj, peca);
 }
 
 /**
-	A função validarSegundaSeq verifica se existe sequência de tamanho 3
-	na direção di dj
+	A função verificarAPartirDaCasa verifica se existe sequência em qualquer uma
+	das 8 direções (duas a duas), com exceção das 2 direções da primeira sequência
 	Parâmetros: tabuleiro, casa, direção da linha e coluna e peca
-	Retorno: Será 0(se não existe sequência de 3) ou 1(se existe)
+	Retorno: Será 0(se não existe sequência nem nemhuma direção) ou 1(se existe)
 **/
-int validarSegundaSeq(Tabuleiro goban, Casa c0, int di, int dj, Peca peca) {
+int verificarAPartirDaCasa(Tabuleiro goban, Casa c, int di, int dj, Peca peca) {
+	return    (!(di ==  0 && dj == 1) && verificarDirecoesOpostas(goban, 0, 1, c, peca))
+           || (!(di ==  1 && dj == 0) && verificarDirecoesOpostas(goban, 1, 0, c, peca))
+		   || (!(di ==  1 && dj == 1) && verificarDirecoesOpostas(goban, 1, 1, c, peca))
+		   || (!(di == -1 && dj == 1) && verificarDirecoesOpostas(goban,-1, 1, c, peca));
+}
+
+/**
+	A função verificarDirecoesOpostas verifica se existe sequência
+	de 3 peças ou mais em uma das duas direções opostas
+	Parâmetros: tabuleiro, direção da linha e coluna, casa e peca
+	Retorno: Será 0(se não existe sequência maior que 2) ou 1(se existe)
+**/
+int verificarDirecoesOpostas(Tabuleiro goban, int di, int dj, Casa c, Peca peca) {
 	int n1 = 1;
 	int n2 = 1;
 
-	while (verificarSeSeqContinua(goban, c0, di, dj, peca, n1)) {
+	while (verificarSeSeqContinua(goban, c, di, dj, n1, peca)) {
 		n1++;
 	}
 
-	while (verificarSeSeqContinua(goban, c0, -di, -dj, peca, n2)) {
+	while (verificarSeSeqContinua(goban, c, -di, -dj, n2, peca)) {
 		n2++;
 	}
 
-	if (n1 > 2 || n2 > 2) {
-		return 1;
-	}
-
-	return 0;
+	return n1 > 2 || n2 > 2;
 }

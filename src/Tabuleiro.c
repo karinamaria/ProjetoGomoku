@@ -13,22 +13,19 @@ void inicializarTabuleiro(Tabuleiro *tabuleiro){
 		scanf("%d",&tabuleiro->dimensao);
 	}while(tabuleiro->dimensao < 5 || tabuleiro->dimensao > 19);
 
-	tabuleiro->matriz = inicializarMatriz(tabuleiro->dimensao);
+	inicializarMatriz(tabuleiro);
 }
 
 /**
 	A função inicializarMatriz aloca dinamicamente o espaço da matriz
-	Parâmetro: A dimensão
-	Retorno: A matriz alocada dinamicamente
+	Parâmetro: O tabuleiro
 **/
-int** inicializarMatriz(int dimensao){
-	int **matriz = (int **) malloc(dimensao * sizeof(int *));
+void inicializarMatriz(Tabuleiro *tabuleiro){
+	tabuleiro->matriz = (int **) malloc(tabuleiro->dimensao * sizeof(int *));
 
-	for (int i = 0; i < dimensao; i++) {
-		matriz[i] = (int *) malloc(dimensao * sizeof(int));
+	for (int i = 0; i < tabuleiro->dimensao; i++) {
+		tabuleiro->matriz[i] = (int *) malloc(tabuleiro->dimensao * sizeof(int));
 	}
-
-	return matriz;
 }
 
 /**
@@ -37,13 +34,11 @@ int** inicializarMatriz(int dimensao){
 	Parâmetros: A matriz e a dimensão
 **/
 void liberarMatriz(int **matriz, int dimensao){
-
 	for (int i = 0; i < dimensao; i++) {
 		free(matriz[i]);
 	}
 
 	free(matriz);
-
 }
 
 /**
@@ -79,7 +74,7 @@ void imprimirTabuleiro(Tabuleiro tabuleiro){
 	A função limparTabuleiro será útil para preencher a matriz com 
 	algum valor qualquer para que saiba se o espaço da matriz está
 	ocupado por uma peça ou não.
-	Parâmetros: o tabuleiro
+	Parâmetro: o tabuleiro
 **/
 void limparTabuleiro(Tabuleiro tabuleiro){
 	for(int i=0; i < tabuleiro.dimensao; i++){
