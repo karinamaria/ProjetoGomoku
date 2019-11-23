@@ -2,6 +2,11 @@
 #include "headers/Traducao.h"
 #include <string.h>
 
+/**
+	A função menuP traduz as informações do menu principal
+	Parâmetros: o código e o idioma
+	Retorno: a palavra traduzida para o idioma desejado
+**/
 char* menuP(int cod, int idioma){
 	switch(cod){
 		case MENU_PRINCIPAL:
@@ -48,6 +53,12 @@ char* menuP(int cod, int idioma){
 				return ES_LINGUA;
 	}
 }
+
+/**
+	A função menuC traduz as informações do menu continua
+	Parâmetros: o código e o idioma
+	Retorno: a palavra traduzida para o idioma desejado
+**/
 char* menuC(int cod, int idioma){
 	switch (cod) {
 		case ESCOLHER_JOGO:
@@ -94,6 +105,12 @@ char* menuC(int cod, int idioma){
 				return ES_DATA;
 	}
 }
+
+/**
+	A função msg traduz as msgs informativas
+	Parâmetros: o código e o idioma
+	Retorno: a palavra traduzida para o idioma desejado
+**/
 char* msg(int cod, int idioma){
 	switch(cod){
 		case MSG_INICIO:
@@ -137,6 +154,11 @@ char* msg(int cod, int idioma){
 	}
 }
 
+/**
+	A função msgfim traduz as msgs de vitória do jogo
+	Parâmetros: o código e o idioma
+	Retorno: a palavra traduzida para o idioma desejado
+**/
 char* msgfim(int cod, int idioma){
 	switch(cod){
 		case EMPATE:
@@ -170,6 +192,11 @@ char* msgfim(int cod, int idioma){
 	}
 }
 
+/**
+	A função perguntas traduz as perguntas do jogo
+	Parâmetros: o código e o idioma
+	Retorno: a palavra traduzida para o idioma desejado
+**/
 char* perguntas(int cod, int idioma){
 	switch(cod){
 		case JOGADOR:

@@ -36,7 +36,7 @@ void continuarJogo(Jogo jogo){
 }
 
 /**
-	A função configurarJogo permite que o idioma seja alterado
+	A função configurarJogo permite alterar o idioma do jogo 
 	Parâmetro: o jogo
 **/
 void configurarJogo(Jogo *jogo){
@@ -45,7 +45,7 @@ void configurarJogo(Jogo *jogo){
 		imprimirMenuIdioma(jogo);
 		scanf("%d",&opcao);
 	}while(opcao < 0 || opcao > 3);
-	if(opcao > 1){
+	if(opcao > 0){
 		jogo->idioma=opcao;
 	}
 }
