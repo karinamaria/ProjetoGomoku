@@ -1,4 +1,3 @@
-#include "headers/Jogo.h"
 #include "headers/Regra1.h"
 
 /**
@@ -54,7 +53,6 @@ int validarCaptura(Jogo *jogo, int i, int j, int di, int dj) {
            && i + 3*di < jogo->goban.dimensao
            && j + 3*dj >= 0
            && j + 3*dj < jogo->goban.dimensao
-           && jogo->goban.matriz[    i   ][    j   ] == jogo->proximoJogador
            && jogo->goban.matriz[i +   di][j +   dj] == 1-jogo->proximoJogador
            && jogo->goban.matriz[i + 2*di][j + 2*dj] == 1-jogo->proximoJogador
            && jogo->goban.matriz[i + 3*di][j + 3*dj] == jogo->proximoJogador;

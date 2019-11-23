@@ -4,6 +4,7 @@
 #include "Jogo.h"
 
 void imprimirMenuPrincipal();
+void imprimirMenuNovoJogo();
 void imprimirMenuContinuarJogo(Jogo *jogo, int qntJogosSalvos);
 void imprimirArquivo(Jogo *jogo, int numArquivo);
 void imprimirMenu(char *nome);

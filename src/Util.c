@@ -82,3 +82,12 @@ Data dataAtual() {
 
 	return data;
 }
+
+void inicializarSorteio() {
+	time_t t;
+	srand((unsigned) time(&t));
+}
+
+int sortearNumero(int menor_valor, int maior_valor) {
+	return (rand() % (maior_valor - menor_valor + 1)) + menor_valor;
+}

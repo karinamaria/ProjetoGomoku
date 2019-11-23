@@ -1,8 +1,8 @@
 #ifndef REGRA2_H
 #define REGRA2_H
 
-#include "Jogador.h"
 #include "Tabuleiro.h"
+#include "Jogador.h"
 
 int validarInsercao(Tabuleiro tabuleiro, int lin, int col, Peca peca);
 int verificarFormacao3x3(Tabuleiro goban, int i, int j, Peca peca);

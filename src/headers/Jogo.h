@@ -10,7 +10,9 @@ typedef struct{
 	Jogador jogador2;
 	Tabuleiro goban;
 	Peca proximoJogador;
+	int turno;
 	int ganhando;
+	int modo_de_jogo;
 }Jogo;
 
 void novoJogo(Jogo jogo);

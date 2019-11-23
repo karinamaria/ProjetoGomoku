@@ -1,4 +1,5 @@
 #include "headers/Tabuleiro.h"
+#include "headers/Jogador.h"
 #include <stdio.h>
 #include <stdlib.h>
 

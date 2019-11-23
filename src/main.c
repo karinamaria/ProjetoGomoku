@@ -1,11 +1,13 @@
-#include "headers/Jogo.h"
 #include "headers/Util.h"
+#include "headers/Jogo.h"
 #include "headers/Tela.h"
 #include <stdio.h>
+#include <string.h>
 
 void exibirMenu();
 
 int main(){
+	inicializarSorteio();
 	exibirMenu();
 	return 0;
 }
@@ -16,6 +18,7 @@ int main(){
 void exibirMenu(){
 	Jogo jogo;
 	int opcao;
+
 	do{
 		imprimirMenuPrincipal();
 		scanf("%d", &opcao);

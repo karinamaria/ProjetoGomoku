@@ -1,6 +1,6 @@
-#include "headers/Arquivo.h"
-#include "headers/Util.h"
 #include "headers/Tela.h"
+#include "headers/Util.h"
+#include "headers/Arquivo.h"
 #include <stdio.h>
 #include <string.h>
 
@@ -9,11 +9,22 @@
 	A função imprimirMenuPrincipal imprime o menu principal
 **/
 void imprimirMenuPrincipal() {
-	limparTela();
+	// limparTela();
 	imprimirMenu("MENU PRINCIPAL");
 	imprimirOpcao("NOVO JOGO", 1);
 	imprimirOpcao("CONTINUAR JOGO", 2);
 	imprimirOpcao("SAIR", 0);
+	imprimirFinal();
+	imprimirComando();
+}
+
+void imprimirMenuNovoJogo() {
+	limparTela();
+	imprimirMenu("MODO DE JOGO");
+	imprimirOpcao("JOGADOR VS JOGADOR", 1);
+	imprimirOpcao("JOGADOR VS COMPUTADOR", 2);
+	imprimirOpcao("COMPUTADOR VS COMPUTADOR", 3);
+	imprimirOpcao("VOLTAR", 0);
 	imprimirFinal();
 	imprimirComando();
 }
@@ -25,7 +36,7 @@ void imprimirMenuPrincipal() {
 **/
 void imprimirMenuContinuarJogo(Jogo *jogo, int qntJogosSalvos) {
 	limparTela();
-	imprimirMenu("CONTINUAR JOGO");
+	imprimirMenu("ESCOLHER JOGO");
 	for(int i=0; i<qntJogosSalvos; i++){
 		imprimirArquivo(jogo, i+1);
 	}
@@ -48,7 +59,7 @@ void imprimirArquivo(Jogo *jogo, int numArquivo) {
 
 	imprimirLinha();
 
-	sprintf(linha, "| %-9s jogo_%d.txt", "Arquivo:", numArquivo);
+	sprintf(linha, "| %-9s jogo_%d", "Jogo:", numArquivo);
 	printf("|| %-58s Opcao: %-3d| ||\n", linha, numArquivo);
 
 	sprintf(linha, "| %-9s %s %d x %d %s", "Placar:", jogo->jogador1.nome, jogo->jogador1.vitorias, jogo->jogador2.vitorias, jogo->jogador2.nome);
@@ -57,7 +68,7 @@ void imprimirArquivo(Jogo *jogo, int numArquivo) {
 	sprintf(linha, "| %-9s %d", "Dimensao:", jogo->goban.dimensao);
 	printf("|| %-69s| ||\n", linha);
 
-	sprintf(linha, "| %-9s %02d:%02d:%02d %02d/%02d/%02d", "Data:", data.hora, data.min, data.seg, data.dia, data.mes, data.ano);
+	sprintf(linha, "| %-9s %02d:%02d:%02d %02d/%02d/%02d", "Salvo em:", data.hora, data.min, data.seg, data.dia, data.mes, data.ano);
 	printf("|| %-69s| ||\n", linha);
 
 	imprimirLinha();

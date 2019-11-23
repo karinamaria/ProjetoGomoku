@@ -1,4 +1,5 @@
 #include "headers/Arquivo.h"
+#include "headers/Tela.h"
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>

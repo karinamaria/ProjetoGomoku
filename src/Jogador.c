@@ -1,4 +1,5 @@
 #include "headers/Jogador.h"
+#include "headers/Util.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -19,8 +20,6 @@ void inicializarJogadores(Jogador *jogador1, Jogador *jogador2){
 	fgets(jogador2->nome, 18, stdin);
 	jogador2->nome[strlen(jogador2->nome)-1]='\0';
 	jogador2->vitorias=0;
-	
-	sortearPecas(jogador1,jogador2);
 }
 
 /**
@@ -28,11 +27,7 @@ void inicializarJogadores(Jogador *jogador1, Jogador *jogador2){
 	Parâmetros: Os dois jogadores
 **/
 void sortearPecas(Jogador *jogador1, Jogador *jogador2){
-	time_t t;
-
-	srand((unsigned) time(&t));
-
-	jogador1->peca = rand()%2;
+	jogador1->peca = sortearNumero(0, 1);
 
 	jogador2->peca=1-jogador1->peca;
 }

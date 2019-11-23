@@ -1,9 +1,11 @@
+#include "headers/Jogo.h"
+#include "headers/Util.h"
+#include "headers/Tela.h"
 #include "headers/Arquivo.h"
 #include "headers/Regra1.h"
-#include "headers/Regra2.h"
 #include "headers/Regra3.h"
-#include "headers/Util.h"
-#include "headers/Jogo.h"
+#include "headers/IA.h"
+#include "headers/Regra2.h"
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -16,11 +18,18 @@
 void novoJogo(Jogo jogo){
 	jogo.id=0;
 	limparBuffer();
-	limparTela();
-	inicializarJogadores(&jogo.jogador1, &jogo.jogador2);
-	limparTela();
-	inicializarTabuleiro(&jogo.goban);
-	jogar(&jogo);
+	do{
+		imprimirMenuNovoJogo();
+		scanf("%d", &jogo.modo_de_jogo);
+	}while(jogo.modo_de_jogo > 3 || jogo.modo_de_jogo < 0);
+
+	if (jogo.modo_de_jogo > 0) {
+		limparBuffer();
+		inicializarJogadores(&jogo.jogador1, &jogo.jogador2);
+		limparTela();
+		inicializarTabuleiro(&jogo.goban);
+		jogar(&jogo);
+	}
 }
 
 /**
@@ -42,9 +51,9 @@ void jogar(Jogo *jogo){
 	do{
 		limparTela();
 		sortearPecas(&jogo->jogador1, &jogo->jogador2);
-		inicializarJogo(jogo);
 		zerarCapturas(&jogo->jogador1, &jogo->jogador2);
 		limparTabuleiro(jogo->goban);
+		inicializarJogo(jogo);
 		loopJogo(jogo);
 	}while(continuarJogando());
 	salvarJogo(jogo);
@@ -58,6 +67,7 @@ void jogar(Jogo *jogo){
 **/
 void inicializarJogo(Jogo *jogo) {
 	jogo->proximoJogador=P;
+	jogo->turno = 0;
 	jogo->ganhando = -1;
 }
 
@@ -70,6 +80,8 @@ void loopJogo(Jogo *jogo){
 	Peca peca;
 	int vitoriaPorCaptura;
 	int lin,col;
+
+	limparBuffer();
 	do{
 		informarQntCapturas(jogo->jogador1, jogo->jogador2);
 		imprimirTabuleiro(jogo->goban);
@@ -104,11 +116,27 @@ void informarProximoJogador(Jogo *jogo){
 void novaJogada(Jogo *jogo, int *lin, int *col) {
 	do{
 		printf("Onde deseja inserir a peca (lin col)? ");
-		scanf("%d",lin);
-		scanf("%d",col);
+		if (jogo->modo_de_jogo == 2 && jogo->proximoJogador == jogo->jogador2.peca) {
+			pedirJogadaIA(jogo, lin, col);
+			printf("%d %d", *lin, *col);
+			if (jogo->turno > 0) {
+				limparBuffer();
+			}
+			getchar();
+		}
+		else if (jogo->modo_de_jogo == 3) {
+			pedirJogadaIA(jogo, lin, col);
+			printf("%d %d", *lin, *col);
+			getchar();
+		}
+		else {
+			scanf("%d",lin);
+			scanf("%d",col);
+		}
 	}while(!validarInsercao(jogo->goban, *lin, *col, jogo->proximoJogador));
 
 	jogo->goban.matriz[*lin][*col] = jogo->proximoJogador;
+	jogo->turno++;
 }
 
 /**

@@ -1,9 +1,8 @@
 #ifndef ARQUIVO_H
 #define ARQUIVO_H
 
-#include "Util.h"
-#include "Tela.h"
 #include "Jogo.h"
+#include "Util.h"
 
 void salvarJogo(Jogo *jogo);
 void salvarInformacoesJogo(Jogo *jogo);
