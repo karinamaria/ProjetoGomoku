@@ -1,5 +1,6 @@
 #include "headers/Arquivo.h"
 #include "headers/Util.h"
+#include "headers/Traducao.h"
 #include "headers/Tela.h"
 #include <stdio.h>
 #include <string.h>
@@ -7,17 +8,33 @@
 
 /**
 	A função imprimirMenuPrincipal imprime o menu principal
+	Parâmetro:o idioma
 **/
-void imprimirMenuPrincipal() {
+void imprimirMenuPrincipal(int idioma) {
 	limparTela();
-	imprimirMenu("MENU PRINCIPAL");
-	imprimirOpcao("NOVO JOGO", 1);
-	imprimirOpcao("CONTINUAR JOGO", 2);
-	imprimirOpcao("SAIR", 0);
+	imprimirMenu(menuP(MENU_PRINCIPAL, idioma));
+	imprimirOpcao(menuP(NOVO_JOGO, idioma), 1, idioma);
+	imprimirOpcao(menuP(CONTINUAR, idioma), 2, idioma);
+	imprimirOpcao(menuP(CONFIGURACOES, idioma), 3, idioma);
+	imprimirOpcao(menuP(SAIR, idioma), 0, idioma);
 	imprimirFinal();
-	imprimirComando();
+	imprimirComando(idioma);
 }
 
+/**
+	A função imprimirMenuIdioma exibe os idiomas disponíveis
+	Parâmetro:o jogo
+**/
+void imprimirMenuIdioma(Jogo *jogo){
+	limparTela();
+	imprimirMenu(menuP(LINGUA, jogo->idioma));
+	imprimirOpcao("Portugues", 1, jogo->idioma);
+	imprimirOpcao("English", 2, jogo->idioma);
+	imprimirOpcao("Espanol", 3, jogo->idioma);
+	imprimirOpcao(menuP(SAIR, jogo->idioma), 0, jogo->idioma);
+	imprimirFinal();
+	imprimirComando(jogo->idioma);
+}
 /**
 	A função imprimirMenuContinuarJogo imprime a lista de jogos
 	disponíveis para carregar.
@@ -25,13 +42,13 @@ void imprimirMenuPrincipal() {
 **/
 void imprimirMenuContinuarJogo(Jogo *jogo, int qntJogosSalvos) {
 	limparTela();
-	imprimirMenu("CONTINUAR JOGO");
+	imprimirMenu(menuC(ESCOLHER_JOGO, jogo->idioma));
 	for(int i=0; i<qntJogosSalvos; i++){
 		imprimirArquivo(jogo, i+1);
 	}
-	imprimirOpcao("VOLTAR", 0);
+	imprimirOpcao(menuP(SAIR, jogo->idioma), 0, jogo->idioma);
 	imprimirFinal();
-	imprimirComando();
+	imprimirComando(jogo->idioma);
 }
 
 /**
@@ -48,16 +65,16 @@ void imprimirArquivo(Jogo *jogo, int numArquivo) {
 
 	imprimirLinha();
 
-	sprintf(linha, "| %-9s jogo_%d.txt", "Arquivo:", numArquivo);
-	printf("|| %-58s Opcao: %-3d| ||\n", linha, numArquivo);
+	sprintf(linha, "| %-9s jogo_%d", menuC(ARQUIVO, jogo->idioma), numArquivo);
+	printf("|| %-58s %s: %-3d| ||\n", linha, menuC(OPCAO, jogo->idioma), numArquivo);
 
-	sprintf(linha, "| %-9s %s %d x %d %s", "Placar:", jogo->jogador1.nome, jogo->jogador1.vitorias, jogo->jogador2.vitorias, jogo->jogador2.nome);
+	sprintf(linha, "| %-9s %s %d x %d %s", menuC(PLACAR, jogo->idioma), jogo->jogador1.nome, jogo->jogador1.vitorias, jogo->jogador2.vitorias, jogo->jogador2.nome);
 	printf("|| %-69s| ||\n", linha);
 
-	sprintf(linha, "| %-9s %d", "Dimensao:", jogo->goban.dimensao);
+	sprintf(linha, "| %-9s %d", menuC(DIMENSAO, jogo->idioma), jogo->goban.dimensao);
 	printf("|| %-69s| ||\n", linha);
 
-	sprintf(linha, "| %-9s %02d:%02d:%02d %02d/%02d/%02d", "Data:", data.hora, data.min, data.seg, data.dia, data.mes, data.ano);
+	sprintf(linha, "| %-9s %02d:%02d:%02d %02d/%02d/%02d", menuC(DATA, jogo->idioma), data.hora, data.min, data.seg, data.dia, data.mes, data.ano);
 	printf("|| %-69s| ||\n", linha);
 
 	imprimirLinha();
@@ -95,14 +112,14 @@ void imprimirMenu(char *nome) {
 	o nome e o valor da opção.
 	Parâmetros: o nome e o valor da opção
 **/
-void imprimirOpcao(char *nome, int valor) {
+void imprimirOpcao(char *nome, int valor, int idioma) {
 	char linha[99];
 
 	imprimirLinha();
 
 	sprintf(linha, "| %s", nome);
 
-	printf("|| %-58s Opcao: %-3d| ||\n", linha, valor);
+	printf("|| %-58s %s: %-3d| ||\n", linha, menuC(OPCAO, idioma), valor);
 	imprimirLinha();
 	imprimirEspaco();
 }
@@ -110,8 +127,8 @@ void imprimirOpcao(char *nome, int valor) {
 /**
 	A função imprimirComando imprime um pedido para o usuário digitar
 **/
-void imprimirComando() {
-	printf("Digite o numero da opcao e pressione enter: ");
+void imprimirComando(int idioma) {
+	printf("%s ",msg(MSG_INICIO, idioma));
 }
 
 /**

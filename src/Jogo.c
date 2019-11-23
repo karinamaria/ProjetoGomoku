@@ -3,6 +3,7 @@
 #include "headers/Regra2.h"
 #include "headers/Regra3.h"
 #include "headers/Util.h"
+#include "headers/Traducao.h"
 #include "headers/Jogo.h"
 #include <stdio.h>
 #include <string.h>
@@ -17,9 +18,9 @@ void novoJogo(Jogo jogo){
 	jogo.id=0;
 	limparBuffer();
 	limparTela();
-	inicializarJogadores(&jogo.jogador1, &jogo.jogador2);
+	inicializarJogadores(&jogo.jogador1, &jogo.jogador2, jogo.idioma);
 	limparTela();
-	inicializarTabuleiro(&jogo.goban);
+	inicializarTabuleiro(&jogo.goban, jogo.idioma);
 	jogar(&jogo);
 }
 
@@ -35,6 +36,21 @@ void continuarJogo(Jogo jogo){
 }
 
 /**
+	A função configurarJogo permite que o idioma seja alterado
+	Parâmetro: o jogo
+**/
+void configurarJogo(Jogo *jogo){
+	int opcao;
+	do{
+		imprimirMenuIdioma(jogo);
+		scanf("%d",&opcao);
+	}while(opcao < 0 || opcao > 3);
+	if(opcao > 1){
+		jogo->idioma=opcao;
+	}
+}
+
+/**
 	A função jogar executa o jogo e as funções de fim de jogo
 	Parâmetro: o jogo
 **/
@@ -46,7 +62,7 @@ void jogar(Jogo *jogo){
 		zerarCapturas(&jogo->jogador1, &jogo->jogador2);
 		limparTabuleiro(jogo->goban);
 		loopJogo(jogo);
-	}while(continuarJogando());
+	}while(continuarJogando(jogo->idioma));
 	salvarJogo(jogo);
 	liberarMatriz(jogo->goban.matriz, jogo->goban.dimensao);
 }
@@ -71,7 +87,7 @@ void loopJogo(Jogo *jogo){
 	int vitoriaPorCaptura;
 	int lin,col;
 	do{
-		informarQntCapturas(jogo->jogador1, jogo->jogador2);
+		informarQntCapturas(jogo->jogador1, jogo->jogador2, jogo->idioma);
 		imprimirTabuleiro(jogo->goban);
 		informarProximoJogador(jogo);
 		novaJogada(jogo, &lin, &col);
@@ -79,9 +95,9 @@ void loopJogo(Jogo *jogo){
 		verificarCaptura(jogo, lin, col);
 		alternarJogador(&jogo->proximoJogador);
 	}while(!verificarFimDeJogo(jogo, &peca, &vitoriaPorCaptura));
-	informarQntCapturas(jogo->jogador1, jogo->jogador2);
+	informarQntCapturas(jogo->jogador1, jogo->jogador2, jogo->idioma);
 	imprimirTabuleiro(jogo->goban);
-	imprimirGanhador(&jogo->jogador1, &jogo->jogador2, peca, vitoriaPorCaptura);
+	imprimirGanhador(&jogo->jogador1, &jogo->jogador2, peca, vitoriaPorCaptura, jogo->idioma);
 }
 
 /**
@@ -90,9 +106,9 @@ void loopJogo(Jogo *jogo){
 **/
 void informarProximoJogador(Jogo *jogo){
 	if(jogo->jogador1.peca == jogo->proximoJogador){
-		printf("Vez de %s (%c)\n",jogo->jogador1.nome, caracterPeca(jogo->jogador1.peca));
+		printf("%s %s (%c)\n",msg(VEZ, jogo->idioma), jogo->jogador1.nome, caracterPeca(jogo->jogador1.peca));
 	}else{
-		printf("Vez de %s (%c)\n",jogo->jogador2.nome, caracterPeca(jogo->jogador2.peca));
+		printf("%s %s (%c)\n",msg(VEZ, jogo->idioma), jogo->jogador2.nome, caracterPeca(jogo->jogador2.peca));
 	}
 }
 
@@ -103,10 +119,10 @@ void informarProximoJogador(Jogo *jogo){
 **/
 void novaJogada(Jogo *jogo, int *lin, int *col) {
 	do{
-		printf("Onde deseja inserir a peca (lin col)? ");
+		printf("%s (lin col)? ", perguntas(NOVAJ, jogo->idioma));
 		scanf("%d",lin);
 		scanf("%d",col);
-	}while(!validarInsercao(jogo->goban, *lin, *col, jogo->proximoJogador));
+	}while(!validarInsercao(jogo->goban, *lin, *col, jogo->proximoJogador, jogo->idioma));
 
 	jogo->goban.matriz[*lin][*col] = jogo->proximoJogador;
 }
@@ -122,29 +138,29 @@ void alternarJogador(Peca *proximoJogador){
 /**
 	A função imprimirGanhador é responsável por imprimir o ganhador
 	juntamente com o placar do jogo.
-	Parâmetros: Os dois jogadores, peca(ganhadora) e vitoriaPorCaptura(0 ou 1)
+	Parâmetros: Os dois jogadores, peca(ganhadora), vitoriaPorCaptura(0 ou 1) e o idioma
 **/
-void imprimirGanhador(Jogador *jogador1, Jogador *jogador2, Peca peca, int vitoriaPorCaptura) {
+void imprimirGanhador(Jogador *jogador1, Jogador *jogador2, Peca peca, int vitoriaPorCaptura, int idioma) {
 	if (peca == jogador1->peca) {
 		jogador1->vitorias+=1;
-		printf("Vitoria %sde %s\n", (vitoriaPorCaptura ? "por captura " : ""), jogador1->nome);
+		printf("%s %s%s %s\n",msg(VITORIA, idioma), msg(DE, idioma), (vitoriaPorCaptura ? msg(PORCAPTURA, idioma) : ""), jogador1->nome);
 	}
 	else if (peca == jogador2->peca) {
 		jogador2->vitorias+=1;
-		printf("Vitoria %sde %s\n", (vitoriaPorCaptura ? "por captura " : ""), jogador2->nome);
+		printf("%s %s%s %s\n",msg(VITORIA, idioma), msg(DE, idioma), (vitoriaPorCaptura ? msg(PORCAPTURA, idioma) : ""), jogador2->nome);
 	}
 	else{
-		printf("Empate\n");
+		printf("%s\n", msg(EMPATE, idioma));
 	}
-	imprimirPlacarVitorias(*jogador1, *jogador2);
+	imprimirPlacarVitorias(*jogador1, *jogador2, idioma);
 }
 
 /**
 	A função imprimirPlacarVitorias imprime o placar de vitórias
-	Parâmetros: Os dois jogadores
+	Parâmetros: Os dois jogadores e o idioma
 **/
-void imprimirPlacarVitorias(Jogador jogador1, Jogador jogador2) {
-		printf("Placar: ");
+void imprimirPlacarVitorias(Jogador jogador1, Jogador jogador2, int idioma) {
+		printf("%s ", menuC(PLACAR, idioma));
 		printf("%s %d", jogador1.nome, jogador1.vitorias);
 		printf(" x ");
 		printf("%d %s\n", jogador2.vitorias, jogador2.nome);
@@ -153,17 +169,19 @@ void imprimirPlacarVitorias(Jogador jogador1, Jogador jogador2) {
 /**
 	A função continuarJogando é responsável por perguntar ao jogadores se eles desejam
 	continuar jogando.
+	Parâmetro: o idioma
 	Retorno: Será 0(caso não queira continuar o jogo) ou 1(se o jogo pode continuar)
 **/
-int continuarJogando(){
+int continuarJogando(int idioma){
 	char resposta[3];
 
 	do{
-		printf("Deseja continuar (sim | nao)? ");
+		printf("%s ", perguntas(CONTINUAR_JOGO, idioma));
 		scanf("%s",resposta);
 		strcpy(resposta,converterParaMinusculo(resposta));
-	}while(strcmp("sim", resposta) != 0 && strcmp("nao", resposta) != 0);
-	if(strcmp("sim", resposta) == 0){
+	}while(verificarResposta(resposta, idioma));
+	if(strcmp("sim", resposta) == 0 || strcmp("yes", resposta) == 0
+		|| strcmp("si", resposta) == 0){
 		return 1;
 	}
 	return 0;

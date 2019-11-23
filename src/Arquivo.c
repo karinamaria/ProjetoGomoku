@@ -10,11 +10,12 @@
 void salvarJogo(Jogo *jogo){
 	char resposta[3];
 	do{
-		printf("Deseja salvar esse jogo (sim | nao)? ");
+		printf("%s ", perguntas(SALVAR_JOGO, jogo->idioma));
 		scanf("%s",resposta);
 		strcpy(resposta,converterParaMinusculo(resposta));
-	}while(strcmp("sim", resposta) != 0 && strcmp("nao", resposta) != 0);
-	if(strcmp("sim", resposta) == 0){
+	}while(verificarResposta(resposta, jogo->idioma));
+	if(strcmp("sim", resposta) == 0 || strcmp("yes", resposta) == 0
+		|| strcmp("si", resposta) == 0){
 		existePasta();
 		salvarInformacoesJogo(jogo);
 	}
@@ -69,8 +70,7 @@ char* nomeArquivoJogo(int numArquivo){
   	sprintf(caracter, "%i", numArquivo);
 
   	strcat(nome, "jogos/jogo_");
-  	strcat(nome, caracter);
-  	strcat(nome, ".txt");
+  	strcat(nome, strcat(caracter, ".txt"));
 
   	return nome;
 }
@@ -98,6 +98,18 @@ int existeArquivoJogo(Jogo *jogo){
 }
 
 /**
+	A função abrirArquivoJogo configura um jogo com os dados de um arquivo
+	Parâmetros: o jogo e o número do arquivo
+**/
+void abrirArquivoJogo(Jogo *jogo, int numArquivo){
+	char *nomeArquivo = nomeArquivoJogo(numArquivo);
+	Data data;
+	jogo->id=numArquivo;
+
+	buscarDadosArquivo(jogo, nomeArquivo, &data);
+}
+
+/**
 	A função buscarDadosArquivo armazena os dados do arquivo
 	na estrutura jogo.
 	Parâmetros: O jogo, o nome do arquivo e a data
@@ -116,16 +128,4 @@ void buscarDadosArquivo(Jogo *jogo, char *nomeArquivo, Data *data) {
 	jogo->jogador2.nome[strlen(jogo->jogador2.nome)-1]='\0';
 
 	fclose(arquivo);
-}
-
-/**
-	A função abrirArquivoJogo configura um jogo com os dados de um arquivo
-	Parâmetros: o jogo e o número do arquivo
-**/
-void abrirArquivoJogo(Jogo *jogo, int numArquivo){
-	char *nomeArquivo = nomeArquivoJogo(numArquivo);
-	Data data;
-	jogo->id=numArquivo;
-
-	buscarDadosArquivo(jogo, nomeArquivo, &data);
 }

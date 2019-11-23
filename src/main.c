@@ -15,14 +15,17 @@ int main(){
 **/
 void exibirMenu(){
 	Jogo jogo;
+	jogo.idioma=1;
 	int opcao;
 	do{
-		imprimirMenuPrincipal();
+		imprimirMenuPrincipal(jogo.idioma);
 		scanf("%d", &opcao);
 		if(opcao == 1){
 			novoJogo(jogo);
 		}else if(opcao == 2){
 			continuarJogo(jogo);
+		}else if(opcao == 3){
+			configurarJogo(&jogo);
 		}
 	}while(opcao != 0);
 }

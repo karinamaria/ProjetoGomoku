@@ -4,10 +4,11 @@
 #include "Jogo.h"
 
 void imprimirMenuPrincipal();
+void imprimirMenuIdioma(Jogo *jogo);
 void imprimirMenuContinuarJogo(Jogo *jogo, int qntJogosSalvos);
 void imprimirArquivo(Jogo *jogo, int numArquivo);
 void imprimirMenu(char *nome);
-void imprimirOpcao(char *nome, int valor);
+void imprimirOpcao(char *nome, int valor, int idioma);
 void imprimirComando();
 void imprimirFinal();
 void imprimirLinha();

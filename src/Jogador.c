@@ -1,3 +1,4 @@
+#include "headers/Traducao.h"
 #include "headers/Jogador.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -7,15 +8,15 @@
 /**
 	A função inicializarJogadores pede o nome dos jogadores,
 	zera suas vitórias e sorteia a peça de cada um.
-	Parâmetros: Os dois jogadores
+	Parâmetros: Os dois jogadores e o idioma
 **/
-void inicializarJogadores(Jogador *jogador1, Jogador *jogador2){
-	printf("Nome do jogador 1: ");
+void inicializarJogadores(Jogador *jogador1, Jogador *jogador2, int idioma){
+	printf("%s 1: ",perguntas(JOGADOR, idioma));
 	fgets(jogador1->nome, 18, stdin);
 	jogador1->nome[strlen(jogador1->nome)-1]='\0';
 	jogador1->vitorias=0;
 
-	printf("Nome do jogador 2: ");
+	printf("%s 2: ",perguntas(JOGADOR, idioma));
 	fgets(jogador2->nome, 18, stdin);
 	jogador2->nome[strlen(jogador2->nome)-1]='\0';
 	jogador2->vitorias=0;
@@ -50,8 +51,8 @@ void zerarCapturas(Jogador *jogador1, Jogador *jogador2) {
 	A função informarQntCapturas imprime na tela o placar de capturas
 	Parâmetros: Os dois jogadores
 **/
-void informarQntCapturas(Jogador jogador1, Jogador jogador2) {
-	printf("Capturas: %s %d X %d %s\n", jogador1.nome, jogador1.capturas, jogador2.capturas, jogador2.nome);
+void informarQntCapturas(Jogador jogador1, Jogador jogador2, int idioma) {
+	printf("%s %s %d X %d %s\n", msg(CAPTURAS, idioma), jogador1.nome, jogador1.capturas, jogador2.capturas, jogador2.nome);
 }
 
 /**

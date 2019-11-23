@@ -1,4 +1,5 @@
 #include "headers/Util.h"
+#include "headers/Traducao.h"
 #include <stdio.h>
 #include <ctype.h>
 #include <string.h>
@@ -81,4 +82,18 @@ Data dataAtual() {
 	data.ano  = data_atual->tm_year + 1900;
 
 	return data;
+}
+/**
+	A função verificarResposta analisa se a resposta corresponde a 
+	um dos três idiomas
+	Parâmetros: a resposta e o idioma
+	Retorno: 1(resposta certa) ou 0(resposta errada)
+**/
+int verificarResposta(char *resposta, int idioma){
+	if(idioma == PORTUGUES){
+		return strcmp("sim", resposta) != 0 && strcmp("nao", resposta) != 0;
+	}else if(idioma == INGLES){
+		return strcmp("yes", resposta) != 0 && strcmp("no", resposta) != 0;
+	}
+	return strcmp("si", resposta) != 0 && strcmp("no", resposta) != 0;
 }

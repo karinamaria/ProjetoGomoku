@@ -1,3 +1,4 @@
+#include "headers/Traducao.h"
 #include "headers/Tabuleiro.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -5,11 +6,11 @@
 /**
 	A função inicializarTabuleiro pergunta as dimensões do tabuleiro
 	e inicializa a matriz
-	Parâmetro: o tabuleiro
+	Parâmetro: o tabuleiro e o idioma
 **/
-void inicializarTabuleiro(Tabuleiro *tabuleiro){
+void inicializarTabuleiro(Tabuleiro *tabuleiro, int idioma){
 	do{
-		printf("Tamanho do goban (4<n<20): ");
+		printf("%s (4<n<20): ", perguntas(GOBAN, idioma));
 		scanf("%d",&tabuleiro->dimensao);
 	}while(tabuleiro->dimensao < 5 || tabuleiro->dimensao > 19);
 

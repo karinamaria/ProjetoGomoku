@@ -24,5 +24,6 @@ void limparTela();
 void existePasta();
 int contarArquivoOuPasta(char *caminho);
 Data dataAtual();
+int verificarResposta(char *resposta, int idioma);
 
 #endif

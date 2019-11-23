@@ -13,7 +13,7 @@ typedef struct{
 	int col;
 }Casa;
 
-void inicializarTabuleiro(Tabuleiro *tabuleiro);
+void inicializarTabuleiro(Tabuleiro *tabuleiro, int idioma);
 void inicializarMatriz(Tabuleiro *tabuleiro);
 void liberarMatriz(int **matriz, int dimensao);
 void imprimirTabuleiro(Tabuleiro tabuleiro);
