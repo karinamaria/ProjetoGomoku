@@ -135,7 +135,30 @@
 #define EN_LINGUA "Choose a language"
 #define ES_LINGUA "Elige un idioma"
 
+#define MODO_JOGO 29
+#define PT_MODO_JOGO "MODO DE JOGO"
+#define EN_MODO_JOGO "GAME MODE"
+#define ES_MODO_JOGO "MODO DE JUEGO"
+
+#define JOGADORxJOGADOR 30
+#define PT_JOGADORxJOGADOR "JOGADOR vs JOGADOR"
+#define EN_JOGADORxJOGADOR "PLAYER vs PLAYER"
+#define ES_JOGADORxJOGADOR "JUGADOR vs JUGADOR"
+
+#define JOGADORxCOMP 31
+#define PT_JOGADORxCOMP "JOGADOR vs COMPUTADOR"
+#define EN_JOGADORxCOMP "PLAYER vs COMPUTER"
+#define ES_JOGADORxCOMP "JUGADOR vs COMPUTADORA"
+
+#define COMPxCOMP 32
+#define PT_COMPxCOMP "COMPUTADOR vs COMPUTADOR"
+#define EN_COMPxCOMP "COMPUTER vs COMPUTER"
+#define ES_COMPxCOMP "COMPUTADORA vs COMPUTADORA"
+
+
+
 char* menuP(int cod, int idioma);
+char* modoJogo(int cod, int idioma);
 char* menuC(int cod, int idioma);
 char* msg(int cod, int idioma);
 char* msgfim(int cod, int idioma);

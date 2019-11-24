@@ -55,6 +55,43 @@ char* menuP(int cod, int idioma){
 }
 
 /**
+	A função modoJogo traduz as informações do menu principal modo jogo
+	Parâmetros: o código e o idioma
+	Retorno: a palavra traduzida para o idioma desejado
+**/
+char* modoJogo(int cod, int idioma){
+	switch (cod) {
+		case MODO_JOGO:
+			if (idioma == PORTUGUES)
+				return PT_MODO_JOGO;
+			else if (idioma == INGLES)
+				return EN_MODO_JOGO;
+			else if (idioma == ESPANHOL)
+				return ES_MODO_JOGO;
+		case JOGADORxJOGADOR:
+			if (idioma == PORTUGUES)
+				return PT_JOGADORxJOGADOR;
+			else if (idioma == INGLES)
+				return EN_JOGADORxJOGADOR;
+			else if (idioma == ESPANHOL)
+				return ES_JOGADORxJOGADOR;
+		case JOGADORxCOMP:
+			if (idioma == PORTUGUES)
+				return PT_JOGADORxCOMP;
+			else if (idioma == INGLES)
+				return EN_JOGADORxCOMP;
+			else if (idioma == ESPANHOL)
+				return ES_JOGADORxCOMP;
+		case COMPxCOMP:
+			if (idioma == PORTUGUES)
+				return PT_COMPxCOMP;
+			else if (idioma == INGLES)
+				return EN_COMPxCOMP;
+			else if (idioma == ESPANHOL)
+				return ES_COMPxCOMP;
+	}
+}
+/**
 	A função menuC traduz as informações do menu continua
 	Parâmetros: o código e o idioma
 	Retorno: a palavra traduzida para o idioma desejado

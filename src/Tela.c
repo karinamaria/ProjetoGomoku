@@ -21,20 +21,18 @@ void imprimirMenuPrincipal(int idioma) {
 	imprimirComando(idioma);
 }
 
-/**
-	A função imprimirMenuIdioma exibe os idiomas disponíveis
-	Parâmetro:o jogo
-**/
-void imprimirMenuIdioma(Jogo *jogo){
+
+void imprimirMenuNovoJogo(int idioma) {
 	limparTela();
-	imprimirMenu(menuP(LINGUA, jogo->idioma));
-	imprimirOpcao("Portugues", 1, jogo->idioma);
-	imprimirOpcao("English", 2, jogo->idioma);
-	imprimirOpcao("Espanol", 3, jogo->idioma);
-	imprimirOpcao(menuP(SAIR, jogo->idioma), 0, jogo->idioma);
+	imprimirMenu(modoJogo(MODO_JOGO, idioma));
+	imprimirOpcao(modoJogo(JOGADORxJOGADOR, idioma), 1, idioma);
+	imprimirOpcao(modoJogo(JOGADORxCOMP, idioma), 2, idioma);
+	imprimirOpcao(modoJogo(COMPxCOMP, idioma), 3, idioma);
+	imprimirOpcao(menuP(SAIR, idioma), 0, idioma);
 	imprimirFinal();
-	imprimirComando(jogo->idioma);
+	imprimirComando();
 }
+
 /**
 	A função imprimirMenuContinuarJogo imprime a lista de jogos
 	disponíveis para carregar.
@@ -46,6 +44,21 @@ void imprimirMenuContinuarJogo(Jogo *jogo, int qntJogosSalvos) {
 	for(int i=0; i<qntJogosSalvos; i++){
 		imprimirArquivo(jogo, i+1);
 	}
+	imprimirOpcao(menuP(SAIR, jogo->idioma), 0, jogo->idioma);
+	imprimirFinal();
+	imprimirComando(jogo->idioma);
+}
+
+/**
+	A função imprimirMenuIdioma exibe os idiomas disponíveis
+	Parâmetro:o jogo
+**/
+void imprimirMenuIdioma(Jogo *jogo){
+	limparTela();
+	imprimirMenu(menuP(LINGUA, jogo->idioma));
+	imprimirOpcao("Portugues", 1, jogo->idioma);
+	imprimirOpcao("English", 2, jogo->idioma);
+	imprimirOpcao("Espanol", 3, jogo->idioma);
 	imprimirOpcao(menuP(SAIR, jogo->idioma), 0, jogo->idioma);
 	imprimirFinal();
 	imprimirComando(jogo->idioma);
