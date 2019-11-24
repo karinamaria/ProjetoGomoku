@@ -15,31 +15,120 @@
 	A função novoJogo inicializa todas as variáveis do jogo
 	Parâmetro: O jogo
 **/
-void novoJogo(Jogo jogo){
-	jogo.id=0;
-	limparBuffer();
+void novoJogo(Jogo *jogo){
+	jogo->id=0;
+	modoDeJogo(jogo);
+}
+
+void modoDeJogo(Jogo *jogo) {
 	do{
 		imprimirMenuNovoJogo();
-		scanf("%d", &jogo.modo_de_jogo);
-	}while(jogo.modo_de_jogo > 3 || jogo.modo_de_jogo < 0);
-
-	if (jogo.modo_de_jogo > 0) {
+		scanf("%d", &jogo->modo_de_jogo);
 		limparBuffer();
-		inicializarJogadores(&jogo.jogador1, &jogo.jogador2);
-		limparTela();
-		inicializarTabuleiro(&jogo.goban);
-		jogar(&jogo);
-	}
+
+		switch (jogo->modo_de_jogo) {
+			case 1:
+				jogadorVSjogador(jogo);
+				break;
+			case 2:
+				jogadorVScomputador(jogo);
+				break;
+			case 3:
+				computadorVScomputador(jogo);
+				break;
+		}
+	}while(jogo->modo_de_jogo != 0 && jogo->turno == 0);
+}
+
+void jogadorVSjogador(Jogo *jogo) {
+	do{
+		imprimirMenuNomeJog1();
+		fgets(jogo->jogador1.nome, 18, stdin);
+		jogo->jogador1.nome[strlen(jogo->jogador1.nome)-1]='\0';
+
+		if (strcmp(jogo->jogador1.nome, "0") != 0 && strcmp(jogo->jogador1.nome, "") != 0) {
+			do{
+				imprimirMenuNomeJog2();
+				fgets(jogo->jogador2.nome, 18, stdin);
+				jogo->jogador2.nome[strlen(jogo->jogador2.nome)-1]='\0';
+
+				if (strcmp(jogo->jogador2.nome, "0") != 0 && strcmp(jogo->jogador2.nome, "") != 0) {
+					pedirDimensao(jogo);
+				}
+				
+			}while((strcmp(jogo->jogador2.nome, "0") != 0 || strcmp(jogo->jogador2.nome, "") == 0) && jogo->turno == 0);
+		}
+		
+	}while((strcmp(jogo->jogador1.nome, "0") != 0 || strcmp(jogo->jogador1.nome, "") == 0) && jogo->turno == 0);
+}
+
+void jogadorVScomputador(Jogo *jogo) {
+	do{
+		imprimirMenuDificuldade();
+		scanf("%d", &jogo->jogador2.nivel);
+		limparBuffer();
+
+		if (jogo->jogador2.nivel > 0 && jogo->jogador2.nivel < 4) {
+			do{
+				imprimirMenuSeuNome();
+				fgets(jogo->jogador1.nome, 18, stdin);
+				jogo->jogador1.nome[strlen(jogo->jogador1.nome)-1]='\0';
+
+				if (strcmp(jogo->jogador1.nome, "0") != 0 && strcmp(jogo->jogador1.nome, "") != 0) {
+					pedirDimensao(jogo);
+				}
+				
+			}while((strcmp(jogo->jogador1.nome, "0") != 0 || strcmp(jogo->jogador1.nome, "") == 0) && jogo->turno == 0);
+		}
+		
+	}while(jogo->jogador2.nivel != 0 && jogo->turno == 0);
+}
+
+void computadorVScomputador(Jogo *jogo) {
+	do{
+		imprimirMenuNivelCOM1();
+		scanf("%d", &jogo->jogador1.nivel);
+		limparBuffer();
+
+		if (jogo->jogador1.nivel > 0 && jogo->jogador1.nivel < 4) {
+			do{
+				imprimirMenuNivelCOM2();
+				scanf("%d", &jogo->jogador2.nivel);
+				limparBuffer();
+
+				if (jogo->jogador2.nivel > 0 && jogo->jogador2.nivel < 4) {
+					pedirDimensao(jogo);
+				}
+				
+			}while(jogo->jogador2.nivel != 0 && jogo->turno == 0);
+		}
+		
+	}while(jogo->jogador1.nivel != 0 && jogo->turno == 0);
+}
+
+void pedirDimensao(Jogo *jogo) {
+	do{
+		imprimirMenuDimensao();
+		scanf("%d", &jogo->goban.dimensao);
+		limparBuffer();
+
+		if (jogo->goban.dimensao > 4 && jogo->goban.dimensao < 20) {
+			inicializarJogadores(&jogo->jogador1, &jogo->jogador2, jogo->modo_de_jogo);
+			inicializarTabuleiro(&jogo->goban);
+			jogar(jogo);
+		}
+		
+	}while(jogo->goban.dimensao != 0 && (jogo->goban.dimensao < 5 || jogo->goban.dimensao > 19) && jogo->turno == 0);
 }
 
 /**
 	A função continuarJogo carrega um jogo salvo em um arquivo
 	Parâmetro: o jogo
 **/
-void continuarJogo(Jogo jogo){
-	if(existeArquivoJogo(&jogo)){
-		inicializarMatriz(&jogo.goban);
-		jogar(&jogo);
+void continuarJogo(Jogo *jogo){
+	if(existeArquivoJogo(jogo)){
+		inicializarTabuleiro(&jogo->goban);
+		jogar(jogo);
 	}
 }
 
@@ -58,8 +147,8 @@ void jogar(Jogo *jogo){
 	}while(continuarJogando());
 	salvarJogo(jogo);
 	liberarMatriz(jogo->goban.matriz, jogo->goban.dimensao);
+	jogo->turno = -1;
 }
-
 
 /**
 	A função inicializarJogo atribui valores iniciais a estrutura Jogo
@@ -67,7 +156,6 @@ void jogar(Jogo *jogo){
 **/
 void inicializarJogo(Jogo *jogo) {
 	jogo->proximoJogador=P;
-	jogo->turno = 0;
 	jogo->ganhando = -1;
 }
 
@@ -81,7 +169,6 @@ void loopJogo(Jogo *jogo){
 	int vitoriaPorCaptura;
 	int lin,col;
 
-	limparBuffer();
 	do{
 		informarQntCapturas(jogo->jogador1, jogo->jogador2);
 		imprimirTabuleiro(jogo->goban);

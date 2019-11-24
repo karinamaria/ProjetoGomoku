@@ -4,24 +4,10 @@
 #include <stdlib.h>
 
 /**
-	A função inicializarTabuleiro pergunta as dimensões do tabuleiro
-	e inicializa a matriz
-	Parâmetro: o tabuleiro
-**/
-void inicializarTabuleiro(Tabuleiro *tabuleiro){
-	do{
-		printf("Tamanho do goban (4<n<20): ");
-		scanf("%d",&tabuleiro->dimensao);
-	}while(tabuleiro->dimensao < 5 || tabuleiro->dimensao > 19);
-
-	inicializarMatriz(tabuleiro);
-}
-
-/**
-	A função inicializarMatriz aloca dinamicamente o espaço da matriz
+	A função inicializarTabuleiro aloca dinamicamente o espaço da matriz
 	Parâmetro: O tabuleiro
 **/
-void inicializarMatriz(Tabuleiro *tabuleiro){
+void inicializarTabuleiro(Tabuleiro *tabuleiro){
 	tabuleiro->matriz = (int **) malloc(tabuleiro->dimensao * sizeof(int *));
 
 	for (int i = 0; i < tabuleiro->dimensao; i++) {

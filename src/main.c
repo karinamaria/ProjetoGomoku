@@ -20,12 +20,15 @@ void exibirMenu(){
 	int opcao;
 
 	do{
+		jogo.turno = 0;
 		imprimirMenuPrincipal();
+
 		scanf("%d", &opcao);
+		limparBuffer();
 		if(opcao == 1){
-			novoJogo(jogo);
+			novoJogo(&jogo);
 		}else if(opcao == 2){
-			continuarJogo(jogo);
+			continuarJogo(&jogo);
 		}
 	}while(opcao != 0);
 }

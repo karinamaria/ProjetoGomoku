@@ -15,8 +15,13 @@ typedef struct{
 	int modo_de_jogo;
 }Jogo;
 
-void novoJogo(Jogo jogo);
-void continuarJogo(Jogo jogo);
+void novoJogo(Jogo *jogo);
+void modoDeJogo(Jogo *jogo);
+void jogadorVSjogador(Jogo *jogo);
+void jogadorVScomputador(Jogo *jogo);
+void computadorVScomputador(Jogo *jogo);
+void pedirDimensao(Jogo *jogo);
+void continuarJogo(Jogo *jogo);
 void jogar(Jogo *jogo);
 void inicializarJogo(Jogo *jogo);
 void loopJogo(Jogo *jogo);

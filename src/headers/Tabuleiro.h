@@ -12,7 +12,6 @@ typedef struct{
 }Casa;
 
 void inicializarTabuleiro(Tabuleiro *tabuleiro);
-void inicializarMatriz(Tabuleiro *tabuleiro);
 void liberarMatriz(int **matriz, int dimensao);
 void imprimirTabuleiro(Tabuleiro tabuleiro);
 void limparTabuleiro(Tabuleiro tabuleiro);

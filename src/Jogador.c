@@ -10,16 +10,22 @@
 	zera suas vitórias e sorteia a peça de cada um.
 	Parâmetros: Os dois jogadores
 **/
-void inicializarJogadores(Jogador *jogador1, Jogador *jogador2){
-	printf("Nome do jogador 1: ");
-	fgets(jogador1->nome, 18, stdin);
-	jogador1->nome[strlen(jogador1->nome)-1]='\0';
-	jogador1->vitorias=0;
-
-	printf("Nome do jogador 2: ");
-	fgets(jogador2->nome, 18, stdin);
-	jogador2->nome[strlen(jogador2->nome)-1]='\0';
-	jogador2->vitorias=0;
+void inicializarJogadores(Jogador *jogador1, Jogador *jogador2, int modo){
+	jogador1->vitorias = 0;
+	jogador2->vitorias = 0;
+	
+	if (modo == 1) {
+		jogador1->nivel = 0;
+		jogador2->nivel = 0;
+	}
+	else if (modo == 2) {
+		strcpy(jogador2->nome, "Computador");
+		jogador1->nivel = 0;
+	}
+	else {
+		strcpy(jogador1->nome, "Computador1");
+		strcpy(jogador2->nome, "Computador2");
+	}
 }
 
 /**
