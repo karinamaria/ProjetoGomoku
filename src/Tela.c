@@ -10,7 +10,7 @@
 **/
 void imprimirMenuPrincipal() {
 	limparTela();
-	imprimirMenu("MENU PRINCIPAL");
+	imprimirTitulo("MENU PRINCIPAL");
 	imprimirOpcao("NOVO JOGO", 1);
 	imprimirOpcao("CONTINUAR JOGO", 2);
 	imprimirOpcao("SAIR", 0);
@@ -25,7 +25,7 @@ void imprimirMenuPrincipal() {
 **/
 void imprimirMenuContinuarJogo(Jogo *jogo, int qntJogosSalvos) {
 	limparTela();
-	imprimirMenu("CONTINUAR JOGO");
+	imprimirTitulo("ESCOLHA UM JOGO");
 	for(int i=0; i<qntJogosSalvos; i++){
 		imprimirArquivo(jogo, i+1);
 	}
@@ -48,7 +48,7 @@ void imprimirArquivo(Jogo *jogo, int numArquivo) {
 
 	imprimirLinha();
 
-	sprintf(linha, "| %-9s jogo_%d.txt", "Arquivo:", numArquivo);
+	sprintf(linha, "| %-9s jogo_%d", "Jogo:", numArquivo);
 	printf("|| %-58s Opcao: %-3d| ||\n", linha, numArquivo);
 
 	sprintf(linha, "| %-9s %s %d x %d %s", "Placar:", jogo->jogador1.nome, jogo->jogador1.vitorias, jogo->jogador2.vitorias, jogo->jogador2.nome);
@@ -57,7 +57,7 @@ void imprimirArquivo(Jogo *jogo, int numArquivo) {
 	sprintf(linha, "| %-9s %d", "Dimensao:", jogo->goban.dimensao);
 	printf("|| %-69s| ||\n", linha);
 
-	sprintf(linha, "| %-9s %02d:%02d:%02d %02d/%02d/%02d", "Data:", data.hora, data.min, data.seg, data.dia, data.mes, data.ano);
+	sprintf(linha, "| %-9s %02d:%02d:%02d %02d/%02d/%02d", "Salvo em:", data.hora, data.min, data.seg, data.dia, data.mes, data.ano);
 	printf("|| %-69s| ||\n", linha);
 
 	imprimirLinha();
@@ -65,11 +65,11 @@ void imprimirArquivo(Jogo *jogo, int numArquivo) {
 }
 
 /**
-	A função imprimirMenu imprime a parte superior
+	A função imprimirTitulo imprime a parte superior
 	de uma tela incluindo o nome do menu.
 	Parâmetro: o nome do menu
 **/
-void imprimirMenu(char *nome) {
+void imprimirTitulo(char *nome) {
 	int tam = strlen(nome);
 	int qtd = (68 - tam) / 2;
 

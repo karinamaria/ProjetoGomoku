@@ -6,7 +6,7 @@
 void imprimirMenuPrincipal();
 void imprimirMenuContinuarJogo(Jogo *jogo, int qntJogosSalvos);
 void imprimirArquivo(Jogo *jogo, int numArquivo);
-void imprimirMenu(char *nome);
+void imprimirTitulo(char *nome);
 void imprimirOpcao(char *nome, int valor);
 void imprimirComando();
 void imprimirFinal();
