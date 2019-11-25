@@ -174,9 +174,9 @@ void loopJogo(Jogo *jogo){
 		imprimirTabuleiro(jogo->goban);
 		informarProximoJogador(jogo);
 		novaJogada(jogo, &lin, &col);
-		limparTela();
 		verificarCaptura(jogo, lin, col);
 		alternarJogador(&jogo->proximoJogador);
+		limparTela();
 	}while(!verificarFimDeJogo(jogo, &peca, &vitoriaPorCaptura));
 	informarQntCapturas(jogo->jogador1, jogo->jogador2);
 	imprimirTabuleiro(jogo->goban);
@@ -203,15 +203,7 @@ void informarProximoJogador(Jogo *jogo){
 void novaJogada(Jogo *jogo, int *lin, int *col) {
 	do{
 		printf("Onde deseja inserir a peca (lin col)? ");
-		if (jogo->modo_de_jogo == 2 && jogo->proximoJogador == jogo->jogador2.peca) {
-			pedirJogadaIA(jogo, lin, col);
-			printf("%d %d", *lin, *col);
-			if (jogo->turno > 0) {
-				limparBuffer();
-			}
-			getchar();
-		}
-		else if (jogo->modo_de_jogo == 3) {
+		if (jogo->modo_de_jogo == 3 || (jogo->modo_de_jogo == 2 && jogo->proximoJogador == jogo->jogador2.peca)) {
 			pedirJogadaIA(jogo, lin, col);
 			printf("%d %d", *lin, *col);
 			getchar();
@@ -219,6 +211,7 @@ void novaJogada(Jogo *jogo, int *lin, int *col) {
 		else {
 			scanf("%d",lin);
 			scanf("%d",col);
+			limparBuffer();
 		}
 	}while(!validarInsercao(jogo->goban, *lin, *col, jogo->proximoJogador));
 
@@ -276,6 +269,7 @@ int continuarJogando(){
 	do{
 		printf("Deseja continuar (sim | nao)? ");
 		scanf("%s",resposta);
+		limparBuffer();
 		strcpy(resposta,converterParaMinusculo(resposta));
 	}while(strcmp("sim", resposta) != 0 && strcmp("nao", resposta) != 0);
 	if(strcmp("sim", resposta) == 0){

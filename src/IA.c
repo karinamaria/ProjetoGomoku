@@ -23,26 +23,40 @@ void pedirJogadaIA(Jogo *jogo, int *lin, int *col) {
 }
 
 int calcularPrioridade(Jogo *jogo, int i, int j) {
-	Jogador jogador = jogo->jogador1.peca == jogo->proximoJogador ? jogo->jogador1 : jogo->jogador2;
+	Jogador jogador;
+	Jogador inimigo;
 
-	return   calcularCaptura(jogo, jogador, i, j)
-	       + calcularCapturado(jogo, jogador, i, j)
+	if (jogo->jogador1.peca == jogo->proximoJogador) {
+		jogador = jogo->jogador1;
+		inimigo = jogo->jogador2;
+	}
+	else {
+		jogador = jogo->jogador2;
+		inimigo = jogo->jogador1;
+	}
+
+	if (jogador.nivel == 1) {
+		return contarSequencia(jogo, jogador, inimigo, i, j);
+	}
+
+	return   calcularCaptura(jogo, jogador, inimigo, i, j)
+	       + calcularCapturado(jogo, jogador, inimigo, i, j)
 	       + calcularSequencia(jogo, jogador, i, j)
-	       + calcularBloqueio(jogo, jogador, i, j);
+	       + calcularBloqueio(jogo, jogador, inimigo, i, j);
 }
 
-int calcularCaptura(Jogo *jogo, Jogador jogador, int i, int j) {
-	return   calcularCapDirecao(jogo, jogador, i, j,  0,  1)
-	       + calcularCapDirecao(jogo, jogador, i, j,  0, -1)
-	       + calcularCapDirecao(jogo, jogador, i, j,  1,  0)
-	       + calcularCapDirecao(jogo, jogador, i, j, -1,  0)
-	       + calcularCapDirecao(jogo, jogador, i, j,  1,  1)
-	       + calcularCapDirecao(jogo, jogador, i, j, -1, -1)
-	       + calcularCapDirecao(jogo, jogador, i, j, -1,  1)
-	       + calcularCapDirecao(jogo, jogador, i, j,  1, -1);
+int calcularCaptura(Jogo *jogo, Jogador jogador, Jogador inimigo, int i, int j) {
+	return   calcularCapDirecao(jogo, jogador, inimigo, i, j,  0,  1)
+	       + calcularCapDirecao(jogo, jogador, inimigo, i, j,  0, -1)
+	       + calcularCapDirecao(jogo, jogador, inimigo, i, j,  1,  0)
+	       + calcularCapDirecao(jogo, jogador, inimigo, i, j, -1,  0)
+	       + calcularCapDirecao(jogo, jogador, inimigo, i, j,  1,  1)
+	       + calcularCapDirecao(jogo, jogador, inimigo, i, j, -1, -1)
+	       + calcularCapDirecao(jogo, jogador, inimigo, i, j, -1,  1)
+	       + calcularCapDirecao(jogo, jogador, inimigo, i, j,  1, -1);
 }
 
-int calcularCapDirecao(Jogo *jogo, Jogador jogador, int i, int j, int di, int dj) {
+int calcularCapDirecao(Jogo *jogo, Jogador jogador, Jogador inimigo, int i, int j, int di, int dj) {
 	int existe =    i + 3*di >= 0
                  && i + 3*di < jogo->goban.dimensao
                  && j + 3*dj >= 0
@@ -52,21 +66,24 @@ int calcularCapDirecao(Jogo *jogo, Jogador jogador, int i, int j, int di, int dj
                  && jogo->goban.matriz[i + 3*di][j + 3*dj] == jogador.peca;
 
     if (existe && jogador.capturas == 4) {
-    	return 1500;
+    	return 100000;
     }
     if (existe) {
-    	return   55
-    	       + calcularBloqueio(jogo, jogador, i + di, j + dj)
-    	       + calcularBloqueio(jogo, jogador, i + 2*di, j + 2*dj);
+    	return   10000
+    	       + calcularBloqueio(jogo, jogador, inimigo, i + di, j + dj)
+    	       + calcularBloqueio(jogo, jogador, inimigo, i + 2*di, j + 2*dj);
     }
+
     return 0;
 }
 
-int calcularCapturado(Jogo *jogo, Jogador jogador, int i, int j) {
-	Jogador inimigo = jogo->jogador1.peca == jogo->proximoJogador ? jogo->jogador2 : jogo->jogador1;
+int calcularCapturado(Jogo *jogo, Jogador jogador, Jogador inimigo, int i, int j) {
+	if (jogador.nivel == 2) {
+		return - 1 + calcularCaptura(jogo, inimigo, jogador, i, j);
+	}
 
 	return - 1
-	       + calcularCaptura(jogo, inimigo, i, j)
+	       + calcularCaptura(jogo, inimigo, jogador, i, j)
 	       + calcularCapturadoDir(jogo, jogador, inimigo, i, j,  0,  1)
 	       + calcularCapturadoDir(jogo, jogador, inimigo, i, j,  0, -1)
 	       + calcularCapturadoDir(jogo, jogador, inimigo, i, j,  1,  0)
@@ -92,10 +109,10 @@ int calcularCapturadoDir(Jogo *jogo, Jogador jogador, Jogador inimigo, int i, in
                   && jogo->goban.matriz[i + 2*di][j + 2*dj] == 1-jogador.peca;
 
 	if (existe && inimigo.capturas == 4) {
-    	return -1500;
+    	return -100000;
     }
     if (existe) {
-    	return - 55
+    	return - 10000
     	       - calcularSequencia(jogo, jogador, i, j)
     	       - calcularSequencia(jogo, jogador, i + di, j + dj);
     }
@@ -113,34 +130,37 @@ int calcularCapturadoDir(Jogo *jogo, Jogador jogador, Jogador inimigo, int i, in
               && jogo->goban.matriz[i +   di][j +   dj] == -1
               && !verificarFormacao3x3(jogo->goban, i + di, j + dj, inimigo.peca);
 
-    if (existe && inimigo.capturas == 4) {
-    	return -1500;
+	if (existe && inimigo.capturas == 4) {
+    	return -100000;
     }
     if (existe) {
-    	return - 55
+    	return - 10000
     	       - calcularSequencia(jogo, jogador, i, j)
-    	       - calcularSequencia(jogo, jogador, i - di, j - dj);
+    	       - calcularSequencia(jogo, jogador, i + di, j + dj);
     }
 
     return 0;
 }
 
 int calcularSequencia(Jogo *jogo, Jogador jogador, int i, int j) {
-	return   calcularSeqDirecao(jogo->goban, i, j, 0, 1, jogador.peca)
-	       + calcularSeqDirecao(jogo->goban, i, j, 1, 0, jogador.peca)
-	       + calcularSeqDirecao(jogo->goban, i, j, 1, 1, jogador.peca)
-	       + calcularSeqDirecao(jogo->goban, i, j,-1, 1, jogador.peca);
+	if (jogador.nivel == 2) {
+		return   calcularSeqDirecao(jogo->goban, i, j, 0, 1, jogador.peca)
+	           + calcularSeqDirecao(jogo->goban, i, j, 1, 0, jogador.peca)
+	           + calcularSeqDirecao(jogo->goban, i, j, 1, 1, jogador.peca)
+	           + calcularSeqDirecao(jogo->goban, i, j,-1, 1, jogador.peca);
+	}
+
+	return   calcularSeqDirReal(jogo->goban, i, j, 0, 1, jogador.peca, jogador.nivel)
+	       + calcularSeqDirReal(jogo->goban, i, j, 1, 0, jogador.peca, jogador.nivel)
+	       + calcularSeqDirReal(jogo->goban, i, j, 1, 1, jogador.peca, jogador.nivel)
+	       + calcularSeqDirReal(jogo->goban, i, j,-1, 1, jogador.peca, jogador.nivel);
 }
 
-int calcularBloqueio(Jogo *jogo, Jogador jogador, int i, int j) {
-	return   1
-	       + calcularSeqDirecao(jogo->goban, i, j, 0, 1, 1-jogador.peca)
-	       + calcularSeqDirecao(jogo->goban, i, j, 1, 0, 1-jogador.peca)
-	       + calcularSeqDirecao(jogo->goban, i, j, 1, 1, 1-jogador.peca)
-	       + calcularSeqDirecao(jogo->goban, i, j,-1, 1, 1-jogador.peca);
+int calcularBloqueio(Jogo *jogo, Jogador jogador, Jogador inimigo, int i, int j) {
+	return 1 + calcularSequencia(jogo, inimigo, i, j);
 }
 
-int calcularSeqDirecao(Tabuleiro goban, int i, int j, int di, int dj, Peca peca) {
+int calcularSeqDirReal(Tabuleiro goban, int i, int j, int di, int dj, Peca peca, int nivel) {
 	Casa casa = {i, j};
 	int n1 = 1;
 	int n2 = 1;
@@ -179,7 +199,7 @@ int calcularSeqDirecao(Tabuleiro goban, int i, int j, int di, int dj, Peca peca)
 	n = n1 + n2 - 1;
 
 	if (n > 4) {
-		return 350;
+		return 1000;
 	}
 
 	if (n == 4) {
@@ -203,15 +223,54 @@ int calcularSeqDirecao(Tabuleiro goban, int i, int j, int di, int dj, Peca peca)
 		}
 	}
 
+	if (real > 4) {
+		return 1000;
+	}
+
 	if (real == 4) {
 		return 100;
 	}
 
 	if (real == 3) {
-		return 35;
+		return 10;
 	}
 
 	if (real == 2) {
+		return 1;
+	}
+
+	return 0;
+}
+
+int calcularSeqDirecao(Tabuleiro goban, int i, int j, int di, int dj, Peca peca) {
+	Casa casa = {i, j};
+	int n1 = 1;
+	int n2 = 1;
+	int n;
+
+	while (verificarSeSeqContinua(goban, casa, di, dj, n1, peca)) {
+		n1++;
+	}
+
+	while (verificarSeSeqContinua(goban, casa, -di, -dj, n2, peca)) {
+		n2++;
+	}
+
+	n = n1 + n2 - 1;
+
+	if (n > 4) {
+		return 350;
+	}
+
+	if (n == 4) {
+		return 100;
+	}
+
+	if (n == 3) {
+		return 35;
+	}
+
+	if (n == 2) {
 		return 10;
 	}
 
@@ -236,9 +295,71 @@ int verificarSeqMax(Tabuleiro goban, Casa casa, int di, int dj, int n, Peca peca
 	       );
 }
 
+int contarSequencia(Jogo *jogo, Jogador jogador, Jogador inimigo, int i, int j) {
+	int maior = 2 * contarSeqDir(jogo->goban, i, j, 0, 1, jogador.peca);
+	int atual = 2 * contarSeqDir(jogo->goban, i, j, 1, 0, jogador.peca);
+
+	if (atual > maior) {
+		maior = atual;
+	}
+
+	atual = 2 * contarSeqDir(jogo->goban, i, j, 1, 1, jogador.peca);
+
+	if (atual > maior) {
+		maior = atual;
+	}
+
+	atual = 2 * contarSeqDir(jogo->goban, i, j, -1, 1, jogador.peca);
+
+	if (atual > maior) {
+		maior = atual;
+	}
+
+	atual = 2 * contarSeqDir(jogo->goban, i, j, 0, 1, inimigo.peca) - 1;
+
+	if (atual > maior) {
+		maior = atual;
+	}
+
+	atual = 2 * contarSeqDir(jogo->goban, i, j, 1, 0, inimigo.peca) - 1;
+
+	if (atual > maior) {
+		maior = atual;
+	}
+
+	atual = 2 * contarSeqDir(jogo->goban, i, j, 1, 1, inimigo.peca) - 1;
+
+	if (atual > maior) {
+		maior = atual;
+	}
+
+	atual = 2 * contarSeqDir(jogo->goban, i, j, -1, 1, inimigo.peca) - 1;
+
+	if (atual > maior) {
+		maior = atual;
+	}
+
+	return maior;
+}
+
+int contarSeqDir(Tabuleiro goban, int i, int j, int di, int dj, Peca peca) {
+	Casa casa = {i, j};
+	int n1 = 1;
+	int n2 = 1;
+
+	while (verificarSeSeqContinua(goban, casa, di, dj, n1, peca)) {
+		n1++;
+	}
+
+	while (verificarSeSeqContinua(goban, casa, -di, -dj, n2, peca)) {
+		n2++;
+	}
+
+	return n1 + n2 - 1;
+}
+
 void selecionarMelhorJogada(Jogada *jogadas, int n, int *lin, int *col) {
 	Jogada melhor;
-	int max;
 	int i = 1;
 	jogadas = insertionSort(jogadas, n);
 
