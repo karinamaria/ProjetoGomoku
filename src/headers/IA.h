@@ -17,7 +17,7 @@ int calcularCapturado(Jogo *jogo, Jogador jogador, Jogador inimigo, int i, int j
 int calcularCapturadoDir(Jogo *jogo, Jogador jogador, Jogador inimigo, int i, int j, int di, int dj);
 int calcularSequencia(Jogo *jogo, Jogador jogador, int i, int j);
 int calcularBloqueio(Jogo *jogo, Jogador jogador, Jogador inimigo, int i, int j);
-int calcularSeqDirReal(Tabuleiro goban, int i, int j, int di, int dj, Peca peca, int nivel);
+int calcularSeqDirReal(Tabuleiro goban, int i, int j, int di, int dj, Peca peca);
 int calcularSeqDirecao(Tabuleiro goban, int i, int j, int di, int dj, Peca peca);
 int contarSequencia(Jogo *jogo, Jogador jogador, Jogador inimigo, int i, int j);
 int contarSeqDir(Tabuleiro goban, int i, int j, int di, int dj, Peca peca);

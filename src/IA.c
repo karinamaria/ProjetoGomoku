@@ -160,7 +160,7 @@ int calcularBloqueio(Jogo *jogo, Jogador jogador, Jogador inimigo, int i, int j)
 	return 1 + calcularSequencia(jogo, inimigo, i, j);
 }
 
-int calcularSeqDirReal(Tabuleiro goban, int i, int j, int di, int dj, Peca peca, int nivel) {
+int calcularSeqDirReal(Tabuleiro goban, int i, int j, int di, int dj, Peca peca) {
 	Casa casa = {i, j};
 	int n1 = 1;
 	int n2 = 1;
