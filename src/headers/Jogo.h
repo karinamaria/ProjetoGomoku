@@ -10,12 +10,19 @@ typedef struct{
 	Jogador jogador2;
 	Tabuleiro goban;
 	Peca proximoJogador;
+	int turno;
 	int ganhando;
+	int modo_de_jogo;
 	int idioma;
 }Jogo;
 
-void novoJogo(Jogo jogo);
-void continuarJogo(Jogo jogo);
+void novoJogo(Jogo *jogo);
+void modoDeJogo(Jogo *jogo);
+void jogadorVSjogador(Jogo *jogo);
+void jogadorVScomputador(Jogo *jogo);
+void computadorVScomputador(Jogo *jogo);
+void pedirDimensao(Jogo *jogo);
+void continuarJogo(Jogo *jogo);
 void configurarJogo(Jogo *jogo);
 void jogar(Jogo *jogo);
 void inicializarJogo(Jogo *jogo);

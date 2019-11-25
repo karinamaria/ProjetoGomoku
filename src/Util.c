@@ -97,3 +97,12 @@ int verificarResposta(char *resposta, int idioma){
 	}
 	return strcmp("si", resposta) != 0 && strcmp("no", resposta) != 0;
 }
+
+void inicializarSorteio() {
+	time_t t;
+	srand((unsigned) time(&t));
+}
+
+int sortearNumero(int menor_valor, int maior_valor) {
+	return (rand() % (maior_valor - menor_valor + 1)) + menor_valor;
+}

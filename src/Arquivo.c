@@ -1,10 +1,11 @@
 #include "headers/Arquivo.h"
+#include "headers/Tela.h"
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
 
 /**
-	A função salvarJogo pergunta se os usuários desejam salvar o jogo 
+	A função salvarJogo pergunta se os usuários desejam salvar o jogo
 	Parâmetro: O jogo
 **/
 void salvarJogo(Jogo *jogo){
@@ -37,8 +38,10 @@ void salvarInformacoesJogo(Jogo *jogo){
 
 	fprintf(arquivo, "%s\n", jogo->jogador1.nome);
 	fprintf(arquivo, "%s\n", jogo->jogador2.nome);
+	fprintf(arquivo, "%d %d\n", jogo->jogador1.nivel, jogo->jogador2.nivel);
 	fprintf(arquivo, "%d %d\n", jogo->jogador1.vitorias, jogo->jogador2.vitorias);
 	fprintf(arquivo, "%d\n", jogo->goban.dimensao);
+	fprintf(arquivo, "%d\n", jogo->modo_de_jogo);
 	fprintf(arquivo, "%d %d %d\n", data.hora, data.min, data.seg);
 	fprintf(arquivo, "%d %d %d\n", data.dia, data.mes, data.ano);
 
@@ -119,8 +122,10 @@ void buscarDadosArquivo(Jogo *jogo, char *nomeArquivo, Data *data) {
 
 	fgets(jogo->jogador1.nome, 18, arquivo);
 	fgets(jogo->jogador2.nome, 18, arquivo);
+	fscanf(arquivo, "%d %d\n", &jogo->jogador1.nivel, &jogo->jogador2.nivel);
 	fscanf(arquivo, "%d %d\n", &jogo->jogador1.vitorias, &jogo->jogador2.vitorias);
 	fscanf(arquivo, "%d\n", &jogo->goban.dimensao);
+	fscanf(arquivo, "%d\n", &jogo->modo_de_jogo);
 	fscanf(arquivo, "%d %d %d\n", &data->hora, &data->min, &data->seg);
 	fscanf(arquivo, "%d %d %d\n", &data->dia, &data->mes, &data->ano);
 

@@ -1,5 +1,5 @@
-#include "headers/Regra2.h"
 #include "headers/Regra3.h"
+#include "headers/Regra2.h"
 
 /**
 	A função verificarFimDeJogo verifica se houve vitória por

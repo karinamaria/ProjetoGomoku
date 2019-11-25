@@ -10,7 +10,7 @@
 #define EN_MENU_PRINCIPAL "MAIN MENU"
 
 #define NOVO_JOGO 2
-#define PT_NOVO_JOGO "MENU PRINCIPAL"
+#define PT_NOVO_JOGO "NOVO JOGO"
 #define EN_NOVO_JOGO "NEW GAME"
 #define ES_NOVO_JOGO "NUEVO JUEGO"
 
@@ -155,11 +155,27 @@
 #define EN_COMPxCOMP "COMPUTER vs COMPUTER"
 #define ES_COMPxCOMP "COMPUTADORA vs COMPUTADORA"
 
+#define DIFICULDADE 33
+#define PT_DIFICULDADE "DIFICULDADE"
+#define EN_DIFICULDADE "DIFFICULTY"
+#define ES_DIFICULDADE "DIFICULTAD"
 
+#define FACIL 34
+#define PT_FACIL "FACIL"
+#define EN_FACIL "EASY"
+
+#define MEDIO 35
+#define PT_MEDIO "MEDIO"
+#define EN_MEDIO "MEDIUM"
+
+#define DIFICIL 36
+#define PT_DIFICIL "DIFICIL"
+#define EN_DIFICIL "HARD"
 
 char* menuP(int cod, int idioma);
 char* modoJogo(int cod, int idioma);
 char* menuC(int cod, int idioma);
+char* menuD(int cod, int idioma);
 char* msg(int cod, int idioma);
 char* msgfim(int cod, int idioma);
 char* perguntas(int cod, int idioma);

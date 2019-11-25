@@ -24,6 +24,9 @@ script.bat
 - Salvar o jogo em um arquivo
 - Carregar jogo salvo em arquivo
 - Menu do jogo
+- Interface Gráfica com caracteres ASCII
+- Tradução para Português, Inglês e Espanhol
+- Inteligencia Artificial com 3 níveis (Fácil, Médio e Difícil)
 
 ## Autores
 

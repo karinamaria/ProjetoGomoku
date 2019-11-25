@@ -52,6 +52,7 @@ char* menuP(int cod, int idioma){
 			else if (idioma == ESPANHOL)
 				return ES_LINGUA;
 	}
+	return "";
 }
 
 /**
@@ -90,7 +91,43 @@ char* modoJogo(int cod, int idioma){
 			else if (idioma == ESPANHOL)
 				return ES_COMPxCOMP;
 	}
+	return "";
 }
+
+char* menuD(int cod, int idioma) {
+	switch (cod) {
+		case DIFICULDADE:
+			if (idioma == PORTUGUES)
+				return PT_DIFICULDADE;
+			else if (idioma == INGLES)
+				return EN_DIFICULDADE;
+			else if (idioma == ESPANHOL)
+				return ES_DIFICULDADE;
+		case FACIL:
+			if (idioma == PORTUGUES)
+				return PT_FACIL;
+			else if (idioma == INGLES)
+				return EN_FACIL;
+			else if (idioma == ESPANHOL)
+				return PT_FACIL;
+		case MEDIO:
+			if (idioma == PORTUGUES)
+				return PT_MEDIO;
+			else if (idioma == INGLES)
+				return EN_MEDIO;
+			else if (idioma == ESPANHOL)
+				return PT_MEDIO;
+		case DIFICIL:
+			if (idioma == PORTUGUES)
+				return PT_DIFICIL;
+			else if (idioma == INGLES)
+				return EN_DIFICIL;
+			else if (idioma == ESPANHOL)
+				return PT_DIFICIL;
+	}
+	return "";
+}
+
 /**
 	A função menuC traduz as informações do menu continua
 	Parâmetros: o código e o idioma
@@ -141,6 +178,7 @@ char* menuC(int cod, int idioma){
 			else if (idioma == ESPANHOL)
 				return ES_DATA;
 	}
+	return "";
 }
 
 /**
@@ -189,6 +227,7 @@ char* msg(int cod, int idioma){
 				return ES_FORMACAO3x3;
 			}
 	}
+	return "";
 }
 
 /**
@@ -227,6 +266,7 @@ char* msgfim(int cod, int idioma){
 				return PT_DE;
 			}
 	}
+	return "";
 }
 
 /**
@@ -277,4 +317,5 @@ char* perguntas(int cod, int idioma){
 				return ES_SALVAR_JOGO;
 			}
 	}
+	return "";
 }

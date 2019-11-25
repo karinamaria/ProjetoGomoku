@@ -1,5 +1,6 @@
 #include "headers/Traducao.h"
 #include "headers/Jogador.h"
+#include "headers/Util.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -10,18 +11,22 @@
 	zera suas vitórias e sorteia a peça de cada um.
 	Parâmetros: Os dois jogadores e o idioma
 **/
-void inicializarJogadores(Jogador *jogador1, Jogador *jogador2, int idioma){
-	printf("%s 1: ",perguntas(JOGADOR, idioma));
-	fgets(jogador1->nome, 18, stdin);
-	jogador1->nome[strlen(jogador1->nome)-1]='\0';
-	jogador1->vitorias=0;
-
-	printf("%s 2: ",perguntas(JOGADOR, idioma));
-	fgets(jogador2->nome, 18, stdin);
-	jogador2->nome[strlen(jogador2->nome)-1]='\0';
-	jogador2->vitorias=0;
+void inicializarJogadores(Jogador *jogador1, Jogador *jogador2, int modo){
+	jogador1->vitorias = 0;
+	jogador2->vitorias = 0;
 	
-	sortearPecas(jogador1,jogador2);
+	if (modo == 1) {
+		jogador1->nivel = 0;
+		jogador2->nivel = 0;
+	}
+	else if (modo == 2) {
+		strcpy(jogador2->nome, "Computador");
+		jogador1->nivel = 0;
+	}
+	else {
+		strcpy(jogador1->nome, "Computador1");
+		strcpy(jogador2->nome, "Computador2");
+	}
 }
 
 /**
@@ -29,11 +34,7 @@ void inicializarJogadores(Jogador *jogador1, Jogador *jogador2, int idioma){
 	Parâmetros: Os dois jogadores
 **/
 void sortearPecas(Jogador *jogador1, Jogador *jogador2){
-	time_t t;
-
-	srand((unsigned) time(&t));
-
-	jogador1->peca = rand()%2;
+	jogador1->peca = sortearNumero(0, 1);
 
 	jogador2->peca=1-jogador1->peca;
 }
