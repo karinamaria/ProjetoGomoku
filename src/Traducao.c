@@ -124,6 +124,27 @@ char* menuD(int cod, int idioma) {
 				return EN_DIFICIL;
 			else if (idioma == ESPANHOL)
 				return PT_DIFICIL;
+		case A_FACIL:
+			if (idioma == PORTUGUES)
+				return PT_A_FACIL;
+			else if (idioma == INGLES)
+				return EN_A_FACIL;
+			else if (idioma == ESPANHOL)
+				return PT_A_FACIL;
+		case A_MEDIO:
+			if (idioma == PORTUGUES)
+				return PT_A_MEDIO;
+			else if (idioma == INGLES)
+				return EN_A_MEDIO;
+			else if (idioma == ESPANHOL)
+				return PT_A_MEDIO;
+		case A_DIFICIL:
+			if (idioma == PORTUGUES)
+				return PT_A_DIFICIL;
+			else if (idioma == INGLES)
+				return EN_A_DIFICIL;
+			else if (idioma == ESPANHOL)
+				return PT_A_DIFICIL;
 	}
 	return "";
 }
@@ -163,6 +184,13 @@ char* menuC(int cod, int idioma){
 				return EN_PLACAR;
 			else if (idioma == ESPANHOL)
 				return ES_PLACAR;
+		case A_MODO_JOGO:
+			if (idioma == PORTUGUES)
+				return PT_A_MODO_JOGO;
+			else if (idioma == INGLES)
+				return EN_A_MODO_JOGO;
+			else if (idioma == ESPANHOL)
+				return ES_A_MODO_JOGO;
 		case DIMENSAO:
 			if (idioma == PORTUGUES)
 				return PT_DIMENSAO;
@@ -170,6 +198,27 @@ char* menuC(int cod, int idioma){
 				return EN_DIMENSAO;
 			else if (idioma == ESPANHOL)
 				return ES_DIMENSAO;
+		case MENU_JOGADOR:
+			if (idioma == PORTUGUES)
+				return PT_MENU_JOGADOR;
+			else if (idioma == INGLES)
+				return EN_MENU_JOGADOR;
+			else if (idioma == ESPANHOL)
+				return ES_MENU_JOGADOR;
+		case A_DIFICULDADE:
+			if (idioma == PORTUGUES)
+				return PT_A_DIFICULDADE;
+			else if (idioma == INGLES)
+				return EN_A_DIFICULDADE;
+			else if (idioma == ESPANHOL)
+				return ES_A_DIFICULDADE;
+		case MENU_DIMENSAO:
+			if (idioma == PORTUGUES)
+				return PT_MENU_DIMENSAO;
+			else if (idioma == INGLES)
+				return EN_MENU_DIMENSAO;
+			else if (idioma == ESPANHOL)
+				return ES_MENU_DIMENSAO;
 		case DATA:
 			if (idioma == PORTUGUES)
 				return PT_DATA;

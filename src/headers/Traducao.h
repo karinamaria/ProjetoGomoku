@@ -172,6 +172,38 @@
 #define PT_DIFICIL "DIFICIL"
 #define EN_DIFICIL "HARD"
 
+#define MENU_DIMENSAO 37
+#define PT_MENU_DIMENSAO "DIMENSAO"
+#define EN_MENU_DIMENSAO "DIMENSION"
+#define ES_MENU_DIMENSAO "DIMENSION"
+
+#define MENU_JOGADOR 38
+#define PT_MENU_JOGADOR "NOME DO JOGADOR"
+#define EN_MENU_JOGADOR "PLAYER NAME"
+#define ES_MENU_JOGADOR "NOMBRE DEL JUGADOR"
+
+#define A_DIFICULDADE 39
+#define PT_A_DIFICULDADE "Dificuldade:"
+#define EN_A_DIFICULDADE "Difficulty:"
+#define ES_A_DIFICULDADE "Dificultad:"
+
+#define A_MODO_JOGO 40
+#define PT_A_MODO_JOGO "Modo de jogo:"
+#define EN_A_MODO_JOGO "Game mode:"
+#define ES_A_MODO_JOGO "Modo de juego:"
+
+#define A_FACIL 41
+#define PT_A_FACIL "Facil"
+#define EN_A_FACIL "Easy"
+
+#define A_MEDIO 42
+#define PT_A_MEDIO "Medio"
+#define EN_A_MEDIO "Medium"
+
+#define A_DIFICIL 43
+#define PT_A_DIFICIL "Dificil"
+#define EN_A_DIFICIL "Hard"
+
 char* menuP(int cod, int idioma);
 char* modoJogo(int cod, int idioma);
 char* menuC(int cod, int idioma);

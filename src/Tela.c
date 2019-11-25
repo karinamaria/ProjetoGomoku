@@ -34,7 +34,7 @@ void imprimirMenuNovoJogo(int idioma) {
 
 void imprimirMenuNomeJog1(int idioma) {
 	limparTela();
-	imprimirTitulo(perguntas(JOGADOR, idioma));
+	imprimirTitulo(menuC(MENU_JOGADOR, idioma));
 	imprimirRetangulo();
 	imprimirOpcao(menuP(SAIR, idioma), 0, idioma);
 	imprimirFinal();
@@ -43,7 +43,7 @@ void imprimirMenuNomeJog1(int idioma) {
 
 void imprimirMenuNomeJog2(int idioma) {
 	limparTela();
-	imprimirTitulo(perguntas(JOGADOR, idioma));
+	imprimirTitulo(menuC(MENU_JOGADOR, idioma));
 	imprimirRetangulo();
 	imprimirOpcao(menuP(SAIR, idioma), 0, idioma);
 	imprimirFinal();
@@ -52,7 +52,7 @@ void imprimirMenuNomeJog2(int idioma) {
 
 void imprimirMenuSeuNome(int idioma) {
 	limparTela();
-	imprimirTitulo(perguntas(JOGADOR, idioma));
+	imprimirTitulo(menuC(MENU_JOGADOR, idioma));
 	imprimirRetangulo();
 	imprimirOpcao(menuP(SAIR, idioma), 0, idioma);
 	imprimirFinal();
@@ -94,7 +94,7 @@ void imprimirMenuNivelCOM2(int idioma) {
 
 void imprimirMenuDimensao(int idioma) {
 	limparTela();
-	imprimirTitulo(menuC(DIMENSAO, idioma));
+	imprimirTitulo(menuC(MENU_DIMENSAO, idioma));
 	imprimirRetangulo();
 	imprimirOpcao(menuP(SAIR, idioma), 0, idioma);
 	imprimirFinal();
@@ -147,18 +147,18 @@ void imprimirArquivo(Jogo *jogo, int numArquivo) {
 	imprimirLinha();
 
 	sprintf(linha, "| %-13s jogo_%d", menuC(ARQUIVO, jogo->idioma), numArquivo);
-	printf("|| %-58s %s: %-3d| ||\n", linha, menuC(OPCAO, jogo->idioma), numArquivo);
+	printf("|| %-57s %-6s: %-3d| ||\n", linha, menuC(OPCAO, jogo->idioma), numArquivo);
 
 	sprintf(linha, "| %-13s %s %d x %d %s", menuC(PLACAR, jogo->idioma), jogo->jogador1.nome, jogo->jogador1.vitorias, jogo->jogador2.vitorias, jogo->jogador2.nome);
 	printf("|| %-69s| ||\n", linha);
 
-	sprintf(linha, "| %-13s %s", "Dificuldade:", textoDificuldade(jogo->jogador1.nivel, jogo->jogador2.nivel));
+	sprintf(linha, "| %-13s %s", menuC(A_DIFICULDADE, jogo->idioma), textoDificuldade(jogo->jogador1.nivel, jogo->jogador2.nivel, jogo->idioma));
 	printf("|| %-69s| ||\n", linha);
 
 	sprintf(linha, "| %-13s %d", menuC(DIMENSAO, jogo->idioma), jogo->goban.dimensao);
 	printf("|| %-69s| ||\n", linha);
 
-	sprintf(linha, "| %-13s %s", "Modo de jogo:", textoModoDeJogo(jogo->modo_de_jogo));
+	sprintf(linha, "| %-13s %s", menuC(A_MODO_JOGO, jogo->idioma), textoModoDeJogo(jogo->modo_de_jogo, jogo->idioma));
 	printf("|| %-69s| ||\n", linha);
 
 	sprintf(linha, "| %-13s %02d:%02d:%02d %02d/%02d/%02d", menuC(DATA, jogo->idioma), data.hora, data.min, data.seg, data.dia, data.mes, data.ano);
@@ -168,57 +168,57 @@ void imprimirArquivo(Jogo *jogo, int numArquivo) {
 	imprimirEspaco();
 }
 
-char* textoDificuldade(int nivelj1, int nivelj2) {
+char* textoDificuldade(int nivelj1, int nivelj2, int idioma) {
 	char *texto = (char *) malloc(50 * sizeof(char));
 
 	if (nivelj1 == 0 && nivelj2 == 0) {
 		strcpy(texto, "-");
 	}
 	else if (nivelj1 == 0 && nivelj2 == 1) {
-		strcpy(texto, "Facil");
+		strcpy(texto, menuD(A_FACIL, idioma));
 	}
 	else if (nivelj1 == 0 && nivelj2 == 2) {
-		strcpy(texto, "Medio");
+		strcpy(texto, menuD(A_MEDIO, idioma));
 	}
 	else if (nivelj1 == 0 && nivelj2 == 3) {
-		strcpy(texto, "Dificil");
+		strcpy(texto, menuD(A_DIFICIL, idioma));
 	}
 	else {
 		if (nivelj1 == 1) {
-			strcpy(texto, "Facil vs ");
+			strcat(strcpy(texto, menuD(A_FACIL, idioma)), " vs ");
 		}
 		else if (nivelj1 == 2) {
-			strcpy(texto, "Medio vs ");
+			strcat(strcpy(texto, menuD(A_MEDIO, idioma)), " vs ");
 		}
 		else if (nivelj1 == 3) {
-			strcpy(texto, "Dificil vs ");
+			strcat(strcpy(texto, menuD(A_DIFICIL, idioma)), " vs ");
 		}
 
 		if (nivelj2 == 1) {
-			strcat(texto, "Facil");
+			strcat(texto, menuD(A_FACIL, idioma));
 		}
 		else if (nivelj2 == 2) {
-			strcat(texto, "Medio");
+			strcat(texto, menuD(A_MEDIO, idioma));
 		}
 		else if (nivelj2 == 3) {
-			strcat(texto, "Dificil");
+			strcat(texto, menuD(A_DIFICIL, idioma));
 		}
 	}
 
 	return texto;
 }
 
-char* textoModoDeJogo(int modo) {
+char* textoModoDeJogo(int modo, int idioma) {
 	char *texto = (char *) malloc(50 * sizeof(char));
 
 	if (modo == 1) {
-		strcpy(texto, "Jogador vs Jogador");
+		strcpy(texto, modoJogo(JOGADORxJOGADOR, idioma));
 	}
 	else if (modo == 2) {
-		strcpy(texto, "Jogador vs Computador");
+		strcpy(texto, modoJogo(JOGADORxCOMP, idioma));
 	}
 	else {
-		strcpy(texto, "Computador vs Computador");
+		strcpy(texto, modoJogo(COMPxCOMP, idioma));
 	}
 
 	return texto;

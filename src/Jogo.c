@@ -251,14 +251,14 @@ void alternarJogador(Peca *proximoJogador){
 void imprimirGanhador(Jogador *jogador1, Jogador *jogador2, Peca peca, int vitoriaPorCaptura, int idioma) {
 	if (peca == jogador1->peca) {
 		jogador1->vitorias+=1;
-		printf("%s %s%s %s\n",msg(VITORIA, idioma), msg(DE, idioma), (vitoriaPorCaptura ? msg(PORCAPTURA, idioma) : ""), jogador1->nome);
+		printf("%s %s%s %s\n",msgfim(VITORIA, idioma), msgfim(DE, idioma), (vitoriaPorCaptura ? msgfim(PORCAPTURA, idioma) : ""), jogador1->nome);
 	}
 	else if (peca == jogador2->peca) {
 		jogador2->vitorias+=1;
-		printf("%s %s%s %s\n",msg(VITORIA, idioma), msg(DE, idioma), (vitoriaPorCaptura ? msg(PORCAPTURA, idioma) : ""), jogador2->nome);
+		printf("%s %s%s %s\n",msgfim(VITORIA, idioma), msgfim(DE, idioma), (vitoriaPorCaptura ? msgfim(PORCAPTURA, idioma) : ""), jogador2->nome);
 	}
 	else{
-		printf("%s\n", msg(EMPATE, idioma));
+		printf("%s\n", msgfim(EMPATE, idioma));
 	}
 	imprimirPlacarVitorias(*jogador1, *jogador2, idioma);
 }
@@ -268,7 +268,7 @@ void imprimirGanhador(Jogador *jogador1, Jogador *jogador2, Peca peca, int vitor
 	Parâmetros: Os dois jogadores e o idioma
 **/
 void imprimirPlacarVitorias(Jogador jogador1, Jogador jogador2, int idioma) {
-		printf("%s ", menuC(PLACAR, idioma));
+		printf("%s", menuC(PLACAR, idioma));
 		printf("%s %d", jogador1.nome, jogador1.vitorias);
 		printf(" x ");
 		printf("%d %s\n", jogador2.vitorias, jogador2.nome);
