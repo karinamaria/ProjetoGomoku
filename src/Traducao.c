@@ -90,10 +90,22 @@ char* modoJogo(int cod, int idioma){
 				return EN_COMPxCOMP;
 			else if (idioma == ESPANHOL)
 				return ES_COMPxCOMP;
+		case VOLTAR:
+			if (idioma == PORTUGUES)
+				return PT_VOLTAR;
+			else if (idioma == INGLES)
+				return EN_VOLTAR;
+			else if (idioma == ESPANHOL)
+				return ES_VOLTAR;
 	}
 	return "";
 }
 
+/**
+	A função menuD traduz as informações do menu dificuldade
+	Parâmetros: o código e o idioma
+	Retorno: a palavra traduzida para o idioma desejado
+**/
 char* menuD(int cod, int idioma) {
 	switch (cod) {
 		case DIFICULDADE:
@@ -103,6 +115,20 @@ char* menuD(int cod, int idioma) {
 				return EN_DIFICULDADE;
 			else if (idioma == ESPANHOL)
 				return ES_DIFICULDADE;
+		case DIFICULDADE1:
+			if (idioma == PORTUGUES)
+				return PT_DIFICULDADE1;
+			else if (idioma == INGLES)
+				return EN_DIFICULDADE1;
+			else if (idioma == ESPANHOL)
+				return ES_DIFICULDADE1;
+		case DIFICULDADE2:
+			if (idioma == PORTUGUES)
+				return PT_DIFICULDADE2;
+			else if (idioma == INGLES)
+				return EN_DIFICULDADE2;
+			else if (idioma == ESPANHOL)
+				return ES_DIFICULDADE2;
 		case FACIL:
 			if (idioma == PORTUGUES)
 				return PT_FACIL;
@@ -205,6 +231,20 @@ char* menuC(int cod, int idioma){
 				return EN_MENU_JOGADOR;
 			else if (idioma == ESPANHOL)
 				return ES_MENU_JOGADOR;
+		case MENU_JOGADOR1:
+			if (idioma == PORTUGUES)
+				return PT_MENU_JOGADOR1;
+			else if (idioma == INGLES)
+				return EN_MENU_JOGADOR1;
+			else if (idioma == ESPANHOL)
+				return ES_MENU_JOGADOR1;
+		case MENU_JOGADOR2:
+			if (idioma == PORTUGUES)
+				return PT_MENU_JOGADOR2;
+			else if (idioma == INGLES)
+				return EN_MENU_JOGADOR2;
+			else if (idioma == ESPANHOL)
+				return ES_MENU_JOGADOR2;
 		case A_DIFICULDADE:
 			if (idioma == PORTUGUES)
 				return PT_A_DIFICULDADE;
@@ -332,6 +372,22 @@ char* perguntas(int cod, int idioma){
 				return EN_JOGADOR;
 			}else if (idioma == ESPANHOL){
 				return ES_JOGADOR;
+			}
+		case JOGADOR1:
+			if (idioma == PORTUGUES){
+				return PT_JOGADOR1;
+			}else if (idioma == INGLES){
+				return EN_JOGADOR1;
+			}else if (idioma == ESPANHOL){
+				return ES_JOGADOR1;
+			}
+		case JOGADOR2:
+			if (idioma == PORTUGUES){
+				return PT_JOGADOR2;
+			}else if (idioma == INGLES){
+				return EN_JOGADOR2;
+			}else if (idioma == ESPANHOL){
+				return ES_JOGADOR2;
 			}
 		case GOBAN:
 			if (idioma == PORTUGUES){

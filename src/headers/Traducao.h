@@ -39,9 +39,9 @@
 #define ES_ESCOLHER_JOGO "ELIGE UN JUEGO"
 
 #define OPCAO 8
-#define PT_OPCAO "Opcao"
-#define EN_OPCAO "Option"
-#define ES_OPCAO "Opcion"
+#define PT_OPCAO "Opcao:"
+#define EN_OPCAO "Option:"
+#define ES_OPCAO "Opcion:"
 
 #define ARQUIVO 9
 #define PT_ARQUIVO "Arquivo: "
@@ -64,9 +64,9 @@
 #define ES_DATA "Guardado en: "
 
 #define JOGADOR 13
-#define PT_JOGADOR "Nome do jogador"
-#define EN_JOGADOR "Player name"
-#define ES_JOGADOR "Nombre del jugador"
+#define PT_JOGADOR "Seu nome:"
+#define EN_JOGADOR "Your name:"
+#define ES_JOGADOR "Su nombre:"
 
 #define CAPTURAS 14
 #define PT_CAPTURAS "Capturas:"
@@ -131,9 +131,9 @@
 #define ES_FORMACAO3x3 "Movimiento invalido. No esta permitido hacer la formacion 3x3."
 
 #define LINGUA 28
-#define PT_LINGUA "Escolha a lingua"
-#define EN_LINGUA "Choose a language"
-#define ES_LINGUA "Elige un idioma"
+#define PT_LINGUA "ESCOLHA UM IDIOMA"
+#define EN_LINGUA "CHOOSE A LANGUAGE"
+#define ES_LINGUA "ELIGE UN IDIOMA"
 
 #define MODO_JOGO 29
 #define PT_MODO_JOGO "MODO DE JOGO"
@@ -178,9 +178,9 @@
 #define ES_MENU_DIMENSAO "DIMENSION"
 
 #define MENU_JOGADOR 38
-#define PT_MENU_JOGADOR "NOME DO JOGADOR"
-#define EN_MENU_JOGADOR "PLAYER NAME"
-#define ES_MENU_JOGADOR "NOMBRE DEL JUGADOR"
+#define PT_MENU_JOGADOR "SEU NOME"
+#define EN_MENU_JOGADOR "YOUR NAME"
+#define ES_MENU_JOGADOR "SU NOMBRE"
 
 #define A_DIFICULDADE 39
 #define PT_A_DIFICULDADE "Dificuldade:"
@@ -203,6 +203,36 @@
 #define A_DIFICIL 43
 #define PT_A_DIFICIL "Dificil"
 #define EN_A_DIFICIL "Hard"
+
+#define MENU_JOGADOR1 44
+#define PT_MENU_JOGADOR1 "NOME DO JOGADOR 1"
+#define EN_MENU_JOGADOR1 "PLAYER 1 NAME"
+#define ES_MENU_JOGADOR1 "NOMBRE DEL JUGADOR 1"
+
+#define MENU_JOGADOR2 45
+#define PT_MENU_JOGADOR2 "NOME DO JOGADOR 2"
+#define EN_MENU_JOGADOR2 "PLAYER 2 NAME"
+#define ES_MENU_JOGADOR2 "NOMBRE DEL JUGADOR 2"
+
+#define JOGADOR1 46
+#define PT_JOGADOR1 "Nome do jogador 1:"
+#define EN_JOGADOR1 "Player 1 name:"
+#define ES_JOGADOR1 "Nombre del jugador 1:"
+
+#define JOGADOR2 47
+#define PT_JOGADOR2 "Nome do jogador 2:"
+#define EN_JOGADOR2 "Player 2 name:"
+#define ES_JOGADOR2 "Nombre del jugador 2:"
+
+#define DIFICULDADE1 48
+#define PT_DIFICULDADE1 "NIVEL DO COMPUTADOR 1"
+#define EN_DIFICULDADE1 "COMPUTER 1 LEVEL"
+#define ES_DIFICULDADE1 "NIVEL DE COMPUTADORA 1"
+
+#define DIFICULDADE2 49
+#define PT_DIFICULDADE2 "NIVEL DO COMPUTADOR 2"
+#define EN_DIFICULDADE2 "COMPUTER 2 LEVEL"
+#define ES_DIFICULDADE2 "NIVEL DE COMPUTADORA 2"
 
 char* menuP(int cod, int idioma);
 char* modoJogo(int cod, int idioma);

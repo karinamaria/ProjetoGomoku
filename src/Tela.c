@@ -27,36 +27,36 @@ void imprimirMenuNovoJogo(int idioma) {
 	imprimirOpcao(modoJogo(JOGADORxJOGADOR, idioma), 1, idioma);
 	imprimirOpcao(modoJogo(JOGADORxCOMP, idioma), 2, idioma);
 	imprimirOpcao(modoJogo(COMPxCOMP, idioma), 3, idioma);
-	imprimirOpcao(menuP(SAIR, idioma), 0, idioma);
+	imprimirOpcao(modoJogo(VOLTAR, idioma), 0, idioma);
 	imprimirFinal();
 	imprimirComando(idioma);
 }
 
 void imprimirMenuNomeJog1(int idioma) {
 	limparTela();
-	imprimirTitulo(menuC(MENU_JOGADOR, idioma));
+	imprimirTitulo(menuC(MENU_JOGADOR1, idioma));
 	imprimirRetangulo();
-	imprimirOpcao(menuP(SAIR, idioma), 0, idioma);
+	imprimirOpcao(modoJogo(VOLTAR, idioma), 0, idioma);
 	imprimirFinal();
-	printf("%s 1: ",perguntas(JOGADOR, idioma));
+	printf("%s ",perguntas(JOGADOR1, idioma));
 }
 
 void imprimirMenuNomeJog2(int idioma) {
 	limparTela();
-	imprimirTitulo(menuC(MENU_JOGADOR, idioma));
+	imprimirTitulo(menuC(MENU_JOGADOR2, idioma));
 	imprimirRetangulo();
-	imprimirOpcao(menuP(SAIR, idioma), 0, idioma);
+	imprimirOpcao(modoJogo(VOLTAR, idioma), 0, idioma);
 	imprimirFinal();
-	printf("%s 2: ",perguntas(JOGADOR, idioma));
+	printf("%s ",perguntas(JOGADOR2, idioma));
 }
 
 void imprimirMenuSeuNome(int idioma) {
 	limparTela();
 	imprimirTitulo(menuC(MENU_JOGADOR, idioma));
 	imprimirRetangulo();
-	imprimirOpcao(menuP(SAIR, idioma), 0, idioma);
+	imprimirOpcao(modoJogo(VOLTAR, idioma), 0, idioma);
 	imprimirFinal();
-	printf("%s 2: ",perguntas(JOGADOR, idioma));
+	printf("%s ",perguntas(JOGADOR, idioma));
 }
 
 void imprimirMenuDificuldade(int idioma) {
@@ -65,29 +65,29 @@ void imprimirMenuDificuldade(int idioma) {
 	imprimirOpcao(menuD(FACIL, idioma), 1, idioma);
 	imprimirOpcao(menuD(MEDIO, idioma), 2, idioma);
 	imprimirOpcao(menuD(DIFICIL, idioma), 3, idioma);
-	imprimirOpcao(menuP(SAIR, idioma), 0, idioma);
+	imprimirOpcao(modoJogo(VOLTAR, idioma), 0, idioma);
 	imprimirFinal();
 	imprimirComando(idioma);
 }
 
 void imprimirMenuNivelCOM1(int idioma) {
 	limparTela();
-	imprimirTitulo(menuD(DIFICULDADE, idioma));
+	imprimirTitulo(menuD(DIFICULDADE1, idioma));
 	imprimirOpcao(menuD(FACIL, idioma), 1, idioma);
 	imprimirOpcao(menuD(MEDIO, idioma), 2, idioma);
 	imprimirOpcao(menuD(DIFICIL, idioma), 3, idioma);
-	imprimirOpcao(menuP(SAIR, idioma), 0, idioma);
+	imprimirOpcao(modoJogo(VOLTAR, idioma), 0, idioma);
 	imprimirFinal();
 	imprimirComando(idioma);
 }
 
 void imprimirMenuNivelCOM2(int idioma) {
 	limparTela();
-	imprimirTitulo(menuD(DIFICULDADE, idioma));
+	imprimirTitulo(menuD(DIFICULDADE2, idioma));
 	imprimirOpcao(menuD(FACIL, idioma), 1, idioma);
 	imprimirOpcao(menuD(MEDIO, idioma), 2, idioma);
 	imprimirOpcao(menuD(DIFICIL, idioma), 3, idioma);
-	imprimirOpcao(menuP(SAIR, idioma), 0, idioma);
+	imprimirOpcao(modoJogo(VOLTAR, idioma), 0, idioma);
 	imprimirFinal();
 	imprimirComando(idioma);
 }
@@ -96,7 +96,7 @@ void imprimirMenuDimensao(int idioma) {
 	limparTela();
 	imprimirTitulo(menuC(MENU_DIMENSAO, idioma));
 	imprimirRetangulo();
-	imprimirOpcao(menuP(SAIR, idioma), 0, idioma);
+	imprimirOpcao(modoJogo(VOLTAR, idioma), 0, idioma);
 	imprimirFinal();
 	printf("%s (4<n<20): ", perguntas(GOBAN, idioma));
 }
@@ -112,7 +112,7 @@ void imprimirMenuContinuarJogo(Jogo *jogo, int qntJogosSalvos) {
 	for(int i=0; i<qntJogosSalvos; i++){
 		imprimirArquivo(jogo, i+1);
 	}
-	imprimirOpcao(menuP(SAIR, jogo->idioma), 0, jogo->idioma);
+	imprimirOpcao(modoJogo(VOLTAR, jogo->idioma), 0, jogo->idioma);
 	imprimirFinal();
 	imprimirComando(jogo->idioma);
 }
@@ -124,10 +124,10 @@ void imprimirMenuContinuarJogo(Jogo *jogo, int qntJogosSalvos) {
 void imprimirMenuIdioma(Jogo *jogo){
 	limparTela();
 	imprimirTitulo(menuP(LINGUA, jogo->idioma));
-	imprimirOpcao("Portugues", 1, jogo->idioma);
-	imprimirOpcao("English", 2, jogo->idioma);
-	imprimirOpcao("Espanol", 3, jogo->idioma);
-	imprimirOpcao(menuP(SAIR, jogo->idioma), 0, jogo->idioma);
+	imprimirOpcao("PORTUGUES", 1, jogo->idioma);
+	imprimirOpcao("ENGLISH", 2, jogo->idioma);
+	imprimirOpcao("ESPANOL", 3, jogo->idioma);
+	imprimirOpcao(modoJogo(VOLTAR, jogo->idioma), 0, jogo->idioma);
 	imprimirFinal();
 	imprimirComando(jogo->idioma);
 }
@@ -146,22 +146,22 @@ void imprimirArquivo(Jogo *jogo, int numArquivo) {
 
 	imprimirLinha();
 
-	sprintf(linha, "| %-13s jogo_%d", menuC(ARQUIVO, jogo->idioma), numArquivo);
-	printf("|| %-57s %-6s: %-3d| ||\n", linha, menuC(OPCAO, jogo->idioma), numArquivo);
+	sprintf(linha, "| %-14s jogo_%d", menuC(ARQUIVO, jogo->idioma), numArquivo);
+	printf("|| %-57s %-7s %-3d| ||\n", linha, menuC(OPCAO, jogo->idioma), numArquivo);
 
-	sprintf(linha, "| %-13s %s %d x %d %s", menuC(PLACAR, jogo->idioma), jogo->jogador1.nome, jogo->jogador1.vitorias, jogo->jogador2.vitorias, jogo->jogador2.nome);
+	sprintf(linha, "| %-14s %s %d x %d %s", menuC(PLACAR, jogo->idioma), jogo->jogador1.nome, jogo->jogador1.vitorias, jogo->jogador2.vitorias, jogo->jogador2.nome);
 	printf("|| %-69s| ||\n", linha);
 
-	sprintf(linha, "| %-13s %s", menuC(A_DIFICULDADE, jogo->idioma), textoDificuldade(jogo->jogador1.nivel, jogo->jogador2.nivel, jogo->idioma));
+	sprintf(linha, "| %-14s %s", menuC(A_DIFICULDADE, jogo->idioma), textoDificuldade(jogo->jogador1.nivel, jogo->jogador2.nivel, jogo->idioma));
 	printf("|| %-69s| ||\n", linha);
 
-	sprintf(linha, "| %-13s %d", menuC(DIMENSAO, jogo->idioma), jogo->goban.dimensao);
+	sprintf(linha, "| %-14s %d", menuC(DIMENSAO, jogo->idioma), jogo->goban.dimensao);
 	printf("|| %-69s| ||\n", linha);
 
-	sprintf(linha, "| %-13s %s", menuC(A_MODO_JOGO, jogo->idioma), textoModoDeJogo(jogo->modo_de_jogo, jogo->idioma));
+	sprintf(linha, "| %-14s %s", menuC(A_MODO_JOGO, jogo->idioma), textoModoDeJogo(jogo->modo_de_jogo, jogo->idioma));
 	printf("|| %-69s| ||\n", linha);
 
-	sprintf(linha, "| %-13s %02d:%02d:%02d %02d/%02d/%02d", menuC(DATA, jogo->idioma), data.hora, data.min, data.seg, data.dia, data.mes, data.ano);
+	sprintf(linha, "| %-14s %02d:%02d:%02d %02d/%02d/%02d", menuC(DATA, jogo->idioma), data.hora, data.min, data.seg, data.dia, data.mes, data.ano);
 	printf("|| %-69s| ||\n", linha);
 
 	imprimirLinha();
@@ -262,7 +262,7 @@ void imprimirOpcao(char *nome, int valor, int idioma) {
 
 	sprintf(linha, "| %s", nome);
 
-	printf("|| %-57s %-6s: %-3d| ||\n", linha, menuC(OPCAO, idioma), valor);
+	printf("|| %-57s %-7s %-3d| ||\n", linha, menuC(OPCAO, idioma), valor);
 	imprimirLinha();
 	imprimirEspaco();
 }
