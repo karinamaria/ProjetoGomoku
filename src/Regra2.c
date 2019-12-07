@@ -1,25 +1,26 @@
+#include "headers/Tela.h"
 #include "headers/Regra2.h"
 #include <stdio.h>
 
 /**
 	A função validarInsercao verifica se a posição escolhida pelo jogador
 	existe no tabuleiro, não está ocupada e não gera a formação 3x3.
-	Parâmetros: tabuleiro, linha e coluna(escolhidos pelo usuário) e peca
+	Parâmetros: tabuleiro, linha e coluna(escolhidos pelo usuário), peca e idioma
 	Retorno: Será 0(se a jogada for inválida) ou 1(se não tiver nenhum impedimento)
 **/
-int validarInsercao(Tabuleiro tabuleiro, int lin, int col, Peca peca){
+int validarInsercao(Tabuleiro tabuleiro, int lin, int col, Peca peca, int idioma){
 	if (lin < 0 || lin >= tabuleiro.dimensao || col < 0 || col >= tabuleiro.dimensao){
-		printf("----Jogada invalida. Esta posicao esta fora do goban.----\n");
+		imprimirErroJogadaInvalida(idioma);
 		return 0;
 	}
 
 	if (tabuleiro.matriz[lin][col] != -1){
-		printf("----Jogada invalida. Ja existe uma peca nesta posicao.----\n");
+		imprimirErroJogadaInvalida(idioma);
 		return 0;
 	}
 
 	if (verificarFormacao3x3(tabuleiro, lin, col, peca)){
-		printf("----Jogada invalida. Nao eh permitido fazer a formacao 3x3.----\n");
+		imprimirErroFormacao3x3(idioma);
 		return 0;
 	}
 

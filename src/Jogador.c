@@ -1,26 +1,31 @@
+#include "headers/Traducao.h"
 #include "headers/Jogador.h"
+#include "headers/Util.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
 
 /**
-	A função inicializarJogadores pede o nome dos jogadores,
-	zera suas vitórias e sorteia a peça de cada um.
-	Parâmetros: Os dois jogadores
+	A função inicializarJogadores inicializa os jogadores
+	Parâmetros: Os dois jogadores e o modo de jogo
 **/
-void inicializarJogadores(Jogador *jogador1, Jogador *jogador2){
-	printf("Nome do jogador 1: ");
-	fgets(jogador1->nome, 18, stdin);
-	jogador1->nome[strlen(jogador1->nome)-1]='\0';
-	jogador1->vitorias=0;
-
-	printf("Nome do jogador 2: ");
-	fgets(jogador2->nome, 18, stdin);
-	jogador2->nome[strlen(jogador2->nome)-1]='\0';
-	jogador2->vitorias=0;
+void inicializarJogadores(Jogador *jogador1, Jogador *jogador2, int modo){
+	jogador1->vitorias = 0;
+	jogador2->vitorias = 0;
 	
-	sortearPecas(jogador1,jogador2);
+	if (modo == 1) {
+		jogador1->nivel = 0;
+		jogador2->nivel = 0;
+	}
+	else if (modo == 2) {
+		strcpy(jogador2->nome, "Computador");
+		jogador1->nivel = 0;
+	}
+	else {
+		strcpy(jogador1->nome, "Computador1");
+		strcpy(jogador2->nome, "Computador2");
+	}
 }
 
 /**
@@ -28,11 +33,7 @@ void inicializarJogadores(Jogador *jogador1, Jogador *jogador2){
 	Parâmetros: Os dois jogadores
 **/
 void sortearPecas(Jogador *jogador1, Jogador *jogador2){
-	time_t t;
-
-	srand((unsigned) time(&t));
-
-	jogador1->peca = rand()%2;
+	jogador1->peca = sortearNumero(0, 1);
 
 	jogador2->peca=1-jogador1->peca;
 }
@@ -47,15 +48,7 @@ void zerarCapturas(Jogador *jogador1, Jogador *jogador2) {
 }
 
 /**
-	A função informarQntCapturas imprime na tela o placar de capturas
-	Parâmetros: Os dois jogadores
-**/
-void informarQntCapturas(Jogador jogador1, Jogador jogador2) {
-	printf("Capturas: %s %d X %d %s\n", jogador1.nome, jogador1.capturas, jogador2.capturas, jogador2.nome);
-}
-
-/**
-	A função caracterPeca recebe uma peça analisa  e retorna
+	A função caracterPeca recebe uma peça analisa e retorna
 	a que caracter corresponde essa peça.
 	Parâmetro: A peça
 	Retorno: A letra que corresponde a peça 

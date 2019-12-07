@@ -1,20 +1,22 @@
 #include "headers/Arquivo.h"
+#include "headers/Tela.h"
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
 
 /**
-	A função salvarJogo pergunta se os usuários desejam salvar o jogo 
+	A função salvarJogo pergunta se os usuários desejam salvar o jogo
 	Parâmetro: O jogo
 **/
 void salvarJogo(Jogo *jogo){
 	char resposta[3];
 	do{
-		printf("Deseja salvar esse jogo (sim | nao)? ");
+		printf("%s ", perguntas(SALVAR_JOGO, jogo->idioma));
 		scanf("%s",resposta);
 		strcpy(resposta,converterParaMinusculo(resposta));
-	}while(strcmp("sim", resposta) != 0 && strcmp("nao", resposta) != 0);
-	if(strcmp("sim", resposta) == 0){
+	}while(verificarResposta(resposta, jogo->idioma));
+	if(strcmp("sim", resposta) == 0 || strcmp("yes", resposta) == 0
+		|| strcmp("si", resposta) == 0){
 		existePasta();
 		salvarInformacoesJogo(jogo);
 	}
@@ -36,8 +38,10 @@ void salvarInformacoesJogo(Jogo *jogo){
 
 	fprintf(arquivo, "%s\n", jogo->jogador1.nome);
 	fprintf(arquivo, "%s\n", jogo->jogador2.nome);
+	fprintf(arquivo, "%d %d\n", jogo->jogador1.nivel, jogo->jogador2.nivel);
 	fprintf(arquivo, "%d %d\n", jogo->jogador1.vitorias, jogo->jogador2.vitorias);
 	fprintf(arquivo, "%d\n", jogo->goban.dimensao);
+	fprintf(arquivo, "%d\n", jogo->modo_de_jogo);
 	fprintf(arquivo, "%d %d %d\n", data.hora, data.min, data.seg);
 	fprintf(arquivo, "%d %d %d\n", data.dia, data.mes, data.ano);
 
@@ -69,16 +73,15 @@ char* nomeArquivoJogo(int numArquivo){
   	sprintf(caracter, "%i", numArquivo);
 
   	strcat(nome, "jogos/jogo_");
-  	strcat(nome, caracter);
-  	strcat(nome, ".txt");
+  	strcat(nome, strcat(caracter, ".txt"));
 
   	return nome;
 }
 
 /**
-	A função existeArquivoJogo verifica se existe jogos salvos e os exibe
+	A função existeArquivoJogo lista todos os jogos salvos
 	Parâmetro: o jogo
-	Retorno: 0(Não existe jogo salvo) e 1(existe jogo salvo)
+	Retorno: 0(volta para o menu principal) e 1(carregar jogo)
 **/
 int existeArquivoJogo(Jogo *jogo){
 	int qntJogosSalvos=contarArquivoOuPasta("./jogos/jogo_*.txt");
@@ -98,27 +101,6 @@ int existeArquivoJogo(Jogo *jogo){
 }
 
 /**
-	A função buscarDadosArquivo armazena os dados do arquivo
-	na estrutura jogo.
-	Parâmetros: O jogo, o nome do arquivo e a data
-**/
-void buscarDadosArquivo(Jogo *jogo, char *nomeArquivo, Data *data) {
-	FILE *arquivo = fopen(nomeArquivo, "r");
-
-	fgets(jogo->jogador1.nome, 18, arquivo);
-	fgets(jogo->jogador2.nome, 18, arquivo);
-	fscanf(arquivo, "%d %d\n", &jogo->jogador1.vitorias, &jogo->jogador2.vitorias);
-	fscanf(arquivo, "%d\n", &jogo->goban.dimensao);
-	fscanf(arquivo, "%d %d %d\n", &data->hora, &data->min, &data->seg);
-	fscanf(arquivo, "%d %d %d\n", &data->dia, &data->mes, &data->ano);
-
-	jogo->jogador1.nome[strlen(jogo->jogador1.nome)-1]='\0';
-	jogo->jogador2.nome[strlen(jogo->jogador2.nome)-1]='\0';
-
-	fclose(arquivo);
-}
-
-/**
 	A função abrirArquivoJogo configura um jogo com os dados de um arquivo
 	Parâmetros: o jogo e o número do arquivo
 **/
@@ -128,4 +110,27 @@ void abrirArquivoJogo(Jogo *jogo, int numArquivo){
 	jogo->id=numArquivo;
 
 	buscarDadosArquivo(jogo, nomeArquivo, &data);
+}
+
+/**
+	A função buscarDadosArquivo armazena os dados do arquivo
+	na estrutura jogo.
+	Parâmetros: O jogo, o nome do arquivo e a data
+**/
+void buscarDadosArquivo(Jogo *jogo, char *nomeArquivo, Data *data) {
+	FILE *arquivo = fopen(nomeArquivo, "r");
+
+	fgets(jogo->jogador1.nome, 18, arquivo);
+	fgets(jogo->jogador2.nome, 18, arquivo);
+	fscanf(arquivo, "%d %d\n", &jogo->jogador1.nivel, &jogo->jogador2.nivel);
+	fscanf(arquivo, "%d %d\n", &jogo->jogador1.vitorias, &jogo->jogador2.vitorias);
+	fscanf(arquivo, "%d\n", &jogo->goban.dimensao);
+	fscanf(arquivo, "%d\n", &jogo->modo_de_jogo);
+	fscanf(arquivo, "%d %d %d\n", &data->hora, &data->min, &data->seg);
+	fscanf(arquivo, "%d %d %d\n", &data->dia, &data->mes, &data->ano);
+
+	jogo->jogador1.nome[strlen(jogo->jogador1.nome)-1]='\0';
+	jogo->jogador2.nome[strlen(jogo->jogador2.nome)-1]='\0';
+
+	fclose(arquivo);
 }

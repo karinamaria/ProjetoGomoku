@@ -1,4 +1,3 @@
-#include "headers/Jogo.h"
 #include "headers/Regra1.h"
 
 /**
@@ -24,7 +23,7 @@ void verificarCaptura(Jogo *jogo, int i, int j) {
 	Retorno: 1(Se capturou) ou 0(Se não capturou)
 **/
 int capturouPecas(Jogo *jogo, int i, int j, int di, int dj) {
-	if (validarCaptura(jogo, i, j, di, dj)) {
+	if (validarCaptura(jogo->goban, jogo->proximoJogador, i, j, di, dj)) {
 		jogo->goban.matriz[i +   di][j +   dj] = -1;
 		jogo->goban.matriz[i + 2*di][j + 2*dj] = -1;
 
@@ -44,18 +43,17 @@ int capturouPecas(Jogo *jogo, int i, int j, int di, int dj) {
 /**
 	A função validarCaptura analisa o tabuleiro a fim de verificar se 
 	é possível fazer captura de peças
-	Parâmetros: O jogo, a linha, coluna,
+	Parâmetros: O goban, a peca(da vez), a linha, coluna,
 	a direção da linha(1:Para baixo, -1:Para cima e 0:Sem movimentos)
 	e a direção da coluna(1:Para direita, -1:Para esquerda, 0: Sem movimento)
 	Retorno: 1(Se é possível realizar a captura) ou 0(Se não é possível)
 **/
-int validarCaptura(Jogo *jogo, int i, int j, int di, int dj) {
+int validarCaptura(Tabuleiro goban, int peca, int i, int j, int di, int dj) {
 	return    i + 3*di >= 0
-           && i + 3*di < jogo->goban.dimensao
+           && i + 3*di < goban.dimensao
            && j + 3*dj >= 0
-           && j + 3*dj < jogo->goban.dimensao
-           && jogo->goban.matriz[    i   ][    j   ] == jogo->proximoJogador
-           && jogo->goban.matriz[i +   di][j +   dj] == 1-jogo->proximoJogador
-           && jogo->goban.matriz[i + 2*di][j + 2*dj] == 1-jogo->proximoJogador
-           && jogo->goban.matriz[i + 3*di][j + 3*dj] == jogo->proximoJogador;
+           && j + 3*dj < goban.dimensao
+           && goban.matriz[i +   di][j +   dj] == 1-peca
+           && goban.matriz[i + 2*di][j + 2*dj] == 1-peca
+           && goban.matriz[i + 3*di][j + 3*dj] == peca;
 }

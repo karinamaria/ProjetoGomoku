@@ -24,5 +24,8 @@ void limparTela();
 void existePasta();
 int contarArquivoOuPasta(char *caminho);
 Data dataAtual();
+int sortearNumero(int menor_valor, int maior_valor);
+void inicializarSorteio();
+int verificarResposta(char *resposta, int idioma);
 
 #endif

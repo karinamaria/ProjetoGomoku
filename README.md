@@ -14,16 +14,38 @@ No Windows
 git clone https://github.com/karinamaria/ProjetoGomoku.git
 script.bat
 ```
-## Funcionalidades implementadas
+## Regras do Gomoku
 
-- Validação de cada jogada
+- O tabuleiro chama-se goban e tem tamanho que varia entre 5x5 e 19x19
+- É sorteado as peças dos jogadores (Preto ou Branco)
+- Quem começa são as Pretas
+- Cada jogador só pode colocar uma peça em uma interseção vaga por vez
+- Quem conseguir alinhar cinco peças na horizontal, vertical ou diaginal primeiro vence
+
 - Finalização do jogo pelo alinhamento de 5 peças no sentido horizontal, vertical ou diagonal
 - Captura de peças (1ª Regra do Ninuki)
 - Proibição de formação de jogadas 3x3 (2ª Regra do Ninuki)
 - Finalização do jogo pela quantidade de capturas (3ª Regra do Ninuki)
-- Salvar o jogo em um arquivo
-- Carregar jogo salvo em arquivo
-- Menu do jogo
+
+## Regras adicionais do Ninuki
+
+- 1ª regra: Duas peças adversárias podem ser capturadas ao serem colocadas entre duas suas
+- 2ª regra: É proibido criar a formação 3x3 que consiste no alinhamento cruzado de três peças em direções diferentes
+- 3ª regra: Ganha quem conseguir cinco capturas ou alinhar cinco peças e seu adversário não consiga capturar nenhuma delas na jogada seguinte
+
+## Funcionalidades implementadas
+
+- Salvamento de jogo
+- Carregamento de jogo
+- Interface com caracteres ASCII
+- Tradução para os idiomas:
+-- Português
+-- Inglês
+-- Espanhol
+- Inteligência artificial nos níveis:
+-- Fácil
+-- Médio
+-- Difícil
 
 ## Autores
 
