@@ -49,4 +49,4 @@ script.bat
 ## Autores
 
 - Karina Maria - [@karinamaria](https://github.com/karinamaria)
-- Wadson Pontes - [@karinamaria](https://github.com/WadsonPontes)
+- Wadson Pontes - [@WadsonPontes](https://github.com/WadsonPontes)
