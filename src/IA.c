@@ -57,19 +57,13 @@ int calcularCaptura(Jogo *jogo, Jogador jogador, Jogador inimigo, int i, int j) 
 }
 
 int calcularCapDirecao(Jogo *jogo, Jogador jogador, Jogador inimigo, int i, int j, int di, int dj) {
-	int existe =    i + 3*di >= 0
-                 && i + 3*di < jogo->goban.dimensao
-                 && j + 3*dj >= 0
-                 && j + 3*dj < jogo->goban.dimensao
-                 && jogo->goban.matriz[i +   di][j +   dj] == 1-jogador.peca
-                 && jogo->goban.matriz[i + 2*di][j + 2*dj] == 1-jogador.peca
-                 && jogo->goban.matriz[i + 3*di][j + 3*dj] == jogador.peca;
+	int existe = validarCaptura(jogo->goban, jogador.peca, i, j, di, dj);
 
     if (existe && jogador.capturas == 4) {
-    	return 100000;
+    	return CAPTURA5;
     }
     if (existe) {
-    	return   10000
+    	return   CAPTURAX
     	       + calcularBloqueio(jogo, jogador, inimigo, i + di, j + dj)
     	       + calcularBloqueio(jogo, jogador, inimigo, i + 2*di, j + 2*dj);
     }

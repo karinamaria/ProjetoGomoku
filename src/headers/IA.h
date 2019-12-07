@@ -3,6 +3,9 @@
 
 #include "Jogo.h"
 
+#define CAPTURA5 100000
+#define CAPTURAX 10000
+
 typedef struct{
 	int lin;
 	int col;
