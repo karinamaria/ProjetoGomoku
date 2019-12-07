@@ -30,9 +30,9 @@ script.bat
 
 ## Funcionalidades implementadas
 
+- Interface com caracteres ASCII
 - Salvamento de jogo
 - Carregamento de jogo
-- Interface com caracteres ASCII
 - Tradução para os idiomas:
 	- Português
 	- Inglês
