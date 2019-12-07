@@ -79,9 +79,9 @@ char* nomeArquivoJogo(int numArquivo){
 }
 
 /**
-	A função existeArquivoJogo verifica se existe jogos salvos e os exibe
+	A função existeArquivoJogo lista todos os jogos salvos
 	Parâmetro: o jogo
-	Retorno: 0(Não existe jogo salvo) e 1(existe jogo salvo)
+	Retorno: 0(volta para o menu principal) e 1(carregar jogo)
 **/
 int existeArquivoJogo(Jogo *jogo){
 	int qntJogosSalvos=contarArquivoOuPasta("./jogos/jogo_*.txt");

@@ -7,9 +7,8 @@
 #include <time.h>
 
 /**
-	A função inicializarJogadores pede o nome dos jogadores,
-	zera suas vitórias e sorteia a peça de cada um.
-	Parâmetros: Os dois jogadores e o idioma
+	A função inicializarJogadores inicializa os jogadores
+	Parâmetros: Os dois jogadores e o modo de jogo
 **/
 void inicializarJogadores(Jogador *jogador1, Jogador *jogador2, int modo){
 	jogador1->vitorias = 0;
@@ -49,15 +48,7 @@ void zerarCapturas(Jogador *jogador1, Jogador *jogador2) {
 }
 
 /**
-	A função informarQntCapturas imprime na tela o placar de capturas
-	Parâmetros: Os dois jogadores
-**/
-void informarQntCapturas(Jogador jogador1, Jogador jogador2, int idioma) {
-	printf("%s %s %d X %d %s\n", msg(CAPTURAS, idioma), jogador1.nome, jogador1.capturas, jogador2.capturas, jogador2.nome);
-}
-
-/**
-	A função caracterPeca recebe uma peça analisa  e retorna
+	A função caracterPeca recebe uma peça analisa e retorna
 	a que caracter corresponde essa peça.
 	Parâmetro: A peça
 	Retorno: A letra que corresponde a peça 

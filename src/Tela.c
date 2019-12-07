@@ -8,7 +8,7 @@
 
 /**
 	A função imprimirMenuPrincipal imprime o menu principal
-	Parâmetro:o idioma
+	Parâmetro: o idioma
 **/
 void imprimirMenuPrincipal(int idioma) {
 	limparTela();
@@ -21,6 +21,10 @@ void imprimirMenuPrincipal(int idioma) {
 	imprimirComando(idioma);
 }
 
+/**
+	A função imprimirMenuNovoJogo imprime o menu de escolha do modo de jogo
+	Parâmetro: o idioma
+**/
 void imprimirMenuNovoJogo(int idioma) {
 	limparTela();
 	imprimirTitulo(modoJogo(MODO_JOGO, idioma));
@@ -32,6 +36,11 @@ void imprimirMenuNovoJogo(int idioma) {
 	imprimirComando(idioma);
 }
 
+/**
+	A função imprimirMenuNomeJog1 imprime a tela que pede
+	o nome do jogador 1 (no modo de jogo Jogador vs Jogador)
+	Parâmetro: o idioma
+**/
 void imprimirMenuNomeJog1(int idioma) {
 	limparTela();
 	imprimirTitulo(menuC(MENU_JOGADOR1, idioma));
@@ -41,6 +50,11 @@ void imprimirMenuNomeJog1(int idioma) {
 	printf("%s ",perguntas(JOGADOR1, idioma));
 }
 
+/**
+	A função imprimirMenuNomeJog2 imprime a tela que pede
+	o nome do jogador 2 (no modo de jogo Jogador vs Jogador)
+	Parâmetro: o idioma
+**/
 void imprimirMenuNomeJog2(int idioma) {
 	limparTela();
 	imprimirTitulo(menuC(MENU_JOGADOR2, idioma));
@@ -50,6 +64,11 @@ void imprimirMenuNomeJog2(int idioma) {
 	printf("%s ",perguntas(JOGADOR2, idioma));
 }
 
+/**
+	A função imprimirMenuSeuNome imprime a tela que pede
+	o nome do jogador (no modo de jogo Jogador vs Computador)
+	Parâmetro: o idioma
+**/
 void imprimirMenuSeuNome(int idioma) {
 	limparTela();
 	imprimirTitulo(menuC(MENU_JOGADOR, idioma));
@@ -59,6 +78,11 @@ void imprimirMenuSeuNome(int idioma) {
 	printf("%s ",perguntas(JOGADOR, idioma));
 }
 
+/**
+	A função imprimirMenuDificuldade imprime o menu dificuldade
+	(no modo de jogo Jogador vs Computador)
+	Parâmetro: o idioma
+**/
 void imprimirMenuDificuldade(int idioma) {
 	limparTela();
 	imprimirTitulo(menuD(DIFICULDADE, idioma));
@@ -70,6 +94,11 @@ void imprimirMenuDificuldade(int idioma) {
 	imprimirComando(idioma);
 }
 
+/**
+	A função imprimirMenuNivelCOM1 imprime a tela que pede
+	o nível do Computador1 (no modo de jogo Computador vs Computador)
+	Parâmetro: o idioma
+**/
 void imprimirMenuNivelCOM1(int idioma) {
 	limparTela();
 	imprimirTitulo(menuD(DIFICULDADE1, idioma));
@@ -81,6 +110,11 @@ void imprimirMenuNivelCOM1(int idioma) {
 	imprimirComando(idioma);
 }
 
+/**
+	A função imprimirMenuNivelCOM2 imprime a tela que pede
+	o nível do Computador2 (no modo de jogo Computador vs Computador)
+	Parâmetro: o idioma
+**/
 void imprimirMenuNivelCOM2(int idioma) {
 	limparTela();
 	imprimirTitulo(menuD(DIFICULDADE2, idioma));
@@ -92,6 +126,11 @@ void imprimirMenuNivelCOM2(int idioma) {
 	imprimirComando(idioma);
 }
 
+/**
+	A função imprimirMenuDimensao imprime a tela que pede
+	o tamanho do goban, podendo ser um valor entre 5 e 19.
+	Parâmetro: o idioma
+**/
 void imprimirMenuDimensao(int idioma) {
 	limparTela();
 	imprimirTitulo(menuC(MENU_DIMENSAO, idioma));
@@ -168,6 +207,86 @@ void imprimirArquivo(Jogo *jogo, int numArquivo) {
 	imprimirEspaco();
 }
 
+/**
+	A função imprimirErroJogadaInvalida imprime uma mensagem de erro
+	avisando que a jogada é invalida
+	Parâmetro: o idioma
+**/
+void imprimirErroJogadaInvalida(int idioma) {
+	printf("----%s----\n", msg(JOGADA_INVALIDA, idioma));
+}
+
+/**
+	A função imprimirErroFormacao3x3 imprime uma mensagem de erro
+	avisando que a jogada gera a formação 3x3
+	Parâmetro: o idioma
+**/
+void imprimirErroFormacao3x3(int idioma) {
+	printf("----%s----\n", msg(FORMACAO3x3, idioma));
+}
+
+/**
+	A função imprimirGanhador imprime o ganhador
+	Parâmetro: o nome do ganhador, vitoriaPorCaptura(0 ou 1) e o idioma
+**/
+void imprimirGanhador(char* ganhador, int vitoriaPorCaptura, int idioma) {
+	char *por_captura = (char *) malloc(50 * sizeof(char));
+
+	if (vitoriaPorCaptura) {
+		strcpy(por_captura, msgfim(PORCAPTURA, idioma));
+	}
+	else {
+		strcpy(por_captura, "");
+	}
+
+	printf("%s%s %s %s\n", msgfim(VITORIA, idioma), por_captura, msgfim(DE, idioma), ganhador);
+}
+
+/**
+	A função imprimirEmpate imprime uma mensagem de empate
+	Parâmetro: o idioma
+**/
+void imprimirEmpate(int idioma) {
+	printf("%s\n", msgfim(EMPATE, idioma));
+}
+
+/**
+	A função imprimirPlacarCaptura imprime o placar de capturas
+	Parâmetros: Os dois jogadores e o idioma
+**/
+void imprimirPlacarCapturas(Jogador jogador1, Jogador jogador2, int idioma) {
+		printf("%s", msg(CAPTURAS, idioma));
+		printf("%s %d", jogador1.nome, jogador1.capturas);
+		printf(" x ");
+		printf("%d %s\n", jogador2.capturas, jogador2.nome);
+}
+
+/**
+	A função imprimirPlacarVitorias imprime o placar de vitórias
+	Parâmetros: Os dois jogadores e o idioma
+**/
+void imprimirPlacarVitorias(Jogador jogador1, Jogador jogador2, int idioma) {
+		printf("%s", menuC(PLACAR, idioma));
+		printf("%s %d", jogador1.nome, jogador1.vitorias);
+		printf(" x ");
+		printf("%d %s\n", jogador2.vitorias, jogador2.nome);
+}
+
+/**
+	A função imprimirContinuarJogando imprime uma mensagem perguntando
+	se os jogadores desejam continuar jogando.
+	Parâmetros: o idioma
+**/
+void imprimirContinuarJogando(int idioma) {
+	printf("%s ", perguntas(CONTINUAR_JOGO, idioma));
+}
+
+/**
+	A função textoDificuldade retorna o texto contendo a
+	dificuldade no idioma atual.
+	Parâmetros: O nível do jogador 1 e 2 e o idioma
+	Retorno: Um texto
+**/
 char* textoDificuldade(int nivelj1, int nivelj2, int idioma) {
 	char *texto = (char *) malloc(50 * sizeof(char));
 
@@ -208,6 +327,12 @@ char* textoDificuldade(int nivelj1, int nivelj2, int idioma) {
 	return texto;
 }
 
+/**
+	A função textoModoDeJogo retorna o texto contendo a
+	o modo de jogo no idioma atual.
+	Parâmetros: O modo de jogo e o idioma
+	Retorno: Um texto
+**/
 char* textoModoDeJogo(int modo, int idioma) {
 	char *texto = (char *) malloc(50 * sizeof(char));
 
@@ -253,7 +378,7 @@ void imprimirTitulo(char *nome) {
 /**
 	A função imprimirOpcao imprime um retângulo contendo
 	o nome e o valor da opção.
-	Parâmetros: o nome e o valor da opção
+	Parâmetros: o nome, o valor da opção e o idioma
 **/
 void imprimirOpcao(char *nome, int valor, int idioma) {
 	char linha[99];
@@ -269,11 +394,15 @@ void imprimirOpcao(char *nome, int valor, int idioma) {
 
 /**
 	A função imprimirComando imprime um pedido para o usuário digitar
+	Parâmetro: o idioma
 **/
 void imprimirComando(int idioma) {
 	printf("%s ",msg(MSG_INICIO, idioma));
 }
 
+/**
+	A função imprimirRetangulo imprime um retângulo vazio na tela
+**/
 void imprimirRetangulo() {
 	imprimirLinha();
 	printf("|| | %-66s | ||\n", "");

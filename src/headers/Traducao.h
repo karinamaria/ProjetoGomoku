@@ -69,8 +69,8 @@
 #define ES_JOGADOR "Su nombre:"
 
 #define CAPTURAS 14
-#define PT_CAPTURAS "Capturas:"
-#define EN_CAPTURAS "Catches:"
+#define PT_CAPTURAS "Capturas: "
+#define EN_CAPTURAS "Catches: "
 
 #define GOBAN 15
 #define PT_GOBAN "Tamanho do goban"
@@ -102,8 +102,8 @@
 #define EN_DE "of"
 
 #define PORCAPTURA 22
-#define PT_POR_CAPTURA "por captura"
-#define EN_POR_CAPTURA "by capture"
+#define PT_POR_CAPTURA " por captura"
+#define EN_POR_CAPTURA " by capture"
 
 #define CONTINUAR_JOGO 23
 #define PT_CONTINUAR_JOGO "Deseja continuar (sim | nao)?"

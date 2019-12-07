@@ -1,4 +1,4 @@
-#include "headers/Traducao.h"
+#include "headers/Tela.h"
 #include "headers/Regra2.h"
 #include <stdio.h>
 
@@ -10,17 +10,17 @@
 **/
 int validarInsercao(Tabuleiro tabuleiro, int lin, int col, Peca peca, int idioma){
 	if (lin < 0 || lin >= tabuleiro.dimensao || col < 0 || col >= tabuleiro.dimensao){
-		printf("----%s----\n", msg(JOGADA_INVALIDA, idioma));
+		imprimirErroJogadaInvalida(idioma);
 		return 0;
 	}
 
 	if (tabuleiro.matriz[lin][col] != -1){
-		printf("----%s----\n", msg(JOGADA_INVALIDA, idioma));
+		imprimirErroJogadaInvalida(idioma);
 		return 0;
 	}
 
 	if (verificarFormacao3x3(tabuleiro, lin, col, peca)){
-		printf("----%s----\n", msg(FORMACAO3x3, idioma));
+		imprimirErroFormacao3x3(idioma);
 		return 0;
 	}
 

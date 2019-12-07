@@ -30,8 +30,7 @@ void loopJogo(Jogo *jogo);
 void informarProximoJogador(Jogo *jogo);
 void novaJogada(Jogo *jogo, int *lin, int *col);
 void alternarJogador(Peca *proximoJogador);
-void imprimirGanhador(Jogador *jogador1, Jogador *jogador2, Peca peca, int vitoriaPorCaptura, int idioma);
-void imprimirPlacarVitorias(Jogador jogador1, Jogador jogador2, int idioma);
+void ganhador(Jogador *jogador1, Jogador *jogador2, Peca peca, int vitoriaPorCaptura, int idioma);
 int continuarJogando(int idioma);
 
 #endif

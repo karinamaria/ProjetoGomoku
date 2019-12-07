@@ -4,7 +4,6 @@
 #include "headers/Arquivo.h"
 #include "headers/Regra1.h"
 #include "headers/Regra3.h"
-#include "headers/Traducao.h"
 #include "headers/IA.h"
 #include "headers/Regra2.h"
 #include <stdio.h>
@@ -16,12 +15,16 @@
 	A função novoJogo inicializa todas as variáveis do jogo
 	Parâmetro: O jogo
 **/
-
 void novoJogo(Jogo *jogo){
 	jogo->id=0;
 	modoDeJogo(jogo);
 }
 
+/**
+	A função modoDeJogo imprime o menu modo de jogo e
+	pede e inicia um dos modos
+	Parâmetro: O jogo
+**/
 void modoDeJogo(Jogo *jogo) {
 	do{
 		imprimirMenuNovoJogo(jogo->idioma);
@@ -42,6 +45,10 @@ void modoDeJogo(Jogo *jogo) {
 	}while(jogo->modo_de_jogo != 0 && jogo->turno == 0);
 }
 
+/**
+	A função jogadorVSjogador pede o nome dos dois jogadores
+	Parâmetro: O jogo
+**/
 void jogadorVSjogador(Jogo *jogo) {
 	do{
 		imprimirMenuNomeJog1(jogo->idioma);
@@ -64,6 +71,11 @@ void jogadorVSjogador(Jogo *jogo) {
 	}while((strcmp(jogo->jogador1.nome, "0") != 0 || strcmp(jogo->jogador1.nome, "") == 0) && jogo->turno == 0);
 }
 
+/**
+	A função jogadorVScomputador pede o nível do computador e
+	o nome do jogador.
+	Parâmetro: O jogo
+**/
 void jogadorVScomputador(Jogo *jogo) {
 	do{
 		imprimirMenuDificuldade(jogo->idioma);
@@ -86,6 +98,10 @@ void jogadorVScomputador(Jogo *jogo) {
 	}while(jogo->jogador2.nivel != 0 && jogo->turno == 0);
 }
 
+/**
+	A função computadorVScomputador pede o nível dos dois computadores
+	Parâmetro: O jogo
+**/
 void computadorVScomputador(Jogo *jogo) {
 	do{
 		imprimirMenuNivelCOM1(jogo->idioma);
@@ -108,6 +124,10 @@ void computadorVScomputador(Jogo *jogo) {
 	}while(jogo->jogador1.nivel != 0 && jogo->turno == 0);
 }
 
+/**
+	A função pedirDimensao pede o tamanho do goban
+	Parâmetro: O jogo
+**/
 void pedirDimensao(Jogo *jogo) {
 	do{
 		imprimirMenuDimensao(jogo->idioma);
@@ -187,7 +207,7 @@ void loopJogo(Jogo *jogo){
 	int lin,col;
 
 	do{
-		informarQntCapturas(jogo->jogador1, jogo->jogador2, jogo->idioma);
+		imprimirPlacarCapturas(jogo->jogador1, jogo->jogador2, jogo->idioma);
 		imprimirTabuleiro(jogo->goban);
 		informarProximoJogador(jogo);
 		novaJogada(jogo, &lin, &col);
@@ -195,9 +215,9 @@ void loopJogo(Jogo *jogo){
 		alternarJogador(&jogo->proximoJogador);
 		limparTela();
 	}while(!verificarFimDeJogo(jogo, &peca, &vitoriaPorCaptura));
-	informarQntCapturas(jogo->jogador1, jogo->jogador2, jogo->idioma);
+	imprimirPlacarCapturas(jogo->jogador1, jogo->jogador2, jogo->idioma);
 	imprimirTabuleiro(jogo->goban);
-	imprimirGanhador(&jogo->jogador1, &jogo->jogador2, peca, vitoriaPorCaptura, jogo->idioma);
+	ganhador(&jogo->jogador1, &jogo->jogador2, peca, vitoriaPorCaptura, jogo->idioma);
 }
 
 /**
@@ -244,34 +264,23 @@ void alternarJogador(Peca *proximoJogador){
 }
 
 /**
-	A função imprimirGanhador é responsável por imprimir o ganhador
+	A função ganhador é responsável por imprimir o ganhador
 	juntamente com o placar do jogo.
 	Parâmetros: Os dois jogadores, peca(ganhadora), vitoriaPorCaptura(0 ou 1) e o idioma
 **/
-void imprimirGanhador(Jogador *jogador1, Jogador *jogador2, Peca peca, int vitoriaPorCaptura, int idioma) {
+void ganhador(Jogador *jogador1, Jogador *jogador2, Peca peca, int vitoriaPorCaptura, int idioma) {
 	if (peca == jogador1->peca) {
 		jogador1->vitorias+=1;
-		printf("%s %s%s %s\n",msgfim(VITORIA, idioma), msgfim(DE, idioma), (vitoriaPorCaptura ? msgfim(PORCAPTURA, idioma) : ""), jogador1->nome);
+		imprimirGanhador(jogador1->nome, vitoriaPorCaptura, idioma);
 	}
 	else if (peca == jogador2->peca) {
 		jogador2->vitorias+=1;
-		printf("%s %s%s %s\n",msgfim(VITORIA, idioma), msgfim(DE, idioma), (vitoriaPorCaptura ? msgfim(PORCAPTURA, idioma) : ""), jogador2->nome);
+		imprimirGanhador(jogador2->nome, vitoriaPorCaptura, idioma);
 	}
 	else{
-		printf("%s\n", msgfim(EMPATE, idioma));
+		imprimirEmpate(idioma);
 	}
 	imprimirPlacarVitorias(*jogador1, *jogador2, idioma);
-}
-
-/**
-	A função imprimirPlacarVitorias imprime o placar de vitórias
-	Parâmetros: Os dois jogadores e o idioma
-**/
-void imprimirPlacarVitorias(Jogador jogador1, Jogador jogador2, int idioma) {
-		printf("%s", menuC(PLACAR, idioma));
-		printf("%s %d", jogador1.nome, jogador1.vitorias);
-		printf(" x ");
-		printf("%d %s\n", jogador2.vitorias, jogador2.nome);
 }
 
 /**
@@ -284,7 +293,7 @@ int continuarJogando(int idioma){
 	char resposta[3];
 
 	do{
-		printf("%s ", perguntas(CONTINUAR_JOGO, idioma));
+		imprimirContinuarJogando(idioma);
 		scanf("%s",resposta);
 		limparBuffer();
 		strcpy(resposta,converterParaMinusculo(resposta));

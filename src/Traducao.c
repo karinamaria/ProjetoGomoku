@@ -350,9 +350,9 @@ char* msgfim(int cod, int idioma){
 			}
 		case PORCAPTURA:
 			if (idioma == INGLES){
-				return EN_DE;
+				return EN_POR_CAPTURA;
 			}else{
-				return PT_DE;
+				return PT_POR_CAPTURA;
 			}
 	}
 	return "";
