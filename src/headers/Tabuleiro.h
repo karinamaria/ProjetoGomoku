@@ -13,7 +13,7 @@ typedef struct{
 
 void inicializarTabuleiro(Tabuleiro *tabuleiro);
 void liberarMatriz(int **matriz, int dimensao);
-void imprimirTabuleiro(Tabuleiro tabuleiro);
+void imprimirTabuleiro(Tabuleiro goban, int peca);
 void limparTabuleiro(Tabuleiro tabuleiro);
 
 #endif

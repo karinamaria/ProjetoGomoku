@@ -1,4 +1,5 @@
 #include "headers/Traducao.h"
+#include "headers/Regra2.h"
 #include "headers/Jogador.h"
 #include "headers/Util.h"
 #include <stdio.h>
@@ -50,16 +51,18 @@ void zerarCapturas(Jogador *jogador1, Jogador *jogador2) {
 /**
 	A função caracterPeca recebe uma peça analisa e retorna
 	a que caracter corresponde essa peça.
-	Parâmetro: A peça
+	Parâmetro: o tabuleiro, i, j, a peca e o proximoJogador
 	Retorno: A letra que corresponde a peça 
 **/
-char caracterPeca(Peca peca) {
+char caracterPeca(Tabuleiro goban, int i, int j, Peca peca, int proximoJogador) {
 	switch (peca) {
 		case P:
 			return 'P';
 		case B:
 			return 'B';
 		default:
+			if (verificarFormacao3x3(goban, i, j, proximoJogador))
+				return 'X';
 			return '-';
 	}
 }

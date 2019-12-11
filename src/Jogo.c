@@ -208,7 +208,7 @@ void loopJogo(Jogo *jogo){
 
 	do{
 		imprimirPlacarCapturas(jogo->jogador1, jogo->jogador2, jogo->idioma);
-		imprimirTabuleiro(jogo->goban);
+		imprimirTabuleiro(jogo->goban, jogo->proximoJogador);
 		informarProximoJogador(jogo);
 		novaJogada(jogo, &lin, &col);
 		verificarCaptura(jogo, lin, col);
@@ -216,7 +216,7 @@ void loopJogo(Jogo *jogo){
 		limparTela();
 	}while(!verificarFimDeJogo(jogo, &peca, &vitoriaPorCaptura));
 	imprimirPlacarCapturas(jogo->jogador1, jogo->jogador2, jogo->idioma);
-	imprimirTabuleiro(jogo->goban);
+	imprimirTabuleiro(jogo->goban, jogo->proximoJogador);
 	ganhador(&jogo->jogador1, &jogo->jogador2, peca, vitoriaPorCaptura, jogo->idioma);
 }
 
@@ -226,9 +226,15 @@ void loopJogo(Jogo *jogo){
 **/
 void informarProximoJogador(Jogo *jogo){
 	if(jogo->jogador1.peca == jogo->proximoJogador){
-		printf("%s %s (%c)\n",msg(VEZ, jogo->idioma), jogo->jogador1.nome, caracterPeca(jogo->jogador1.peca));
+		printf("%s %s (%c)\n",
+			   msg(VEZ, jogo->idioma),
+			   jogo->jogador1.nome,
+			   caracterPeca(jogo->goban, 0, 0, jogo->jogador1.peca, jogo->proximoJogador));
 	}else{
-		printf("%s %s (%c)\n",msg(VEZ, jogo->idioma), jogo->jogador2.nome, caracterPeca(jogo->jogador2.peca));
+		printf("%s %s (%c)\n",
+			   msg(VEZ, jogo->idioma),
+			   jogo->jogador2.nome,
+			   caracterPeca(jogo->goban, 0, 0, jogo->jogador2.peca, jogo->proximoJogador));
 	}
 }
 

@@ -76,7 +76,7 @@ int validarPrimeiraSeq(Tabuleiro goban, Casa c0, Casa *c1, Casa *c2, Casa *c3, C
 	c4->lin = c0.lin - di*(n2 - 1);
 	c4->col = c0.col - dj*(n2 - 1);
 
-	if (n1 + n2 > 4) {
+	if (n1 + n2 - 1 >= 4) {
 		c2->lin = c0.lin + di*(n1 - 2);
 		c2->col = c0.col + dj*(n1 - 2);
 
@@ -84,7 +84,7 @@ int validarPrimeiraSeq(Tabuleiro goban, Casa c0, Casa *c1, Casa *c2, Casa *c3, C
 		c3->col = c0.col - dj*(n2 - 2);
 	}
 
-	return n1 + n2 > 3;
+	return n1 + n2 - 1 >= 3;
 }
 
 /**

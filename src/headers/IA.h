@@ -3,28 +3,45 @@
 
 #include "Jogo.h"
 
-#define CAPTURA5 100000
-#define CAPTURAX 10000
+#define CAPTURA_5    44299815392811110 // long long int numero_de_jogadas_distintas = 44299815392811111
+#define SEQUENCIA_G  4429981539281110 // 1 => x10 + 10
+#define SEQUENCIA_5  442998153928110 // 1 => x10 + 10
+#define SEQUENCIA_4D 44299815392810 // 1 => x10 + 10
+#define CAPTURA_X    553747692410 // 1 2 3 4 5 6 7 8 => x80 + 10
+#define SEQUENCIA_4U 13843692310 // 1 2 3 4 => x40 + 10
+#define SEQUENCIA_3D 461456410 // 1 2 3 => x30 + 10
+#define SEQUENCIA_3U 11536410 // 1 2 3 4 => x40 + 10
+#define SEQUENCIA_2D 288410 // 1 2 3 4 => x40 + 10
+#define SEQUENCIA_2U 7210 // 1 2 3 4 => x40 + 10
+#define POSICAO_X    10 // 1 2 3 4 5 6 7 8 9 x8 => x720 + 10
+#define INIMIGO_N    10
+
+#define SEQUENCIA_S  2 // int numero_de_jogadas_distintas_distintas = 9
+#define INIMIGO_S   -1 // 1 2 3 4 5 6 7 8
 
 typedef struct{
 	int lin;
 	int col;
-	int prioridade;
+	long long int prioridade;
 }Jogada;
 
 void pedirJogadaIA(Jogo *jogo, int *lin, int *col);
-int calcularPrioridade(Jogo *jogo, int i, int j);
-int calcularCaptura(Jogo *jogo, Jogador jogador, Jogador inimigo, int i, int j);
-int calcularCapDirecao(Jogo *jogo, Jogador jogador, Jogador inimigo, int i, int j, int di, int dj);
-int calcularCapturado(Jogo *jogo, Jogador jogador, Jogador inimigo, int i, int j);
-int calcularCapturadoDir(Jogo *jogo, Jogador jogador, Jogador inimigo, int i, int j, int di, int dj);
-int calcularSequencia(Jogo *jogo, Jogador jogador, int i, int j);
-int calcularBloqueio(Jogo *jogo, Jogador jogador, Jogador inimigo, int i, int j);
-int calcularSeqDirReal(Tabuleiro goban, int i, int j, int di, int dj, Peca peca);
-int calcularSeqDirecao(Tabuleiro goban, int i, int j, int di, int dj, Peca peca);
-int contarSequencia(Jogo *jogo, Jogador jogador, Jogador inimigo, int i, int j);
-int contarSeqDir(Tabuleiro goban, int i, int j, int di, int dj, Peca peca);
-int verificarSeqMax(Tabuleiro goban, Casa casa, int di, int dj, int n, Peca peca);
+long long int calcularPrioridade(Jogo *jogo, int i, int j);
+long long int calcularBloqueio(Tabuleiro goban, int ganhando, int peca_inimiga, int nivel, int i, int j);
+long long int calcularSequencia(Tabuleiro goban, int ganhando, int peca, int nivel, int i, int j);
+int calcularSeqDirSimples(Tabuleiro goban, int i, int j, int di, int dj, Peca peca, int *prioridade);
+long long int calcularSeqDirNormal(Tabuleiro goban, int ganhando, int i, int j, int di, int dj, Peca peca);
+long long int calcularSeqDirReal(Tabuleiro goban, int ganhando, int i, int j, int di, int dj, Peca peca);
+long long int calcularCapturado(Tabuleiro goban, int ganhando, Jogador inimigo, int nivel, int i, int j);
+long long int calcularCaptura(Tabuleiro goban, int ganhando, Jogador jogador, int nivel, int i, int j);
+long long int calcularCapturaDir(Tabuleiro goban, int g, int p, int n, int i, int j, int di, int dj, int *c);
+long long int calcularEntrega(Tabuleiro goban, int ganhando, Jogador inimigo, int nivel, int i, int j);
+long long int calcularEntregaDir(Tabuleiro goban, int g, int p, int n, int i, int j, int di, int dj, int *c);
+void percorrerSequencia(Tabuleiro goban, Casa casa, int di, int dj, Peca peca, int *n, int *max);
+int verificarSeSeqPodeContinuar(Tabuleiro goban, Casa casa, int di, int dj, int n, int peca);
+int contarSeqReal(Tabuleiro goban, int k, int i, int j, int di, int dj, int peca);
+long long int prioridadeDaSequencia(int n1, int n2, int max1, int max2, int ganhando, int peca);
+int validarEntrega(Tabuleiro goban, int peca, int i, int j, int di, int dj);
 void selecionarMelhorJogada(Jogada *jogadas, int n, int *lin, int *col);
 Jogada* insertionSort(Jogada *jogadas, int n);
 

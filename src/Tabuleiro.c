@@ -34,27 +34,27 @@ void liberarMatriz(int **matriz, int dimensao){
 	pelos jogadores
 	Parâmetro: O tabuleiro
 **/
-void imprimirTabuleiro(Tabuleiro tabuleiro){
-	for(int j=0; j<tabuleiro.dimensao; j++){
+void imprimirTabuleiro(Tabuleiro goban, int peca){
+	for(int j=0; j<goban.dimensao; j++){
 		printf("%-2d  ",j);
 	}
 	printf("\n");
 
-	for(int j=0; j<tabuleiro.dimensao-1; j++){
-		printf("%c---", caracterPeca(tabuleiro.matriz[0][j]));
+	for(int j=0; j<goban.dimensao-1; j++){
+		printf("%c---", caracterPeca(goban, 0, j, goban.matriz[0][j], peca));
 	}
-	printf("%c 0\n", caracterPeca(tabuleiro.matriz[0][tabuleiro.dimensao-1]));
+	printf("%c 0\n",caracterPeca(goban,0,goban.dimensao-1,goban.matriz[0][goban.dimensao-1], peca));
 
-	for (int i=1; i<tabuleiro.dimensao; i++){
-		for (int j=0; j<tabuleiro.dimensao; j++){
+	for (int i=1; i<goban.dimensao; i++){
+		for (int j=0; j<goban.dimensao; j++){
 			printf("%c   ",'|');
 		}
 		printf("\n");
 
-		for (int j=0; j<tabuleiro.dimensao-1; j++){
-			printf("%c---", caracterPeca(tabuleiro.matriz[i][j]));
+		for (int j=0; j<goban.dimensao-1; j++){
+			printf("%c---", caracterPeca(goban, i, j, goban.matriz[i][j], peca));
 		}
-		printf("%c %d\n", caracterPeca(tabuleiro.matriz[i][tabuleiro.dimensao-1]), i);
+		printf("%c %d\n",caracterPeca(goban,i,goban.dimensao-1,goban.matriz[i][goban.dimensao-1], peca),i);
 	}
 }
 
