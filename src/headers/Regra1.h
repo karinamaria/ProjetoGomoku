@@ -4,7 +4,7 @@
 #include "Jogo.h"
 
 void verificarCaptura(Jogo *jogo, int i, int j);
-int capturouPecas(Jogo *jogo, int i, int j, int di, int dj);
+void capturarPeca(Jogo *jogo, int i, int j, int di, int dj);
 int validarCaptura(Tabuleiro goban, int peca, int i, int j, int di, int dj);
 
 #endif

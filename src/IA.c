@@ -4,6 +4,10 @@
 #include "headers/Regra1.h"
 #include <stdio.h>
 
+/**
+	A função pedirJogadaIA armazena em lin e col a melhor jogada possível para o nível da IA
+	Parâmetros: O jogo, a linha e a coluna
+**/
 void pedirJogadaIA(Jogo *jogo, int *lin, int *col) {
 	Jogada jogadas[500];
 	int n = 0;
@@ -22,6 +26,12 @@ void pedirJogadaIA(Jogo *jogo, int *lin, int *col) {
 	selecionarMelhorJogada(jogadas, n, lin, col);
 }
 
+/**
+	A função calcularPrioridade calcula a prioridade de fazer a jogada (i, j)
+	de acordo com o nível da IA
+	Parâmetro: O jogo, i e j
+	Retorno: A prioridade da jogada
+**/
 long long int calcularPrioridade(Jogo *jogo, int i, int j) {
 	Jogador jogador = (jogo->proximoJogador == jogo->jogador1.peca) ? jogo->jogador1 : jogo->jogador2;
 	Jogador inimigo = (jogo->proximoJogador == jogo->jogador1.peca) ? jogo->jogador2 : jogo->jogador1;
@@ -45,6 +55,12 @@ long long int calcularPrioridade(Jogo *jogo, int i, int j) {
 	       + calcularEntrega(jogo->goban, jogo->ganhando, inimigo, jogador.nivel, i, j);
 }
 
+/**
+	A função calcularBloqueio calcula a prioridade de se bloquear uma sequência
+	inimiga que passa por (i, j)
+	Parâmetro: O tabuleiro, ganhando, peca_inimiga, nivel, i e j
+	Retorno: A prioridade da jogada
+**/
 long long int calcularBloqueio(Tabuleiro goban, int ganhando, int peca_inimiga, int nivel, int i, int j) {
 	if (nivel == 1)
 		return calcularSequencia(goban, ganhando, peca_inimiga, nivel, i, j) + INIMIGO_S;
@@ -52,6 +68,11 @@ long long int calcularBloqueio(Tabuleiro goban, int ganhando, int peca_inimiga, 
 	return calcularSequencia(goban, ganhando, peca_inimiga, nivel, i, j) / INIMIGO_N;
 }
 
+/**
+	A função calcularSequencia calcula a prioridade da sequência que a jogada (i, j) pode formar
+	Parâmetro: O tabuleiro, ganhando, peca, nivel, i e j
+	Retorno: A prioridade da jogada
+**/
 long long int calcularSequencia(Tabuleiro goban, int ganhando, int peca, int nivel, int i, int j) {
 	int prioridade = 0;
 
@@ -75,6 +96,12 @@ long long int calcularSequencia(Tabuleiro goban, int ganhando, int peca, int niv
 	       + calcularSeqDirReal(goban, ganhando, i, j,-1, 1, peca);
 }
 
+/**
+	A função calcularSeqDirSimples é usada pelo nível Fácil e quando chamada 8 vezes
+	(uma para cada direção) retorna a maior sequência que será formada em uma das 8 direções
+	Parâmetro: O tabuleiro, i, j, di, dj, peca e prioridade 
+	Retorno: 0 ou a difereça
+**/
 int calcularSeqDirSimples(Tabuleiro goban, int i, int j, int di, int dj, Peca peca, int *prioridade) {
 	Casa casa = {i, j};
 	int n1 = 1, n2 = 1, max1, max2, diferenca;
@@ -91,6 +118,12 @@ int calcularSeqDirSimples(Tabuleiro goban, int i, int j, int di, int dj, Peca pe
 	return 0;
 }
 
+/**
+	A função calcularSeqDirNormal é usada pelo nível Médio e calcula o tamanho da sequência na
+	direção (di,dj) e retorna sua prioridade ou zero caso não tenha espaço para alinhar 5
+	Parâmetro: O tabuleiro, ganhando, i, j, di, dj e peca
+	Retorno: a prioridade
+**/
 long long int calcularSeqDirNormal(Tabuleiro goban, int ganhando, int i, int j, int di, int dj, Peca peca) {
 	Casa casa = {i, j};
 	int n1 = 1, n2 = 1, max1, max2;
@@ -101,6 +134,13 @@ long long int calcularSeqDirNormal(Tabuleiro goban, int ganhando, int i, int j, 
 	return prioridadeDaSequencia(n1, n2, max1, max2, ganhando, peca);
 }
 
+/**
+	A função calcularSeqDirReal é usada pelo nível Difícil e calcula o tamanho da sequência na
+	direção (di,dj), considerando também as sequências com espaçamentos entre as peças,
+	e retorna sua prioridade ou zero caso não tenha espaço para alinhar 5
+	Parâmetro: O tabuleiro, ganhando, i, j, di, dj e peca
+	Retorno: a prioridade
+**/
 long long int calcularSeqDirReal(Tabuleiro goban, int ganhando, int i, int j, int di, int dj, Peca peca) {
 	Casa casa = {i, j};
 	int n1 = 1, n2 = 1, max1, max2, seq_atual, seq_real = 0;
@@ -124,10 +164,22 @@ long long int calcularSeqDirReal(Tabuleiro goban, int ganhando, int i, int j, in
 	return prioridadeDaSequencia(seq_real+max1, 1-max1, max1, max2, ganhando, peca);
 }
 
+/**
+	A função calcularCapturado calcula a prioridade de se defender suas
+	peças de uma possível captura inimiga
+	Parâmetro: O tabuleiro, ganhando, inimigo, nivel, i e j
+	Retorno: a prioridade
+**/
 long long int calcularCapturado(Tabuleiro goban, int ganhando, Jogador inimigo, int nivel, int i, int j) {
 	return calcularCaptura(goban, ganhando, inimigo, nivel, i, j) / INIMIGO_N;
 }
 
+/**
+	A função calcularCaptura calcula a prioridade de se fazer zero ou mais capturas
+	jogando em (i, j)
+	Parâmetro: O tabuleiro, ganhando, inimigo, nivel, i e j
+	Retorno: a prioridade
+**/
 long long int calcularCaptura(Tabuleiro goban, int ganhando, Jogador jogador, int nivel, int i, int j) {
 	int capturas = 0;
 	long long int p =   calcularCapturaDir(goban, ganhando, jogador.peca, nivel, i, j, 0, 1, &capturas)
@@ -148,6 +200,12 @@ long long int calcularCaptura(Tabuleiro goban, int ganhando, Jogador jogador, in
     return 0;
 }
 
+/**
+	A função calcularCapturaDir retorna zero se não houver captura na direção (di, dj)
+	ou a prioridade referente a importância que as peças capturas tinha para o inimigo
+	Parâmetro: O tabuleiro, ganhando, peca, nivel, i, j, di, dj e número de capturas 
+	Retorno: a prioridade
+**/
 long long int calcularCapturaDir(Tabuleiro goban, int g, int p, int n, int i, int j, int di, int dj, int *c){
 	if (validarCaptura(goban, p, i, j, di, dj)) {
 		*c += 1;
@@ -158,6 +216,12 @@ long long int calcularCapturaDir(Tabuleiro goban, int g, int p, int n, int i, in
 	return 0;
 }
 
+/**
+	A função calcularEntrega retorna uma prioridade negativa para desincentivar a IA de
+	entregar uma captura para o inimigo ou retorna zero caso a jogada não entregue uma captura
+	Parâmetro: O tabuleiro, ganhando, inimigo, nivel, i e j
+	Retorno: a prioridade
+**/
 long long int calcularEntrega(Tabuleiro goban, int ganhando, Jogador inimigo, int nivel, int i, int j) {
 	int capturas = 0;
 	long long int p =   calcularEntregaDir(goban, ganhando, inimigo.peca, nivel, i, j,  0,  1, &capturas)
@@ -178,6 +242,12 @@ long long int calcularEntrega(Tabuleiro goban, int ganhando, Jogador inimigo, in
     return 0;
 }
 
+/**
+	A função calcularEntregaDir retorna zero caso a jogada (i, j) não entregue uma captura para
+	o inimigo ou a prioridade referente as duas peças que seriam capturadas
+	Parâmetro: O tabuleiro, ganhando, peca, nivel, i, j, di, dj e capturas
+	Retorno: a prioridade
+**/
 long long int calcularEntregaDir(Tabuleiro goban, int g, int p, int n, int i, int j, int di, int dj, int *c){
 	if (validarEntrega(goban, p, i, j, di, dj)) {
 		*c += 1;
@@ -188,6 +258,11 @@ long long int calcularEntregaDir(Tabuleiro goban, int g, int p, int n, int i, in
 	return 0;
 }
 
+/**
+	A função percorrerSequencia armazena o tamanho da sequência na direção (di, dj) em n
+	e o tamanho máximo que a sequência pode ter em max
+	Parâmetro: O tabuleiro, casa, di, dj peca, n e max
+**/
 void percorrerSequencia(Tabuleiro goban, Casa casa, int di, int dj, Peca peca, int *n, int *max) {
 	while (verificarSeSeqContinua(goban, casa, di, dj, *n, peca))
 		*n += 1;
@@ -198,12 +273,24 @@ void percorrerSequencia(Tabuleiro goban, Casa casa, int di, int dj, Peca peca, i
 		*max += 1;
 }
 
+/**
+	A função verificarSeSeqPodeContinuar verifica se a casa pertence ao jogado ou
+	está vazia e é uma jogada valida
+	Parâmetro: tabuleiro, casa, di, dj e peca
+	Retorno: Será 0(se a jogada for inválida) ou 1(se não tiver nenhum impedimento)
+**/
 int verificarSeSeqPodeContinuar(Tabuleiro goban, Casa casa, int di, int dj, int n, int peca) {
 	return    verificarSeSeqContinua(goban, casa, di, dj, n, peca)
 		   || (verificarSeSeqContinua(goban, casa, di, dj, n, -1)
 		   && !verificarFormacao3x3(goban, casa.lin+di*n, casa.col+dj*n, peca));
 }
 
+/**
+	A função contarSeqReal conta o tamanho da sequência considerendo sequências com
+	espaços entre as peças
+	Parâmetro: tabuleiro, k, i, j, di, dj e peca
+	Retorno: O tamanho da sequência ou zero caso não tenha espaço para alinhar 5 peças
+**/
 int contarSeqReal(Tabuleiro goban, int k, int i, int j, int di, int dj, int peca) {
 	int invalida = 0, seq = 0;
 	int aux[5];
@@ -232,6 +319,12 @@ int contarSeqReal(Tabuleiro goban, int k, int i, int j, int di, int dj, int peca
 	return seq;
 }
 
+/**
+	A função prioridadeDaSequencia retorna a prioridade referente ao tamanho da sequência e
+	a possibilidade de aumentar a sequência por ambos os lados ou por apenas um lado
+	Parâmetro: n1, n2, max1, max2, ganhando e peca
+	Retorno: A prioridade
+**/
 long long int prioridadeDaSequencia(int n1, int n2, int max1, int max2, int ganhando, int peca) {
 	int n = n1 + n2 - 1;
 
@@ -265,6 +358,12 @@ long long int prioridadeDaSequencia(int n1, int n2, int max1, int max2, int ganh
     return (max1 + max2 - 1) * POSICAO_X;
 }
 
+/**
+	A função validarEntrega verifica se o inimigo pode fazer uma captura caso a
+	jogada (i, j) seja feita
+	Parâmetro: o tabuleiro, peca, i, j, di e dj
+	Retorno: Será 0(se a jogada não entrega uma captura para o inimigo) ou 1(se entrega)
+**/
 int validarEntrega(Tabuleiro goban, int peca, int i, int j, int di, int dj) {
 	return  ( i + 2*di >= 0
            && i + 2*di < goban.dimensao
@@ -293,6 +392,10 @@ int validarEntrega(Tabuleiro goban, int peca, int i, int j, int di, int dj) {
            && goban.matriz[i + 1*di][j + 1*dj] == peca);
 }
 
+/**
+	A função selecionarMelhorJogada escolhe uma das jogadas com maior prioridade
+	Parâmetro: as jogadas n, linha e coluna
+**/
 void selecionarMelhorJogada(Jogada *jogadas, int n, int *lin, int *col) {
 	Jogada melhor;
 	int i = 1;
@@ -308,6 +411,11 @@ void selecionarMelhorJogada(Jogada *jogadas, int n, int *lin, int *col) {
 	*col = melhor.col;
 }
 
+/**
+	A função insertionSort ordena as jogadas com base na prioridade
+	Parâmetro: jogadas e o número de jogadas validas
+	Retorno: As jogadas em ordem decrescente
+**/
 Jogada* insertionSort(Jogada *jogadas, int n) {
 	Jogada aux;
 	int pivo;

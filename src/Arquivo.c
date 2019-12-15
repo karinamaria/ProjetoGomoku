@@ -20,7 +20,6 @@ void salvarJogo(Jogo *jogo){
 		existePasta();
 		salvarInformacoesJogo(jogo);
 	}
-	
 }
 
 /**

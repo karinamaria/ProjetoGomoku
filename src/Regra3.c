@@ -14,7 +14,8 @@ int verificarFimDeJogo(Jogo *jogo, Peca *peca, int *vitoriaPorCaptura) {
 		*vitoriaPorCaptura = 1;
 		return 1;
 	}
-	else if (verificarVitoria(jogo, peca)) {
+	
+	if (verificarVitoria(jogo, peca)) {
 		if (jogo->ganhando == *peca) {
 			*vitoriaPorCaptura = 0;
 			return 1;

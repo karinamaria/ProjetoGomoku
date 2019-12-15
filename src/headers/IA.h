@@ -3,21 +3,21 @@
 
 #include "Jogo.h"
 
-#define CAPTURA_5    44299815392811110 // long long int numero_de_jogadas_distintas = 44299815392811111
-#define SEQUENCIA_G  4429981539281110 // 1 => x10 + 10
-#define SEQUENCIA_5  442998153928110 // 1 => x10 + 10
-#define SEQUENCIA_4D 44299815392810 // 1 => x10 + 10
-#define CAPTURA_X    553747692410 // 1 2 3 4 5 6 7 8 => x80 + 10
-#define SEQUENCIA_4U 13843692310 // 1 2 3 4 => x40 + 10
-#define SEQUENCIA_3D 461456410 // 1 2 3 => x30 + 10
-#define SEQUENCIA_3U 11536410 // 1 2 3 4 => x40 + 10
-#define SEQUENCIA_2D 288410 // 1 2 3 4 => x40 + 10
-#define SEQUENCIA_2U 7210 // 1 2 3 4 => x40 + 10
-#define POSICAO_X    10 // 1 2 3 4 5 6 7 8 9 x8 => x720 + 10
+#define CAPTURA_5    44299815392811110
+#define SEQUENCIA_G  4429981539281110
+#define SEQUENCIA_5  442998153928110
+#define SEQUENCIA_4D 44299815392810
+#define CAPTURA_X    553747692410
+#define SEQUENCIA_4U 13843692310
+#define SEQUENCIA_3D 461456410
+#define SEQUENCIA_3U 11536410
+#define SEQUENCIA_2D 288410
+#define SEQUENCIA_2U 7210
+#define POSICAO_X    10
 #define INIMIGO_N    10
 
-#define SEQUENCIA_S  2 // int numero_de_jogadas_distintas_distintas = 9
-#define INIMIGO_S   -1 // 1 2 3 4 5 6 7 8
+#define SEQUENCIA_S  2
+#define INIMIGO_S   -1
 
 typedef struct{
 	int lin;
