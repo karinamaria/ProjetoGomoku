@@ -17,8 +17,8 @@ script.bat
 ## Regras do Gomoku
 
 - O tabuleiro chama-se goban e tem tamanho que varia entre 5x5 e 19x19
-- Há o sorteio das peças dos jogadores (preta ou branca)
-- Quem começa é o jogador que possue a peça preta
+- Ocorre o sorteio das peças dos jogadores (preta ou branca)
+- Quem começa é o jogador que possui a peça preta
 - Cada jogador só pode colocar uma peça em uma interseção vaga por vez
 - O jogador que alinhar primeiro cinco peças na horizontal, vertical ou diagonal vence o jogo
 
