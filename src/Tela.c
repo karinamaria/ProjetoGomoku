@@ -178,7 +178,7 @@ void imprimirMenuIdioma(Jogo *jogo){
 **/
 void imprimirArquivo(Jogo *jogo, int numArquivo) {
 	char *nomeArquivo = nomeArquivoJogo(numArquivo);
-	char linha[99];
+	char linha[500];
 	Data data;
 
 	buscarDadosArquivo(jogo, nomeArquivo, &data);
@@ -205,6 +205,7 @@ void imprimirArquivo(Jogo *jogo, int numArquivo) {
 
 	imprimirLinha();
 	imprimirEspaco();
+	free(nomeArquivo);
 }
 
 /**
@@ -240,6 +241,7 @@ void imprimirGanhador(char* ganhador, int vitoriaPorCaptura, int idioma) {
 	}
 
 	printf("%s%s %s %s\n", msgfim(VITORIA, idioma), por_captura, msgfim(DE, idioma), ganhador);
+	free(por_captura);
 }
 
 /**

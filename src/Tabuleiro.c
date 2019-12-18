@@ -41,9 +41,9 @@ void imprimirTabuleiro(Tabuleiro goban, int peca){
 	printf("\n");
 
 	for(int j=0; j<goban.dimensao-1; j++){
-		printf("%c---", caracterPeca(goban, 0, j, goban.matriz[0][j], peca));
+		printf("%c---", caracterePeca(goban, 0, j, goban.matriz[0][j], peca));
 	}
-	printf("%c 0\n",caracterPeca(goban,0,goban.dimensao-1,goban.matriz[0][goban.dimensao-1], peca));
+	printf("%c 0\n",caracterePeca(goban,0,goban.dimensao-1,goban.matriz[0][goban.dimensao-1], peca));
 
 	for (int i=1; i<goban.dimensao; i++){
 		for (int j=0; j<goban.dimensao; j++){
@@ -52,9 +52,9 @@ void imprimirTabuleiro(Tabuleiro goban, int peca){
 		printf("\n");
 
 		for (int j=0; j<goban.dimensao-1; j++){
-			printf("%c---", caracterPeca(goban, i, j, goban.matriz[i][j], peca));
+			printf("%c---", caracterePeca(goban, i, j, goban.matriz[i][j], peca));
 		}
-		printf("%c %d\n",caracterPeca(goban,i,goban.dimensao-1,goban.matriz[i][goban.dimensao-1], peca),i);
+		printf("%c %d\n",caracterePeca(goban,i,goban.dimensao-1,goban.matriz[i][goban.dimensao-1], peca),i);
 	}
 }
 

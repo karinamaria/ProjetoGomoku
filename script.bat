@@ -1,6 +1,7 @@
 set FLAG = -Wall
 
 del src\*.o
+gcc -o src\RSA.o -c src\RSA.c %FLAG%
 gcc -o src\Jogador.o -c src\Jogador.c %FLAG%
 gcc -o src\Tabuleiro.o -c src\Tabuleiro.c %FLAG%
 gcc -o src\Regra1.o -c src\Regra1.c %FLAG%

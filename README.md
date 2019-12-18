@@ -17,15 +17,15 @@ script.bat
 ## Regras do Gomoku
 
 - O tabuleiro chama-se goban e tem tamanho que varia entre 5x5 e 19x19
-- É sorteado as peças dos jogadores (preto ou branco)
-- Quem começa são as pretas
+- Ocorre o sorteio das peças dos jogadores (preta ou branca)
+- Quem começa é o jogador que possui a peça preta
 - Cada jogador só pode colocar uma peça em uma interseção vaga por vez
-- Quem conseguir alinhar cinco peças na horizontal, vertical ou diaginal primeiro vence
+- O jogador que alinhar primeiro cinco peças na horizontal, vertical ou diagonal vence o jogo
 
 ## Regras adicionais do Ninuki
 
 - 1ª regra: Duas peças adversárias podem ser capturadas ao serem colocadas entre duas suas
-- 2ª regra: É proibido criar a formação 3x3 que consiste no alinhamento cruzado de três peças em direções diferentes
+- 2ª regra: É proibido criar a formação 3x3, que consiste no alinhamento cruzado de três peças em direções diferentes
 - 3ª regra: Ganha quem conseguir cinco capturas ou alinhar cinco peças e seu adversário não consiga capturar nenhuma delas na jogada seguinte
 
 ## Funcionalidades implementadas
@@ -33,6 +33,7 @@ script.bat
 - Interface com caracteres ASCII
 - Salvamento de jogo
 - Carregamento de jogo
+- Criptografia RSA
 - Tradução para os idiomas:
 	- Português
 	- Inglês

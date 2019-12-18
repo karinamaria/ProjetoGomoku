@@ -1,5 +1,6 @@
 #include "headers/Arquivo.h"
 #include "headers/Tela.h"
+#include "headers/RSA.h"
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -23,27 +24,28 @@ void salvarJogo(Jogo *jogo){
 }
 
 /**
-	A função salvarInformacoesJogo grava os detalhes do jogo em um arquivo 'jogo_x.txt'
+	A função salvarInformacoesJogo criptografa e grava
+	os detalhes do jogo em um arquivo 'jogo_x.txt'
 	Parâmetro: O jogo
 **/
 void salvarInformacoesJogo(Jogo *jogo){
 	int id_jogo = gerarId(jogo);
 	char *nomeArquivo = nomeArquivoJogo(id_jogo);
+	char texto[500];
 	Data data = dataAtual();
+	FILE *arquivo = fopen(nomeArquivo, "w");
 
-	FILE *arquivo;
+	sprintf(texto, "%s\n %s\n %d %d %d %d %d %d %d %d %d %d %d %d",
+		    jogo->jogador1.nome,     jogo->jogador2.nome,
+		    jogo->jogador1.nivel,    jogo->jogador2.nivel,
+		    jogo->jogador1.vitorias, jogo->jogador2.vitorias,
+		    jogo->goban.dimensao,    jogo->modo_de_jogo,
+		    data.hora, data.min, data.seg,
+		    data.dia,  data.mes, data.ano);
+
+	fprintf(arquivo, "%s\n", encriptar(texto));
 	
-	arquivo = fopen(nomeArquivo, "w");
-
-	fprintf(arquivo, "%s\n", jogo->jogador1.nome);
-	fprintf(arquivo, "%s\n", jogo->jogador2.nome);
-	fprintf(arquivo, "%d %d\n", jogo->jogador1.nivel, jogo->jogador2.nivel);
-	fprintf(arquivo, "%d %d\n", jogo->jogador1.vitorias, jogo->jogador2.vitorias);
-	fprintf(arquivo, "%d\n", jogo->goban.dimensao);
-	fprintf(arquivo, "%d\n", jogo->modo_de_jogo);
-	fprintf(arquivo, "%d %d %d\n", data.hora, data.min, data.seg);
-	fprintf(arquivo, "%d %d %d\n", data.dia, data.mes, data.ano);
-
+	free(nomeArquivo);
 	fclose(arquivo);
 }
 
@@ -109,27 +111,31 @@ void abrirArquivoJogo(Jogo *jogo, int numArquivo){
 	jogo->id=numArquivo;
 
 	buscarDadosArquivo(jogo, nomeArquivo, &data);
+	free(nomeArquivo);
 }
 
 /**
-	A função buscarDadosArquivo armazena os dados do arquivo
-	na estrutura jogo.
+	A função buscarDadosArquivo descriptografa e armazena
+	os dados do arquivo na estrutura jogo.
 	Parâmetros: O jogo, o nome do arquivo e a data
 **/
 void buscarDadosArquivo(Jogo *jogo, char *nomeArquivo, Data *data) {
+	size_t tam;
+	char *texto = NULL;
 	FILE *arquivo = fopen(nomeArquivo, "r");
 
-	fgets(jogo->jogador1.nome, 18, arquivo);
-	fgets(jogo->jogador2.nome, 18, arquivo);
-	fscanf(arquivo, "%d %d\n", &jogo->jogador1.nivel, &jogo->jogador2.nivel);
-	fscanf(arquivo, "%d %d\n", &jogo->jogador1.vitorias, &jogo->jogador2.vitorias);
-	fscanf(arquivo, "%d\n", &jogo->goban.dimensao);
-	fscanf(arquivo, "%d\n", &jogo->modo_de_jogo);
-	fscanf(arquivo, "%d %d %d\n", &data->hora, &data->min, &data->seg);
-	fscanf(arquivo, "%d %d %d\n", &data->dia, &data->mes, &data->ano);
+	getline(&texto, &tam, arquivo);
+	texto[strlen(texto) - 1] = '\0';
+	texto = decriptar(texto);
 
-	jogo->jogador1.nome[strlen(jogo->jogador1.nome)-1]='\0';
-	jogo->jogador2.nome[strlen(jogo->jogador2.nome)-1]='\0';
+	sscanf(texto, "%[^\n]\n %[^\n]\n %d %d %d %d %d %d %d %d %d %d %d %d",
+		    jogo->jogador1.nome,      jogo->jogador2.nome,
+		    &jogo->jogador1.nivel,    &jogo->jogador2.nivel,
+		    &jogo->jogador1.vitorias, &jogo->jogador2.vitorias,
+		    &jogo->goban.dimensao,    &jogo->modo_de_jogo,
+		    &data->hora,        &data->min,        &data->seg,
+		    &data->dia,         &data->mes,        &data->ano);
 
+	free(texto);
 	fclose(arquivo);
 }

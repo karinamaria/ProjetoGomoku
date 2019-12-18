@@ -6,22 +6,22 @@
 	Parâmetros: O jogo, a linha e coluna da jogada atual
 **/
 void verificarCaptura(Jogo *jogo, int i, int j) {
-	capturarPecas(jogo, i, j,  0,  1);
-	capturarPecas(jogo, i, j,  0, -1);
-	capturarPecas(jogo, i, j,  1,  0);
-	capturarPecas(jogo, i, j, -1,  0);
-	capturarPecas(jogo, i, j,  1,  1);
-	capturarPecas(jogo, i, j, -1, -1);
-	capturarPecas(jogo, i, j, -1,  1);
-	capturarPecas(jogo, i, j,  1, -1);
+	capturarPeca(jogo, i, j,  0,  1);
+	capturarPeca(jogo, i, j,  0, -1);
+	capturarPeca(jogo, i, j,  1,  0);
+	capturarPeca(jogo, i, j, -1,  0);
+	capturarPeca(jogo, i, j,  1,  1);
+	capturarPeca(jogo, i, j, -1, -1);
+	capturarPeca(jogo, i, j, -1,  1);
+	capturarPeca(jogo, i, j,  1, -1);
 }
 
 /**
-	A função capturarPecas é responsável por capturar as peças, se permitido
+	A função capturarPeca é responsável por capturar as peças, se permitido
 	pela função validarCaptura
 	Parâmetros: O jogo, a linha, coluna, a direção da linha e a direção da coluna
 **/
-void capturarPecas(Jogo *jogo, int i, int j, int di, int dj) {
+void capturarPeca(Jogo *jogo, int i, int j, int di, int dj) {
 	if (validarCaptura(jogo->goban, jogo->proximoJogador, i, j, di, dj)) {
 		jogo->goban.matriz[i +   di][j +   dj] = -1;
 		jogo->goban.matriz[i + 2*di][j + 2*dj] = -1;

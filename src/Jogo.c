@@ -229,12 +229,12 @@ void informarProximoJogador(Jogo *jogo){
 		printf("%s %s (%c)\n",
 			   msg(VEZ, jogo->idioma),
 			   jogo->jogador1.nome,
-			   caracterPeca(jogo->goban, 0, 0, jogo->jogador1.peca, jogo->proximoJogador));
+			   caracterePeca(jogo->goban, 0, 0, jogo->jogador1.peca, jogo->proximoJogador));
 	}else{
 		printf("%s %s (%c)\n",
 			   msg(VEZ, jogo->idioma),
 			   jogo->jogador2.nome,
-			   caracterPeca(jogo->goban, 0, 0, jogo->jogador2.peca, jogo->proximoJogador));
+			   caracterePeca(jogo->goban, 0, 0, jogo->jogador2.peca, jogo->proximoJogador));
 	}
 }
 

@@ -18,6 +18,6 @@ typedef struct{
 void inicializarJogadores(Jogador *jogador1, Jogador *jogador2, int modo);
 void sortearPecas(Jogador *jogador1, Jogador *jogador2);
 void zerarCapturas(Jogador *jogador1, Jogador *jogador2);
-char caracterPeca(Tabuleiro goban, int i, int j, Peca peca, int proximoJogador);
+char caracterePeca(Tabuleiro goban, int i, int j, Peca peca, int proximoJogador);
 
 #endif

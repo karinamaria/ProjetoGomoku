@@ -1,7 +1,7 @@
 CC = gcc
 CFLAGS = -Wall
 
-prog: clean main.o util.o jogador.o tabuleiro.o jogo.o tela.o regra1.o regra2.o regra3.o arquivo.o ia.o traducao.o
+prog: clean main.o util.o jogador.o tabuleiro.o jogo.o tela.o regra1.o regra2.o regra3.o arquivo.o ia.o traducao.o rsa.o
 	$(CC) -o Gomoku src/*.o
 clean:
 	rm -f src/*.o
@@ -29,3 +29,5 @@ ia.o:
 	$(CC) -o src/IA.o -c src/IA.c $(CFLAGS)
 traducao.o:
 	$(CC) -o src/Traducao.o -c src/Traducao.c $(CFLAGS)
+rsa.o:
+	$(CC) -o src/RSA.o -c src/RSA.c $(CFLAGS)

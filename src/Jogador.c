@@ -49,12 +49,12 @@ void zerarCapturas(Jogador *jogador1, Jogador *jogador2) {
 }
 
 /**
-	A função caracterPeca recebe uma peça analisa e retorna
-	a que caracter corresponde essa peça.
+	A função caracterePeca recebe uma peça analisa e retorna
+	a que caractere corresponde essa peça.
 	Parâmetro: o tabuleiro, i, j, a peca e o proximoJogador
 	Retorno: A letra que corresponde a peça 
 **/
-char caracterPeca(Tabuleiro goban, int i, int j, Peca peca, int proximoJogador) {
+char caracterePeca(Tabuleiro goban, int i, int j, Peca peca, int proximoJogador) {
 	switch (peca) {
 		case P:
 			return 'P';
